@@ -1,0 +1,28 @@
+{
+  "name": "bencoveney.github.io",
+  "version": "1.0.0",
+  "description": "Ben's Website",
+  "main": "index.html",
+  "scripts": {
+    "test": "elm reactor"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bencoveney/bencoveney.github.io.git"
+  },
+  "keywords": [
+    "Ben",
+    "Coveney",
+    "Website",
+    "Site"
+  ],
+  "author": "Ben Coveney",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bencoveney/bencoveney.github.io/issues"
+  },
+  "homepage": "https://github.com/bencoveney/bencoveney.github.io#readme",
+  "devDependencies": {
+    "elm": "^0.17.1"
+  }
+}
