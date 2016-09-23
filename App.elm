@@ -1,8 +1,8 @@
 module App exposing (..)
 
-import Html exposing (Html, hr, br, button, div, text)
-import Html.Events exposing (onClick)
+import Html exposing (Html, hr, div, text)
 import Html.App
+import Dice
 import Widget
 import Mouse
 import Keyboard
@@ -11,12 +11,14 @@ import Keyboard
 type alias AppModel =
     { widgetModel : Widget.Model
     , counter: Int
+    , diceModel : Dice.Model
     }
 
 initialModel : AppModel
 initialModel =
     { widgetModel = Widget.initialModel
     , counter = 0
+    , diceModel = Dice.initialModel
     }
 
 init : ( AppModel, Cmd Msg )
@@ -28,6 +30,7 @@ type Msg
     = WidgetMsg Widget.Msg
     | MouseMsg Mouse.Position
     | KeyMsg Keyboard.KeyCode
+    | DiceMsg Dice.Msg
 
 -- VIEW
 view : AppModel -> Html Msg
@@ -36,6 +39,9 @@ view model =
         [ Html.App.map WidgetMsg (Widget.view model.widgetModel)
         , hr [] []
         , div [] [ text (toString model.counter) ]
+        , hr [] []
+        , text "Dice"
+        , Html.App.map DiceMsg (Dice.view model.diceModel)
         ]
 
 -- UPDATE
@@ -51,6 +57,11 @@ update message model =
             ( { model | counter = model.counter + 1 }, Cmd.none )
         KeyMsg code ->
             ( { model | counter = model.counter + 2 }, Cmd.none )
+        DiceMsg subMsg ->
+            let
+                ( updatedDiceModel, diceCmd ) = Dice.update subMsg model.diceModel
+            in
+                ( { model | diceModel = updatedDiceModel }, Cmd.map DiceMsg diceCmd )
 
 -- SUBSCRIPTIONS
 subscriptions : AppModel -> Sub Msg
