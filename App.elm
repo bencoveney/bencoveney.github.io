@@ -3,41 +3,45 @@ module App exposing (..)
 import Html exposing (Html, br, button, div, text)
 import Html.Events exposing (onClick)
 import Html.App
+import Widget
 
 -- MODEL
-type alias Model =
-    Int
+type alias AppModel =
+    { widgetModel : Widget.Model
+    }
 
-init : ( Model, Cmd Msg )
+initialModel : AppModel
+initialModel =
+    { widgetModel = Widget.initialModel
+    }
+
+init : ( AppModel, Cmd Msg )
 init =
-    ( 0, Cmd.none )
+    ( initialModel, Cmd.none )
 
 -- MESSAGES
 type Msg
-    = Increment Int
-    | Clear
+    = WidgetMsg Widget.Msg
 
 -- VIEW
-view : Model -> Html Msg
+view : AppModel -> Html Msg
 view model =
     div []
-        [ button [ onClick (Increment 1) ] [ text "+" ]
-        , button [ onClick (Clear) ] [ text "Clear" ]
-        , br [] []
-        , text (toString model)
+        [ Html.App.map WidgetMsg (Widget.view model.widgetModel)
         ]
 
 -- UPDATE
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        Increment amount ->
-            ( model + amount, Cmd.none )
-        Clear ->
-            ( 0, Cmd.none )
+update : Msg -> AppModel -> ( AppModel, Cmd Msg )
+update message model =
+    case message of
+        WidgetMsg subMsg ->
+            let
+                ( updatedWidgetModel, widgetCmd ) = Widget.update subMsg model.widgetModel
+            in
+                ( { model | widgetModel = updatedWidgetModel }, Cmd.map WidgetMsg widgetCmd )
 
 -- SUBSCRIPTIONS
-subscriptions : Model -> Sub Msg
+subscriptions : AppModel -> Sub Msg
 subscriptions model =
     Sub.none
 
