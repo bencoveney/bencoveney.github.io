@@ -6,12 +6,14 @@ import Dice
 import Widget
 import Mouse
 import Keyboard
+import MyTask
 
 -- MODEL
 type alias AppModel =
     { widgetModel : Widget.Model
-    , counter: Int
+    , counter : Int
     , diceModel : Dice.Model
+    , taskModel : MyTask.Model
     }
 
 initialModel : AppModel
@@ -19,6 +21,7 @@ initialModel =
     { widgetModel = Widget.initialModel
     , counter = 0
     , diceModel = Dice.initialModel
+    , taskModel = MyTask.initialModel
     }
 
 init : ( AppModel, Cmd Msg )
@@ -31,6 +34,7 @@ type Msg
     | MouseMsg Mouse.Position
     | KeyMsg Keyboard.KeyCode
     | DiceMsg Dice.Msg
+    | TaskMsg MyTask.Msg
 
 -- VIEW
 view : AppModel -> Html Msg
@@ -42,6 +46,8 @@ view model =
         , hr [] []
         , text "Dice"
         , Html.App.map DiceMsg (Dice.view model.diceModel)
+        , hr [] []
+        , Html.App.map TaskMsg (MyTask.view model.taskModel)
         ]
 
 -- UPDATE
@@ -62,6 +68,11 @@ update message model =
                 ( updatedDiceModel, diceCmd ) = Dice.update subMsg model.diceModel
             in
                 ( { model | diceModel = updatedDiceModel }, Cmd.map DiceMsg diceCmd )
+        TaskMsg subMsg ->
+            let
+                ( updatedTaskModel, taskCmd ) = MyTask.update subMsg model.taskModel
+            in
+                ( { model | taskModel = updatedTaskModel }, Cmd.map TaskMsg taskCmd )
 
 -- SUBSCRIPTIONS
 subscriptions : AppModel -> Sub Msg
