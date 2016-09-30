@@ -1,4 +1,6 @@
 module Messages exposing (..)
 
+import Projects.Messages
+
 type Msg
-    = NoOp
+    = ProjectsMsg Projects.Messages.Msg
