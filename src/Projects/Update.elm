@@ -6,5 +6,8 @@ import Projects.Models exposing (Project)
 update : Msg -> List Project -> ( List Project, Cmd Msg )
 update message projects =
     case message of
-        NoOp ->
+        FetchAllDone newProjects ->
+            ( newProjects, Cmd.none )
+
+        FetchAllFail error ->
             ( projects, Cmd.none )

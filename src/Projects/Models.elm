@@ -6,12 +6,12 @@ type alias ProjectId =
 type alias Project =
     { id : ProjectId
     , name : String
-    , level : Int
+    , stars : Int
     }
 
 new : Project
 new =
     { id = 0
     , name = ""
-    , level = 1
+    , stars = 1
     }

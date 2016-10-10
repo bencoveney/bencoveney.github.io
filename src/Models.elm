@@ -8,5 +8,5 @@ type alias Model =
 
 initialModel : Model
 initialModel =
-    { projects = [ Project 1 "Elm" 1 ]
+    { projects = []
     }

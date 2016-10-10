@@ -4,7 +4,7 @@
   "description": "Ben's Website",
   "main": "index.html",
   "scripts": {
-    "api": "node api.js",
+    "api": "node api-server.js",
     "build": "webpack",
     "watch": "webpack --watch",
     "dev": "webpack-dev-server --port 3000"
