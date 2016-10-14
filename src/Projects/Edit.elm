@@ -2,6 +2,7 @@ module Projects.Edit exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (class, value, href)
+import Html.Events exposing (onClick)
 import Projects.Models exposing (..)
 import Projects.Messages exposing (..)
 
@@ -15,7 +16,7 @@ view model =
 nav : Project -> Html Msg
 nav model =
     div [ class "clearfix mb2 white bg-black p1" ]
-        []
+        [ listBtn ]
 
 form : Project -> Html Msg
 form project =
@@ -46,3 +47,11 @@ btnLevelIncrease : Project -> Html Msg
 btnLevelIncrease project =
     a [ class "btn ml1 h1" ]
         [ i [ class "fa fa-plus circle" ] [] ]
+
+listBtn : Html Msg
+listBtn =
+    button
+        [ class "btn regular"
+        , onClick ShowProjects
+        ]
+        [ i [ class "fa fa-chevron-left mr1" ] [], text "List" ]

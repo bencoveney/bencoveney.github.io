@@ -6,3 +6,5 @@ import Projects.Models exposing (ProjectId, Project)
 type Msg
     = FetchAllDone (List Project)
     | FetchAllFail Http.Error
+    | ShowProjects
+    | ShowProject ProjectId

@@ -1,5 +1,6 @@
 module Projects.Update exposing (..)
 
+import Navigation
 import Projects.Messages exposing (Msg(..))
 import Projects.Models exposing (Project)
 
@@ -11,3 +12,9 @@ update message projects =
 
         FetchAllFail error ->
             ( projects, Cmd.none )
+
+        ShowProjects ->
+            ( projects, Navigation.newUrl "#projects" )
+
+        ShowProject id ->
+            ( projects, Navigation.newUrl ("#project/" ++ (toString id)) )

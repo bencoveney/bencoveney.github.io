@@ -2,6 +2,7 @@ module Projects.List exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (class)
+import Html.Events exposing (onClick)
 import Projects.Messages exposing (..)
 import Projects.Models exposing (Project)
 
@@ -39,5 +40,14 @@ projectRow project =
         [ td [] [ text (toString project.id) ]
         , td [] [ text project.name ]
         , td [] [ text (toString project.stars) ]
-        , td [] []
+        , td []
+            [ editBtn project ]
         ]
+
+editBtn : Project -> Html Msg
+editBtn project =
+    button
+        [ class "btn regular"
+        , onClick (ShowProject project.id)
+        ]
+        [ i [ class "fa fa-pencil mr1" ] [], text "Edit" ]
