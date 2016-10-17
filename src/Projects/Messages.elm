@@ -8,3 +8,6 @@ type Msg
     | FetchAllFail Http.Error
     | ShowProjects
     | ShowProject ProjectId
+    | ChangeStars ProjectId Int
+    | SaveSuccess Project
+    | SaveFail Http.Error

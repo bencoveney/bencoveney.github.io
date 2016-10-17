@@ -2,7 +2,8 @@ module Projects.Update exposing (..)
 
 import Navigation
 import Projects.Messages exposing (Msg(..))
-import Projects.Models exposing (Project)
+import Projects.Commands exposing (save)
+import Projects.Models exposing (Project, ProjectId)
 
 update : Msg -> List Project -> ( List Project, Cmd Msg )
 update message projects =
@@ -18,3 +19,34 @@ update message projects =
 
         ShowProject id ->
             ( projects, Navigation.newUrl ("#project/" ++ (toString id)) )
+
+        ChangeStars id howMuch ->
+            ( projects, changeStarsCommands id howMuch projects |> Cmd.batch )
+
+        SaveSuccess updatedProject ->
+            ( updateProject updatedProject projects, Cmd.none )
+
+        SaveFail error ->
+            ( projects, Cmd.none )
+
+changeStarsCommands : ProjectId -> Int -> List Project -> List (Cmd Msg)
+changeStarsCommands projectId howMuch projects =
+    let
+        cmdForProject existingProject =
+            if existingProject.id == projectId then
+                save { existingProject | stars = existingProject.stars + howMuch }
+            else
+                Cmd.none
+    in
+        List.map cmdForProject projects
+
+updateProject : Project -> List Project -> List Project
+updateProject updatedProject projects =
+    let
+        select existingProject =
+            if existingProject.id == updatedProject.id then
+                updatedProject
+            else
+                existingProject
+    in
+        List.map select projects

@@ -1,8 +1,24 @@
 {
   "projects": [
-    { "id": 1, "name": "Website", "stars": 2 },
-    { "id": 2, "name": "Blog", "stars": 1 },
-    { "id": 3, "name": "Compiler", "stars": 3 },
-    { "id": 4, "name": "Database", "stars": 4 }
+    {
+      "id": 1,
+      "name": "Website",
+      "stars": 3
+    },
+    {
+      "id": 2,
+      "name": "Blog",
+      "stars": 1
+    },
+    {
+      "id": 3,
+      "name": "Compiler",
+      "stars": 3
+    },
+    {
+      "id": 4,
+      "name": "Database",
+      "stars": 4
+    }
   ]
 }

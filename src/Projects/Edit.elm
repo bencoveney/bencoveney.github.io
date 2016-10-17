@@ -40,12 +40,12 @@ formStars project =
 
 btnLevelDecrease : Project -> Html Msg
 btnLevelDecrease project =
-    a [ class "btn ml1 h1" ]
+    a [ class "btn ml1 h1", onClick (ChangeStars project.id -1) ]
         [ i [ class "fa fa-minus circle" ] [] ]
 
 btnLevelIncrease : Project -> Html Msg
 btnLevelIncrease project =
-    a [ class "btn ml1 h1" ]
+    a [ class "btn ml1 h1", onClick (ChangeStars project.id 1) ]
         [ i [ class "fa fa-plus circle" ] [] ]
 
 listBtn : Html Msg
