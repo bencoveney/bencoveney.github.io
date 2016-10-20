@@ -65,3 +65,37 @@ memberEncoded project =
     in
         list
             |> Encode.object
+
+addTask : String -> Int -> Task.Task Http.Error Project
+addTask name stars =
+    let
+        body =
+            (newProjectEncoded name stars)
+                |> Encode.encode 0
+                |> Http.string
+
+        config =
+            { verb = "POST"
+            , headers = [ ( "Content-Type", "application/json" ) ]
+            , url = fetchAllUrl
+            , body = body
+            }
+    in
+        Http.send Http.defaultSettings config
+            |> Http.fromJson memberDecoder
+
+add : String -> Int -> Cmd Msg
+add name stars =
+    addTask name stars
+        |> Task.perform AddFail AddSuccess
+
+newProjectEncoded : String -> Int -> Encode.Value
+newProjectEncoded name stars =
+    let
+        list =
+            [ ( "name", Encode.string name )
+            , ( "stars", Encode.int stars )
+            ]
+    in
+        list
+            |> Encode.object

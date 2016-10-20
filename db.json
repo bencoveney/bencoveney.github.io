@@ -19,6 +19,11 @@
       "id": 4,
       "name": "Database",
       "stars": 4
+    },
+    {
+      "name": "Dogs",
+      "stars": 8,
+      "id": 6
     }
   ]
 }

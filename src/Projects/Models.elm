@@ -3,10 +3,16 @@ module Projects.Models exposing (..)
 type alias ProjectId =
     Int
 
+type alias ProjectName =
+    String
+
+type alias ProjectStars =
+    Int
+
 type alias Project =
     { id : ProjectId
-    , name : String
-    , stars : Int
+    , name : ProjectName
+    , stars : ProjectStars
     }
 
 new : Project

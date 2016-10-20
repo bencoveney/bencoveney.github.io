@@ -2,8 +2,8 @@ module Projects.Update exposing (..)
 
 import Navigation
 import Projects.Messages exposing (Msg(..))
-import Projects.Commands exposing (save)
-import Projects.Models exposing (Project, ProjectId)
+import Projects.Commands exposing (save, add)
+import Projects.Models exposing (..)
 
 update : Msg -> List Project -> ( List Project, Cmd Msg )
 update message projects =
@@ -27,6 +27,15 @@ update message projects =
             ( updateProject updatedProject projects, Cmd.none )
 
         SaveFail error ->
+            ( projects, Cmd.none )
+
+        AddProject name stars ->
+            ( projects, add name stars )
+
+        AddSuccess updatedProject ->
+            ( updateProject updatedProject projects, Cmd.none )
+
+        AddFail error ->
             ( projects, Cmd.none )
 
 changeStarsCommands : ProjectId -> Int -> List Project -> List (Cmd Msg)
