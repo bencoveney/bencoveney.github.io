@@ -6,6 +6,7 @@ import Messages exposing (Msg(..))
 import Models exposing (Model)
 import Projects.List
 import Projects.Edit
+import Projects.Add
 import Projects.Models exposing (ProjectId)
 import Routing exposing (Route(..))
 
@@ -22,6 +23,9 @@ page model =
 
         ProjectRoute id ->
             projectEditPage model id
+
+        AddRoute ->
+            Html.App.map ProjectsMsg (Projects.Add.view model.newProject)
 
         NotFoundRoute ->
             notFoundView

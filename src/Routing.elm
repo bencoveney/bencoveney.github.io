@@ -8,6 +8,7 @@ import Projects.Models exposing (ProjectId)
 type Route
     = ProjectsRoute
     | ProjectRoute ProjectId
+    | AddRoute
     | NotFoundRoute
 
 matchers : Parser (Route -> a) a
@@ -16,6 +17,7 @@ matchers =
         [ format ProjectsRoute (s "")
         , format ProjectRoute (s "project" </> int)
         , format ProjectsRoute (s "projects")
+        , format AddRoute (s "add")
         ]
 
 hashParser : Navigation.Location -> Result String Route

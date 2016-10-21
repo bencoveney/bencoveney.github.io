@@ -15,9 +15,9 @@ type alias Project =
     , stars : ProjectStars
     }
 
-new : Project
-new =
+initialProject : Project
+initialProject =
     { id = 0
-    , name = ""
+    , name = "New Project"
     , stars = 1
     }

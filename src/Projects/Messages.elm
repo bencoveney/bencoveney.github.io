@@ -11,6 +11,8 @@ type Msg
     | ChangeStars ProjectId Int
     | SaveSuccess Project
     | SaveFail Http.Error
-    | AddProject ProjectName ProjectStars
+    | AddProject
     | AddSuccess Project
     | AddFail Http.Error
+    | ChangeNewName ProjectName
+    | ChangeNewStars ProjectStars

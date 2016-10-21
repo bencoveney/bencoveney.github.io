@@ -29,13 +29,19 @@ update message projects =
         SaveFail error ->
             ( projects, Cmd.none )
 
-        AddProject name stars ->
-            ( projects, add name stars )
+        AddProject ->
+            ( projects, add "new" 0 )
 
         AddSuccess updatedProject ->
             ( updateProject updatedProject projects, Cmd.none )
 
         AddFail error ->
+            ( projects, Cmd.none )
+
+        ChangeNewName name ->
+            ( projects, Cmd.none )
+
+        ChangeNewStars stars ->
             ( projects, Cmd.none )
 
 changeStarsCommands : ProjectId -> Int -> List Project -> List (Cmd Msg)
