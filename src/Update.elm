@@ -9,6 +9,6 @@ update msg model =
     case msg of
         ProjectsMsg subMsg ->
             let
-                ( updatedProjects, cmd ) = Projects.Update.update subMsg model.projects
+                ( updatedProjects, updatedNewProject, cmd ) = Projects.Update.update subMsg model.projects model.newProject
             in
-                ( { model | projects = updatedProjects }, Cmd.map ProjectsMsg cmd )
+                ( { model | projects = updatedProjects, newProject = updatedNewProject }, Cmd.map ProjectsMsg cmd )

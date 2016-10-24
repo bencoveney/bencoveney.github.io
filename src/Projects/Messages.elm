@@ -11,6 +11,7 @@ type Msg
     | ChangeStars ProjectId Int
     | SaveSuccess Project
     | SaveFail Http.Error
+    | ShowAddForm
     | AddProject
     | AddSuccess Project
     | AddFail Http.Error

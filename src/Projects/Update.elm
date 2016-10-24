@@ -5,44 +5,47 @@ import Projects.Messages exposing (Msg(..))
 import Projects.Commands exposing (save, add)
 import Projects.Models exposing (..)
 
-update : Msg -> List Project -> ( List Project, Cmd Msg )
-update message projects =
+update : Msg -> List Project -> Project -> ( List Project, Project, Cmd Msg )
+update message projects newProject =
     case message of
         FetchAllDone newProjects ->
-            ( newProjects, Cmd.none )
+            ( newProjects, newProject, Cmd.none )
 
         FetchAllFail error ->
-            ( projects, Cmd.none )
+            ( projects, newProject, Cmd.none )
 
         ShowProjects ->
-            ( projects, Navigation.newUrl "#projects" )
+            ( projects, newProject, Navigation.newUrl "#projects" )
 
         ShowProject id ->
-            ( projects, Navigation.newUrl ("#project/" ++ (toString id)) )
+            ( projects, newProject, Navigation.newUrl ("#project/" ++ (toString id)) )
 
         ChangeStars id howMuch ->
-            ( projects, changeStarsCommands id howMuch projects |> Cmd.batch )
+            ( projects, newProject, changeStarsCommands id howMuch projects |> Cmd.batch )
 
         SaveSuccess updatedProject ->
-            ( updateProject updatedProject projects, Cmd.none )
+            ( updateProject updatedProject projects, newProject, Cmd.none )
 
         SaveFail error ->
-            ( projects, Cmd.none )
+            ( projects, newProject, Cmd.none )
+
+        ShowAddForm ->
+            ( projects, newProject, Navigation.newUrl "#add" )
 
         AddProject ->
-            ( projects, add "new" 0 )
+            ( projects, newProject, add newProject.name newProject.stars )
 
-        AddSuccess updatedProject ->
-            ( updateProject updatedProject projects, Cmd.none )
+        AddSuccess newApiProject ->
+            ( projects ++ [newApiProject], newProject, Navigation.newUrl "#projects" )
 
         AddFail error ->
-            ( projects, Cmd.none )
+            ( projects, newProject, Cmd.none )
 
         ChangeNewName name ->
-            ( projects, Cmd.none )
+            ( projects, { newProject | name = name }, Cmd.none )
 
-        ChangeNewStars stars ->
-            ( projects, Cmd.none )
+        ChangeNewStars howMuch ->
+            ( projects, { newProject | stars = newProject.stars + howMuch }, Cmd.none )
 
 changeStarsCommands : ProjectId -> Int -> List Project -> List (Cmd Msg)
 changeStarsCommands projectId howMuch projects =

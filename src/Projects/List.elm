@@ -11,12 +11,13 @@ view projects =
     div []
         [ nav projects
         , list projects
+        , addBtn
         ]
 
 nav : List Project -> Html Msg
 nav projects =
     div [ class "clearfix mb2 white bg-black" ]
-        [ div [ class "left p2" ] [ text "Players" ] ]
+        [ div [ class "left p2" ] [ text "Projects" ] ]
 
 list : List Project -> Html Msg
 list projects =
@@ -51,3 +52,10 @@ editBtn project =
         , onClick (ShowProject project.id)
         ]
         [ i [ class "fa fa-pencil mr1" ] [], text "Edit" ]
+
+addBtn =
+    button
+        [ class "btn regular"
+        , onClick (ShowAddForm)
+        ]
+        [ i [ class "fa fa-plus mr1" ] [], text "Add Project" ]
