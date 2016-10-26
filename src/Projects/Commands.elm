@@ -27,8 +27,8 @@ memberDecoder =
         ("name" := Decode.string)
         ("stars" := Decode.int)
 
-saveUrl : ProjectId -> String
-saveUrl projectId =
+projectUrl : ProjectId -> String
+projectUrl projectId =
     "http://localhost:4000/projects/" ++ (toString projectId)
 
 saveTask : Project -> Task.Task Http.Error Project
@@ -42,7 +42,7 @@ saveTask project =
         config =
             { verb = "PATCH"
             , headers = [ ( "Content-Type", "application/json" ) ]
-            , url = saveUrl project.id
+            , url = projectUrl project.id
             , body = body
             }
     in
@@ -99,3 +99,24 @@ newProjectEncoded name stars =
     in
         list
             |> Encode.object
+
+deleteTask : ProjectId -> Task.Task Http.Error ProjectId
+deleteTask id =
+    let
+        body =
+            Http.empty
+
+        config =
+            { verb = "DELETE"
+            , headers = [ ( "Content-Type", "application/json" ) ]
+            , url = projectUrl id
+            , body = body
+            }
+    in
+        Http.send Http.defaultSettings config
+            |> id
+
+delete : ProjectId -> Cmd Msg
+delete id =
+    deleteTask id
+        |> Task.perform DeleteFail DeleteSuccess

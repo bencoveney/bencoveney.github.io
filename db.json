@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "Website",
-      "stars": 3
+      "stars": 5
     },
     {
       "id": 2,
@@ -18,12 +18,7 @@
     {
       "id": 4,
       "name": "Database",
-      "stars": 4
-    },
-    {
-      "name": "Dogs",
-      "stars": 8,
-      "id": 6
+      "stars": 2
     }
   ]
 }

@@ -42,7 +42,7 @@ projectRow project =
         , td [] [ text project.name ]
         , td [] [ text (toString project.stars) ]
         , td []
-            [ editBtn project ]
+            [ editBtn project, deleteBtn project ]
         ]
 
 editBtn : Project -> Html Msg
@@ -53,6 +53,15 @@ editBtn project =
         ]
         [ i [ class "fa fa-pencil mr1" ] [], text "Edit" ]
 
+deleteBtn : Project -> Html Msg
+deleteBtn project =
+    button
+        [ class "btn regular"
+        , onClick (ShowProject project.id)
+        ]
+        [ i [ class "fa fa-times-circle mr1" ] [], text "Delete" ]
+
+addBtn : Html Msg
 addBtn =
     button
         [ class "btn regular"

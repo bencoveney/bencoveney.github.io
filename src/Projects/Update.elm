@@ -2,7 +2,7 @@ module Projects.Update exposing (..)
 
 import Navigation
 import Projects.Messages exposing (Msg(..))
-import Projects.Commands exposing (save, add)
+import Projects.Commands exposing (save, add, delete)
 import Projects.Models exposing (..)
 
 update : Msg -> List Project -> Project -> ( List Project, Project, Cmd Msg )
@@ -47,6 +47,15 @@ update message projects newProject =
         ChangeNewStars howMuch ->
             ( projects, { newProject | stars = newProject.stars + howMuch }, Cmd.none )
 
+        DeleteProject id ->
+            ( projects, newProject, delete id )
+
+        DeleteSuccess id ->
+            ( removeProject id projects, newProject, Cmd.none )
+
+        DeleteFail error ->
+            ( projects, newProject, Cmd.none )
+
 changeStarsCommands : ProjectId -> Int -> List Project -> List (Cmd Msg)
 changeStarsCommands projectId howMuch projects =
     let
@@ -68,3 +77,10 @@ updateProject updatedProject projects =
                 existingProject
     in
         List.map select projects
+
+removeProject : ProjectId -> List Project -> List Project
+removeProject id list =
+    let
+        (passed, failed) = List.partition (\item -> item.id /= id) list
+    in
+        passed
