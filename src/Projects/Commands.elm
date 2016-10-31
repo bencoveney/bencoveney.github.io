@@ -114,7 +114,7 @@ deleteTask id =
             }
     in
         Http.send Http.defaultSettings config
-            |> id
+            |> Task.succeed id
 
 delete : ProjectId -> Cmd Msg
 delete id =
