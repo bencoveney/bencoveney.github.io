@@ -1,1 +1,39 @@
-Hello World
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Ben Coveney</title>
+    <meta name="description" content="Ben Coveney's personal website">
+    <meta name="author" content="Ben Coveney">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway:300" rel="stylesheet">
+    <link href="https://cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <div class="content">
+        <h1>Ben Coveney</h1>
+        <span class="tagline">Software Developer</span>
+        <ul class="links">
+          <li><a href="https://github.com/bencoveney"><i class="mdi mdi-github-circle mdi-48px"></i><span class="name">Github</span></a></li>
+          <li><a href="https://uk.linkedin.com/in/ben-coveney-34115486"><i class="mdi mdi-linkedin mdi-48px"></i><span class="name">LinkedIn</span></a></li>
+          <li><a href="https://www.bencoveney.com"><i class="mdi mdi-book-open-page-variant mdi-48px"></i><span class="name">Blog</span></a></li>
+          <li><a href="https://steamcommunity.com/id/bencoveney"><i class="mdi mdi-steam mdi-48px"></i><span class="name">Steam</span></a></li>
+        </ul>
+      </div>
+    </div>
+
+    <canvas id="target"></canvas>
+    <script type="module">
+        import {create} from './js/dots.js';
+        window.onload = () => create("#target");
+    </script>
+  </body>
+</html>
