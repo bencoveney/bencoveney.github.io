@@ -95,12 +95,26 @@ ul.technologies::after {
 
 ul.technologies li {
     float: left;
-    background-color: rgb(50, 50, 50);
-    color: rgb(255, 255, 255);
-    margin: 5px;
-    padding: 5px;
+    background-color: rgb(180, 20, 20);
     border-radius: 5px;
     font-size: 0.707em;
+    margin: 5px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+ul.technologies li i.mdi {
+    color: rgb(255, 255, 255);
+    margin: 0 5px;
+}
+
+ul.technologies li .tag {
+    color: rgb(255, 255, 255);
+    background-color: rgb(50, 50, 50);
+    padding: 5px;
+    border-radius: 5px;
 }
 
 h3, p, ul.about li, ul.technologies, hr {
