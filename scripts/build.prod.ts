@@ -3,6 +3,7 @@ import process from "process";
 
 esbuild
   .build({
+    entryPoints: ["./src/index.tsx"],
     entryNames: "[name]",
     bundle: true,
     outdir: "./build",
