@@ -2,15 +2,11 @@
   "name": "bencoveney.github.io",
   "version": "1.0.0",
   "description": "Ben Coveney's personal site",
-  "main": "index.html",
   "dependencies": {
-    "finalhandler": "^1.1.0",
-    "serve-static": "^1.13.1"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./build/js/server.js",
     "prod": "echo \"No prod build\"",
     "dev": "echo \"No dev build\""
   },
