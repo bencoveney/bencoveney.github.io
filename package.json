@@ -3,12 +3,31 @@
   "version": "1.0.0",
   "description": "Ben Coveney's personal site",
   "dependencies": {
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-router-dom": "^6.3.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/node": "^17.0.36",
+    "@types/prettier": "^2.6.3",
+    "@types/react": "^18.0.9",
+    "@types/react-dom": "^18.0.4",
+    "@types/react-router-dom": "^5.3.3",
+    "cpy-cli": "^4.1.0",
+    "esbuild": "^0.14.39",
+    "http-server": "^14.1.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.6.2",
+    "ts-node": "^10.8.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prod": "echo \"No prod build\"",
-    "dev": "echo \"No dev build\""
+    "prod": "npm-run-all copy-assets esbuild-prod",
+    "prod-serve": "http-server ./build -p 8000",
+    "dev": "npm-run-all copy-assets esbuild-dev",
+    "copy-assets": "cpy --cwd=assets . ../build/",
+    "esbuild-prod": "ts-node ./scripts/build.prod.ts",
+    "esbuild-dev": "ts-node ./scripts/build.dev.ts"
   },
   "repository": {
     "type": "git",
@@ -26,5 +45,6 @@
   "bugs": {
     "url": "https://github.com/bencoveney/bencoveney.github.io/issues"
   },
-  "homepage": "https://github.com/bencoveney/bencoveney.github.io#readme"
+  "homepage": "https://github.com/bencoveney/bencoveney.github.io#readme",
+  "type": "module"
 }
