@@ -71,7 +71,7 @@ export function Page(props: {
         <link rel="apple-touch-icon" href="/favicon-180.png" />
         <link rel="manifest" href="/manifest.webmanifest" />
         <link rel="canonical" href={props.canonical} />
-        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="index.css" />
         <link href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway:300" rel="stylesheet" />
         <link href="https://cdn.materialdesignicons.com/2.2.43/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
       </head>
