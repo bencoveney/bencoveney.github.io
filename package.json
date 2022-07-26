@@ -22,10 +22,11 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prod": "npm-run-all copy-assets esbuild-prod",
+    "prod": "npm-run-all copy-assets build-html esbuild-prod",
     "prod-serve": "http-server ./build -p 8000",
-    "dev": "npm-run-all copy-assets esbuild-dev",
+    "dev": "npm-run-all copy-assets build-html esbuild-dev",
     "copy-assets": "cpy --cwd=assets . ../build/",
+    "build-html": "ts-node ./scripts/createHtmlPage.tsx",
     "esbuild-prod": "ts-node ./scripts/build.prod.ts",
     "esbuild-dev": "ts-node ./scripts/build.dev.ts"
   },

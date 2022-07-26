@@ -3,7 +3,6 @@ import process from "process";
 import { networkInterfaces } from "os";
 
 try {
-
   let server = await esbuild.serve(
     {
       servedir: "build",
