@@ -77,50 +77,14 @@ export function Homepage({pages}: {pages: Pages}) {
 
         <div className="content">
           <h2>Projects</h2>
-            {
-              Object
-                .entries(pages.projects)
-                .map(([slug, project]) => <Fragment key={slug}>
-                  <Project project={project} />
-                  <hr />
-                </Fragment>)
-            }
-          <h3>Milligrid</h3>
-          <p>
-            Responsive CSS grid system built using flexbox and based on{" "}
-            <a href="https://milligram.github.io/">Milligram</a>.
-          </p>
-          <p>
-            <a href="http://bencoveney.github.io/Milligrid/">
-              <i className="mdi mdi-web mdi-18px"></i> View website
-            </a>
-            <a href="https://www.npmjs.com/package/milligrid">
-              <i className="mdi mdi-package mdi-18px"></i> View on NPM
-            </a>
-            <a href="https://github.com/bencoveney/Milligrid">
-              <i className="mdi mdi-github-circle mdi-18px"></i> View on Github
-            </a>
-          </p>
-          <ul className="technologies">
-            <li>
-              <i className="mdi mdi-sass mdi-18px"></i>
-              <span className="tag">Sass</span>
-            </li>
-            <li>
-              <i className="mdi mdi-language-css3 mdi-18px"></i>
-              <span className="tag">CSS</span>
-            </li>
-            <li>
-              <i className="mdi mdi-server-network mdi-18px"></i>
-              <span className="tag">Continuous Integration</span>
-            </li>
-            <li>
-              <i className="mdi mdi-npm mdi-18px"></i>
-              <span className="tag">NPM</span>
-            </li>
-          </ul>
-
-          <hr />
+          {
+            Object
+              .entries(pages.projects)
+              .map(([slug, project]) => <Fragment key={slug}>
+                <Project project={project} />
+                <hr />
+              </Fragment>)
+          }
         </div>
       </div>
       <canvas id="target"></canvas>
