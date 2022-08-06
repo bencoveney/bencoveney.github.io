@@ -11,7 +11,7 @@ if (!reactRoot) {
 
 function HomepageWrapper() {
   useTitle("Ben Coveney");
-  return <Homepage />;
+  return <Homepage pages={window.pages} />;
 }
 
 ReactDOM.hydrateRoot(

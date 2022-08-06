@@ -4,8 +4,10 @@ import React from "react";
 import { StaticRouter } from "react-router-dom/server.js";
 import ReactDOMServer from "react-dom/server";
 import { Homepage } from "../src/components/Homepage.js";
+import { config } from "../src/config.js";
+import { loadPages } from "./loadPages.js";
 
-export const hostname = "https://bencoveney.github.io/";
+const pages = loadPages();
 
 function mkDirP(parentDir: string, childDir: string) {
   const resolvedDir = path.resolve(parentDir, childDir);
@@ -20,29 +22,30 @@ async function buildSite() {
   await writeHomepage(outputDir);
 }
 
-// export async function run() {
-  const startTime = Date.now();
-  try {
-    await buildSite();
-    const deltaTime = Date.now() - startTime;
-    console.log(`Build succeeded in ${deltaTime}ms`);
-  } catch (error: any){
-    console.log(`Build failed: ${error.message || error}`);
-    process.exit(1);
-  }
-// }
+const startTime = Date.now();
+try {
+  await buildSite();
+  const deltaTime = Date.now() - startTime;
+  console.log(`Build succeeded in ${deltaTime}ms`);
+} catch (error: any) {
+  console.log(`Build failed: ${error.message || error}`);
+  process.exit(1);
+}
 
 export async function writeHomepage(outputDir: string) {
   await writePage(
-    <Page title="Ben Coveney" description="Ben Coveney's personal website" canonical={hostname}>
+    <Page
+      title="Ben Coveney"
+      description="Ben Coveney's personal website"
+      canonical={config.hostname}
+    >
       <StaticRouter location={{ pathname: `/` }}>
-        <Homepage />
+        <Homepage pages={pages} />
       </StaticRouter>
     </Page>,
     path.resolve(outputDir, "index.html")
   );
 }
-
 
 export async function writePage(content: React.ReactElement, filePath: string) {
   const rendered =
@@ -72,14 +75,32 @@ export function Page(props: {
         <link rel="manifest" href="/manifest.webmanifest" />
         <link rel="canonical" href={props.canonical} />
         <link rel="stylesheet" href="index.css" />
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway:300" rel="stylesheet" />
-        <link href="https://cdn.materialdesignicons.com/2.2.43/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
+        <link
+          href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway:300"
+          rel="stylesheet"
+        />
+        <link
+          href="https://cdn.materialdesignicons.com/2.2.43/css/materialdesignicons.min.css"
+          media="all"
+          rel="stylesheet"
+          type="text/css"
+        />
       </head>
       <body>
         <div
           id="react-root"
           dangerouslySetInnerHTML={{ __html: content }}
         ></div>
+        <script
+          type="module"
+          dangerouslySetInnerHTML={{
+            __html: `\nwindow.pages = JSON.parse(\`${JSON.stringify(
+              pages,
+              null,
+              2
+            ).replaceAll("\\", "\\\\")}\`);\r\n`,
+          }}
+        />
         <script type="module" src="./index.js"></script>
       </body>
     </html>
