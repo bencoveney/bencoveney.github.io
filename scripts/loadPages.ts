@@ -1,9 +1,11 @@
 import grayMatter from "gray-matter";
+import { dirname } from "path";
 
 export type Page = {
   title: string;
   categories: string[];
   content: string;
+  route: string;
 }
 
 export type Project = Page & {
@@ -18,8 +20,17 @@ export type Projects = {
   [path:string]: Project;
 }
 
+export type Post = Page & {
+  website?: string;
+}
+
+export type Posts = {
+  [path:string]: Project;
+}
+
 export type Pages = {
   projects: Projects;
+  posts: Posts;
 };
 
 export function loadPages(): Pages {
@@ -35,14 +46,19 @@ export function loadPages(): Pages {
       "bmprog": loadPage("./pages/projects/bmprog.md"),
       "bfinterpreter": loadPage("./pages/projects/bfinterpreter.md"),
       "chromosome-library": loadPage("./pages/projects/chromosome-library.md"),
+    },
+    posts: {
+      "ts-birthday": loadPage("./pages/posts/ts-birthday.md"),
     }
   }
 }
 
 export function loadPage(pagePage: string): Page {
+  const route = dirname(pagePage);
   const {data, content} = grayMatter.read(pagePage);
   return {
     ...data as Page,
     content,
+    route,
   };
 }

@@ -1,8 +1,10 @@
 import React, { Fragment } from "react";
-import { Pages } from "../../scripts/loadPages.js";
+import { TransformImage } from "react-markdown/lib/ast-to-react.js";
+import { Page, Pages } from "../../scripts/loadPages.js";
+import { Post } from "./Post.js";
 import { Project } from "./Project.js";
 
-export function Homepage({pages}: {pages: Pages}) {
+export function Homepage({pages, transformImage}: {pages: Pages, transformImage?: (page: Page) => TransformImage}) {
   return (
     <>
       <div className="wrapper">
@@ -75,13 +77,25 @@ export function Homepage({pages}: {pages: Pages}) {
           </ul>
         </div>
 
-        <div className="content">
+        <div className="content projects">
           <h2>Projects</h2>
           {
             Object
               .entries(pages.projects)
               .map(([slug, project]) => <Fragment key={slug}>
-                <Project project={project} />
+                <Project project={project} transformImage={transformImage?.(project)} />
+                <hr />
+              </Fragment>)
+          }
+        </div>
+
+        <div className="content posts">
+          <h2>Posts</h2>
+          {
+            Object
+              .entries(pages.posts)
+              .map(([slug, post]) => <Fragment key={slug}>
+                <Post post={post} transformImage={transformImage?.(post)} />
                 <hr />
               </Fragment>)
           }

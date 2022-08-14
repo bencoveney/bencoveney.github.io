@@ -152,5 +152,26 @@ h3, p, ul.about li, ul.technologies, hr {
   /* Golden Ratio */
   h1 { font-size: 4.236em; }
   h2 { font-size: 2.618em; }
-  h3, h4, h5, h6 { font-size: 1.618em; }
+  h3{ font-size: 1.618em; }
+
+  h4, h5, h6 { font-size: 1.3em; }
+}
+
+.posts img {
+  max-width: 100%;
+}
+
+.posts h4, .posts h5, .posts h6 {
+  margin-top: 1em;
+}
+
+.posts blockquote {
+  background-color: rgba(220, 220, 220, 0.9);
+  color: rgb(50, 50, 50);
+  padding: 0.01em 2em 1em 2em;
+  margin-top: 1em;
+}
+
+.posts a:link, .posts a:hover, .posts a:visited, .posts a:active  {
+  text-decoration: underline;
 }
