@@ -113,8 +113,15 @@ ul.technologies li .tag {
   border-radius: 5px;
 }
 
-h3, p, ul.about li, ul.technologies, hr {
+h3, p, ul.about li, ul.technologies {
   margin-top: 1em;
+}
+
+hr {
+  max-width: 50%;
+  display: block;
+  text-align: center;
+  margin: 1em auto;
 }
 
 /* Small screens */
