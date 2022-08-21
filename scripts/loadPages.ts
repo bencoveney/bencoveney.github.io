@@ -6,6 +6,7 @@ export type Page = {
   categories: string[];
   content: string;
   route: string;
+  published?: string;
 }
 
 export type Project = Page & {

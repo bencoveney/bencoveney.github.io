@@ -15,12 +15,13 @@ export function Post({
   return (
     <>
       <h3>{post.title}</h3>
+      <span className="published">
+        {post.published ? `Published ${post.published}` : "Draft"}
+      </span>
       <ReactMarkdown transformImageUri={transformImage}>
         {post.content}
       </ReactMarkdown>
-      <p>
-        {post.website && <WebsiteLink website={post.website} />}
-      </p>
+      <p>{post.website && <WebsiteLink website={post.website} />}</p>
       <Categories categories={post.categories} />
     </>
   );

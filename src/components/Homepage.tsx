@@ -94,6 +94,7 @@ export function Homepage({pages, transformImage}: {pages: Pages, transformImage?
           {
             Object
               .entries(pages.posts)
+              .filter(([_, post]) => !!post.published)
               .map(([slug, post]) => <Fragment key={slug}>
                 <Post post={post} transformImage={transformImage?.(post)} />
                 <hr />

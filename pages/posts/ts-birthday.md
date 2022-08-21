@@ -1,12 +1,13 @@
 ---
 title: "Celebrating Another Year of TypeScript"
-npm: https://www.npmjs.com/package/barrelsby
-github: https://github.com/bencoveney/barrelsby
+npm: "https://www.npmjs.com/package/barrelsby"
+github: "https://github.com/bencoveney/barrelsby"
+published: "Oct 1, 2019"
 categories:
 - ts
 ---
 
-I wrote this post as the inaugural entry for YouView's engineering blog in late 2019. The original is still available [here](https://medium.com/youview-engineering/celebrating-8-years-of-typescript-e4b1482f3ba0). Credit to my colleagues at YouView for assistance editing and refining this.
+I wrote this post as the inaugural entry for YouView's engineering blog in late 2019. The original is still available [here](https://medium.com/youview-engineering/celebrating-8-years-of-typescript-e4b1482f3ba0). Thanks to my colleagues at YouView for assistance editing and refining this.
 
 * * *
 
