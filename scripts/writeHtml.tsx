@@ -6,17 +6,10 @@ import ReactDOMServer from "react-dom/server";
 import { Homepage } from "../src/components/Homepage.js";
 import { config } from "../src/config.js";
 import { loadPages, Page } from "./loadPages.js";
-import { TransformImage } from "react-markdown/lib/ast-to-react.js";
+import { mkDirP } from "./mkdirp.js";
+import { makeImageTransformer } from "./writeImages.js";
 
 const pages = loadPages();
-
-function mkDirP(parentDir: string, childDir: string) {
-  const resolvedDir = path.resolve(parentDir, childDir);
-  if (!fs.existsSync(resolvedDir)) {
-    fs.mkdirSync(resolvedDir, { recursive: true });
-  }
-  return resolvedDir;
-}
 
 async function buildSite() {
   const outputDir = mkDirP(process.cwd(), "build");
@@ -34,18 +27,6 @@ try {
 }
 
 export async function writeHomepage(outputDir: string) {
-  function transformImage(page: Page): TransformImage {
-    return (src: string, alt: string, title: string | null): string => {
-      mkDirP(outputDir, page.route);
-      const from = path.join(process.cwd(), page.route, src);
-      const to = path.join(outputDir, page.route, src);
-      const web = path.posix.join(page.route, src);
-      console.log("copying", from, to, web);
-      fs.copyFileSync(from, to)
-      return web;
-    };
-  }
-
   await writePage(
     <Page
       title="Ben Coveney"
@@ -53,7 +34,7 @@ export async function writeHomepage(outputDir: string) {
       canonical={config.hostname}
     >
       <StaticRouter location={{ pathname: `/` }}>
-        <Homepage pages={pages} transformImage={transformImage} />
+        <Homepage pages={pages} transformImage={makeImageTransformer(outputDir)} />
       </StaticRouter>
     </Page>,
     path.resolve(outputDir, "index.html")
