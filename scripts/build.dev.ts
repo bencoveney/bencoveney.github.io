@@ -14,7 +14,7 @@ try {
       },
     },
     {
-      entryPoints: ["./src/index.tsx", "./styles/index.css"],
+      entryPoints: ["./src/index.tsx"],
       entryNames: "[name]",
       bundle: true,
       outdir: "./build",
