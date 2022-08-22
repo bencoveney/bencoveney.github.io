@@ -2,6 +2,7 @@ export type Config = {
   categories: {
     [alias: string]: { name: string; icon: string };
   };
+  links: { name: string; href: string; icon: string; }[];
   hostname: string;
 };
 
@@ -25,5 +26,11 @@ export const config = {
     image: {name:"Image Processing", icon: "mdi-image"},
     "genetic-algorithms": {name:"Genetic Algorithms", icon: "mdi-dna"}
   },
-  hostname: "https://bencoveney.github.io/",
+  links: [
+    {name: "Github", href: "https://github.com/bencoveney", icon: "mdi-github-circle"},
+    {name: "LinkedIn", href: "https://uk.linkedin.com/in/ben-coveney-34115486", icon: "mdi-linkedin"},
+    {name: "Blog", href: "https://www.bencoveney.com", icon: "mdi-book-open-page-variant"},
+    {name: "Steam", href: "https://steamcommunity.com/id/bencoveney", icon: "mdi-steam"},
+  ],
+  hostname: "https://bencoveney.github.io/"
 } as Config;

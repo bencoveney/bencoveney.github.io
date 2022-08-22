@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { TransformImage } from "react-markdown/lib/ast-to-react.js";
 import { Page, Pages } from "../../scripts/loadPages.js";
+import { BigLinks } from "./BigLinks.js";
 import { Post } from "./Post.js";
 import { Project } from "./Project.js";
 
@@ -11,32 +12,7 @@ export function Homepage({pages, transformImage}: {pages: Pages, transformImage?
         <div className="content">
           <h1>Ben Coveney</h1>
           <span className="tagline">Software Developer</span>
-          <ul className="links">
-            <li>
-              <a href="https://github.com/bencoveney">
-                <i className="mdi mdi-github-circle mdi-48px"></i>
-                <span className="name">Github</span>
-              </a>
-            </li>
-            <li>
-              <a href="https://uk.linkedin.com/in/ben-coveney-34115486">
-                <i className="mdi mdi-linkedin mdi-48px"></i>
-                <span className="name">LinkedIn</span>
-              </a>
-            </li>
-            <li>
-              <a href="https://www.bencoveney.com">
-                <i className="mdi mdi-book-open-page-variant mdi-48px"></i>
-                <span className="name">Blog</span>
-              </a>
-            </li>
-            <li>
-              <a href="https://steamcommunity.com/id/bencoveney">
-                <i className="mdi mdi-steam mdi-48px"></i>
-                <span className="name">Steam</span>
-              </a>
-            </li>
-          </ul>
+          <BigLinks />
         </div>
 
         <div className="content">
