@@ -12,8 +12,8 @@ export function makeImageTransformer(outputDir: string) {
       const to = path.join(outputDir, page.route, src);
       const web = path.posix.join(page.route, src);
       console.log("Copying:", web);
-      fs.copyFileSync(from, to)
+      fs.copyFileSync(from, to);
       return web;
     };
-  }
+  };
 }

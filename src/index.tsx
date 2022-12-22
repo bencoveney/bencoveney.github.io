@@ -55,20 +55,20 @@ const dotSpeed = 0.1;
 const getDotSpeed = () => Math.random() * dotSpeed * 2 - dotSpeed;
 
 type Point = {
-  x: number,
-  y: number,
-}
+  x: number;
+  y: number;
+};
 
 type Link = {
-  dot1: Dot,
-  dot2: Dot,
-  weight: number,
+  dot1: Dot;
+  dot2: Dot;
+  weight: number;
 };
 
 type Dot = Point & {
-  xSpeed: number,
-  ySpeed: number,
-  links: Link[],
+  xSpeed: number;
+  ySpeed: number;
+  links: Link[];
 };
 
 export const create = (selector: string) => {
@@ -130,7 +130,13 @@ export const create = (selector: string) => {
 const updateCoordinate = (current: number, delta: number, max: number) => {
   return (current + delta + max) % max;
 };
-const updateDots = (dots: Dot[], width: number, height: number, deltaTime: number, context: CanvasRenderingContext2D) => {
+const updateDots = (
+  dots: Dot[],
+  width: number,
+  height: number,
+  deltaTime: number,
+  context: CanvasRenderingContext2D
+) => {
   dots.forEach((dot) => {
     dot.x = updateCoordinate(dot.x, dot.xSpeed * deltaTime, width);
     dot.y = updateCoordinate(dot.y, dot.ySpeed * deltaTime, height);
@@ -138,7 +144,8 @@ const updateDots = (dots: Dot[], width: number, height: number, deltaTime: numbe
   });
 };
 
-const getDifference = (a: number, b: number) => Math.min(Math.abs(a - b), Math.abs(b - a));
+const getDifference = (a: number, b: number) =>
+  Math.min(Math.abs(a - b), Math.abs(b - a));
 
 const getTorusDistance = (a: number, b: number, wrap: number) => {
   const distance = Math.abs(a - b);
@@ -154,7 +161,13 @@ const getDistance = (a: Point, b: Point, width: number, height: number) => {
 const decay = 0.001;
 const linksPerDot = 2;
 
-const updateLinks = (dots: Dot[], width: number, height: number, deltaTime: number, context: CanvasRenderingContext2D) => {
+const updateLinks = (
+  dots: Dot[],
+  width: number,
+  height: number,
+  deltaTime: number,
+  context: CanvasRenderingContext2D
+) => {
   const closeLinks = dots.reduce<Link[]>((previous, dot) => {
     const sorted = dot.links.sort((a, b) => {
       const distanceA = getDistance(

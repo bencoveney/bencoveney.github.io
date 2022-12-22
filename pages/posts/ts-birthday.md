@@ -4,12 +4,12 @@ npm: "https://www.npmjs.com/package/barrelsby"
 github: "https://github.com/bencoveney/barrelsby"
 published: "Oct 1, 2019"
 categories:
-- ts
+  - ts
 ---
 
 I wrote this post as the inaugural entry for YouView's engineering blog in late 2019. The original is still available [here](https://medium.com/youview-engineering/celebrating-8-years-of-typescript-e4b1482f3ba0). Thanks to my colleagues at YouView for assistance editing and refining this.
 
-* * *
+---
 
 Today on October 1st, 2019 TypeScript is passing its 7th birthday. We get a lot of mileage out of TypeScript at [YouView](https://www.youview.com/); we’ve been using it to build the latest version of our UI for over 4 years and have amassed over a hundred thousand lines of TypeScript code. To celebrate the language’s success, what better way to look back to where it all began and at how TypeScript has grown.
 
@@ -17,11 +17,11 @@ Today on October 1st, 2019 TypeScript is passing its 7th birthday. We get a lot 
 
 #### Setting The Scene
 
-As the de facto language of the web, JavaScript (despite its marred reputation) was spreading and codebases were growing. Developers were resigning themselves to needing *some way* of creating JavaScript. Seeing that not even the ubiquitous JQuery would save them from writing questionable code, people were open to new languages and tools that might make coding a bit more pleasant.
+As the de facto language of the web, JavaScript (despite its marred reputation) was spreading and codebases were growing. Developers were resigning themselves to needing _some way_ of creating JavaScript. Seeing that not even the ubiquitous JQuery would save them from writing questionable code, people were open to new languages and tools that might make coding a bit more pleasant.
 
 ![JQuery code sample from “The jQuery Divide” — Rebecca Murphey (September 25th, 2010)](./ts-birthday-jquery.png "JQuery code sample")
 
-*JQuery code sample from “The jQuery Divide” — Rebecca Murphey ([September 25th, 2010](https://www.slideshare.net/rmurphey/the-jquery-divide-5287573/7-var_toggleHistItems_function_selTabId_consolelogSelected))*
+_JQuery code sample from “The jQuery Divide” — Rebecca Murphey ([September 25th, 2010](https://www.slideshare.net/rmurphey/the-jquery-divide-5287573/7-var_toggleHistItems_function_selTabId_consolelogSelected))_
 
 One such example of an alternative language is Coffeescript, a compile-to-JavaScript language with nice syntactic sugars, which was beginning to [reach peak popularity](https://trends.google.com/trends/explore?date=all&geo=US&q=coffeescript). These alternatives each came with their own pros and cons, and even other teams at Microsoft were [weighing in with their 2 cents](https://blogs.msdn.microsoft.com/ie/2011/11/22/evolving-ecmascript/) (and taking a slight pot-shot at Google while they did so):
 
@@ -37,7 +37,7 @@ After two years of internal development inside Microsoft, Version 0.8 of TypeScr
 >
 > Any browser. Any host. Any OS. Open Source.
 
-A critical promise from the very beginning is that your JavaScript code is *already* TypeScript. By creating a superset rather than a completely new language, Microsoft were reaching out to developers who were already knee-deep in large JavaScript codebases. Just drop this tool into your workflow, and *some* problems will be solved.
+A critical promise from the very beginning is that your JavaScript code is _already_ TypeScript. By creating a superset rather than a completely new language, Microsoft were reaching out to developers who were already knee-deep in large JavaScript codebases. Just drop this tool into your workflow, and _some_ problems will be solved.
 
 ![TypeScript superset venn diagram](./ts-birthday-superset-venn-diagram.png "TypeScript superset venn diagram")
 
@@ -55,17 +55,17 @@ Upon release it wasn’t immediately clear how powerful and popular TypeScript w
 
 > I’ll go on record as saying this is almost the dumbest idea ever. We already have a strongly typed language that can compile to idiomatic JavaScript. It’s called C#. Or Java. Or Lisp. Or C++.
 
-There was plenty of praise for Microsoft’s new offering, but while it is funny to look back with hindsight on comments like this it does help highlight how [many were skeptical](https://arstechnica.com/information-technology/2012/10/microsoft-typescript-the-javascript-we-need-or-a-solution-looking-for-a-problem/) of *yet another* tool professing to solve JavaScript’s woes.
+There was plenty of praise for Microsoft’s new offering, but while it is funny to look back with hindsight on comments like this it does help highlight how [many were skeptical](https://arstechnica.com/information-technology/2012/10/microsoft-typescript-the-javascript-we-need-or-a-solution-looking-for-a-problem/) of _yet another_ tool professing to solve JavaScript’s woes.
 
 Unsurprisingly for Microsoft at the time, another notable point was the lack of solid editor support outside of the Visual Studio ecosystem:
 
 > Developers use MacOS and Linux workstations to write the bulk of the code, and deploy to Linux servers.
-> 
+>
 > But TypeScript only delivers half of the value in using a strongly typed language to Unix developers: strong typing. Intellisense, code completion and refactoring are tools that are only available to Visual Studio Professional users on Windows.
-> 
+>
 > There is no Eclipse, MonoDevelop or Emacs support for any of the language features.
 >
-> *[Miguel De Icaza’s blog (October 1st, 2012)](Miguel De Icaza’s blog (October 1st, 2012))*
+> _[Miguel De Icaza’s blog (October 1st, 2012)](Miguel De Icaza’s blog (October 1st, 2012))_
 
 #### Early Steps
 
@@ -143,6 +143,6 @@ An often overlooked benefit of adding types to the codebase is the metadata that
 
 ![Typescript 4-Bit VM by Ashley Claymore](./ts-birthday-ashley-tweet.png "Typescript 4-Bit VM by Ashley Claymore")
 
-*From [@acutmore on twitter](https://twitter.com/acutmore/status/1175820877566492673)*
+_From [@acutmore on twitter](https://twitter.com/acutmore/status/1175820877566492673)_
 
 If you love TypeScript, TV or Technology check us out at [youview.com](https://www.youview.com/)!

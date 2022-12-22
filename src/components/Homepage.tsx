@@ -5,7 +5,13 @@ import { BigLinks } from "./BigLinks.js";
 import { Post } from "./Post.js";
 import { Project } from "./Project.js";
 
-export function Homepage({pages, transformImage}: {pages: Pages, transformImage?: (page: Page) => TransformImage}) {
+export function Homepage({
+  pages,
+  transformImage,
+}: {
+  pages: Pages;
+  transformImage?: (page: Page) => TransformImage;
+}) {
   return (
     <>
       <div className="wrapper">
@@ -55,27 +61,27 @@ export function Homepage({pages, transformImage}: {pages: Pages, transformImage?
 
         <div className="content projects">
           <h2>Projects</h2>
-          {
-            Object
-              .entries(pages.projects)
-              .map(([slug, project]) => <Fragment key={slug}>
-                <Project project={project} transformImage={transformImage?.(project)} />
-                <hr />
-              </Fragment>)
-          }
+          {Object.entries(pages.projects).map(([slug, project]) => (
+            <Fragment key={slug}>
+              <Project
+                project={project}
+                transformImage={transformImage?.(project)}
+              />
+              <hr />
+            </Fragment>
+          ))}
         </div>
 
         <div className="content posts">
           <h2>Posts</h2>
-          {
-            Object
-              .entries(pages.posts)
-              .filter(([_, post]) => !!post.published)
-              .map(([slug, post]) => <Fragment key={slug}>
+          {Object.entries(pages.posts)
+            .filter(([_, post]) => !!post.published)
+            .map(([slug, post]) => (
+              <Fragment key={slug}>
                 <Post post={post} transformImage={transformImage?.(post)} />
                 <hr />
-              </Fragment>)
-          }
+              </Fragment>
+            ))}
         </div>
       </div>
       <canvas id="target"></canvas>

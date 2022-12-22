@@ -34,7 +34,10 @@ export async function writeHomepage(outputDir: string) {
       canonical={config.hostname}
     >
       <StaticRouter location={{ pathname: `/` }}>
-        <Homepage pages={pages} transformImage={makeImageTransformer(outputDir)} />
+        <Homepage
+          pages={pages}
+          transformImage={makeImageTransformer(outputDir)}
+        />
       </StaticRouter>
     </Page>,
     path.resolve(outputDir, "index.html")

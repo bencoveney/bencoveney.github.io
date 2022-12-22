@@ -3,7 +3,13 @@ import ReactMarkdown from "react-markdown";
 import { TransformImage } from "react-markdown/lib/ast-to-react.js";
 import { Project } from "../../scripts/loadPages.js";
 import { Categories } from "./Categories.js";
-import { ItchLink, NpmLink, NugetLink, WebsiteLink, GithubLink } from "./Links.js";
+import {
+  ItchLink,
+  NpmLink,
+  NugetLink,
+  WebsiteLink,
+  GithubLink,
+} from "./Links.js";
 
 export function Project({
   project,
