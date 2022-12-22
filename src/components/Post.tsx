@@ -4,6 +4,7 @@ import { TransformImage } from "react-markdown/lib/ast-to-react.js";
 import { Post } from "../../scripts/loadPages.js";
 import { Categories } from "./Categories.js";
 import { WebsiteLink } from "./Links.js";
+import rehypeRaw from "rehype-raw";
 
 export function Post({
   post,
@@ -18,7 +19,10 @@ export function Post({
       <span className="published">
         {post.published ? `Published ${post.published}` : "Draft"}
       </span>
-      <ReactMarkdown transformImageUri={transformImage}>
+      <ReactMarkdown
+        transformImageUri={transformImage}
+        rehypePlugins={[rehypeRaw]}
+      >
         {post.content}
       </ReactMarkdown>
       <p>{post.website && <WebsiteLink website={post.website} />}</p>

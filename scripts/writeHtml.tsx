@@ -34,7 +34,10 @@ export async function writeHomepage(outputDir: string) {
       canonical={config.hostname}
     >
       <StaticRouter location={{ pathname: `/` }}>
-        <Homepage pages={pages} transformImage={makeImageTransformer(outputDir)} />
+        <Homepage
+          pages={pages}
+          transformImage={makeImageTransformer(outputDir)}
+        />
       </StaticRouter>
     </Page>,
     path.resolve(outputDir, "index.html")
@@ -84,11 +87,10 @@ export function Page(props: {
         <script
           type="module"
           dangerouslySetInnerHTML={{
-            __html: `\nwindow.pages = JSON.parse(\`${JSON.stringify(
-              pages,
-              null,
-              2
-            ).replaceAll("\\", "\\\\")}\`);\r\n`,
+            __html: `\nwindow.pagesRaw = \`${JSON.stringify(pages, null, 2)
+              .replaceAll("\\", "\\\\")
+              .replaceAll("<", "&lt;")
+              .replaceAll(">", "&gt;")}\`;\r\n`,
           }}
         />
         <script type="module" src="./index.js"></script>
