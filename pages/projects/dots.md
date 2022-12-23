@@ -6,4 +6,4 @@ categories:
   - js
 ---
 
-Animated HTML5 canvas effect used on this page.
+Animated HTML5 canvas effect previously used on this page.

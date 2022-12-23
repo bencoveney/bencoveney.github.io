@@ -84,7 +84,6 @@ export function Homepage({
             ))}
         </div>
       </div>
-      <canvas id="target"></canvas>
     </>
   );
 }
