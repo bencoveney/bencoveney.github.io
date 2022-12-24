@@ -21,3 +21,24 @@ export function css<Name extends string | number | symbol>(
 export function joinClasses(...names: string[]) {
   return names.join(" ");
 }
+
+export function globalStyles() {
+  css({
+    "@global": {
+      /* Reset */
+      "*": {
+        margin: 0,
+        padding: 0,
+        listStyleType: "none",
+        textDecoration: "none",
+        color: "var(--fg-color)",
+      },
+
+      "html, body": {
+        width: "100%",
+        height: "100%",
+        fontFamily: "var(--font-family)",
+      },
+    },
+  });
+}

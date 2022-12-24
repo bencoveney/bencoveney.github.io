@@ -8,6 +8,7 @@ import { loadPages, Page } from "./loadPages.js";
 import { mkDirP } from "./mkdirp.js";
 import { makeImageTransformer } from "./writeImages.js";
 import jss from "jss";
+import { globalStyles } from "../src/css.js";
 
 const pages = loadPages();
 
@@ -30,6 +31,7 @@ try {
 }
 
 export async function writeHomepage(outputDir: string) {
+  globalStyles();
   const page = (
     <Homepage pages={pages} transformImage={makeImageTransformer(outputDir)} />
   );
@@ -73,7 +75,7 @@ export function Page(props: {
         <link rel="apple-touch-icon" href="/favicon-180.png" />
         <link rel="manifest" href="/manifest.webmanifest" />
         <link rel="canonical" href={props.canonical} />
-        <style>{styles}</style>
+        <style dangerouslySetInnerHTML={{ __html: styles }} />
         <link rel="stylesheet" href="index.css" />
         <link
           href="https://cdn.materialdesignicons.com/2.2.43/css/materialdesignicons.min.css"
