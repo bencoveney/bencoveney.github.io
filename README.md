@@ -37,6 +37,8 @@ Twitter manual embed gets automatic tracking for full capability.
 
 ### SPA
 
+Should I have run time JS as well as SSR pages?
+
 - (-) Time to implement
 - (+) Demo of tech capability
 - (+) Opportunity for flair
@@ -47,3 +49,5 @@ Twitter manual embed gets automatic tracking for full capability.
   - Dev reload not working
   - How to split content?
   - ~~OEmbed plugin not well maintained or working on client~~
+
+Probably a nice-to-have for later.

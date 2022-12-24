@@ -2,37 +2,31 @@
   "name": "bencoveney.github.io",
   "version": "1.0.0",
   "description": "Ben Coveney's personal site",
-  "dependencies": {
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "react-markdown": "^8.0.3",
-    "react-router-dom": "^6.3.0",
-    "remark-gfm": "^3.0.1"
-  },
   "devDependencies": {
-    "@types/node": "^17.0.36",
-    "@types/prettier": "^2.6.3",
-    "@types/react": "^18.0.9",
-    "@types/react-dom": "^18.0.4",
-    "@types/react-router-dom": "^5.3.3",
-    "cpy-cli": "^4.1.0",
-    "esbuild": "^0.14.39",
+    "@types/node": "^18.11.17",
+    "@types/prettier": "^2.7.2",
+    "@types/react": "^18.0.26",
+    "@types/react-dom": "^18.0.10",
+    "cpy-cli": "^4.2.0",
     "gray-matter": "^4.0.3",
     "http-server": "^14.1.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.6.2",
-    "ts-node": "^10.8.0"
+    "prettier": "^2.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-markdown": "^8.0.4",
+    "remark-gfm": "^3.0.1",
+    "ts-node": "^10.9.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prod": "npm-run-all build:copy-assets build:build-html build:esbuild-prod",
-    "prod-serve": "http-server ./build -p 8000",
-    "dev": "npm-run-all build:copy-assets build:build-html build:esbuild-dev",
+    "build": "npm-run-all build:clean build:copy-assets build:copy-styles build:build-html",
+    "serve": "npm run build && http-server ./build -p 8000",
     "format:prettier": "prettier --write .",
+    "build:clean": "rm -rf ./build",
     "build:copy-assets": "cpy --cwd=assets . ../build/",
-    "build:build-html": "ts-node ./scripts/writeHtml.tsx",
-    "build:esbuild-prod": "ts-node ./scripts/build.prod.ts",
-    "build:esbuild-dev": "ts-node ./scripts/build.dev.ts"
+    "build:copy-styles": "cpy ./src/*.css ./build/ --flat",
+    "build:build-html": "ts-node ./scripts/writeHtml.tsx"
   },
   "repository": {
     "type": "git",

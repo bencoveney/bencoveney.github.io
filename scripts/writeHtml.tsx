@@ -1,7 +1,6 @@
 import path from "path";
 import fs from "fs";
 import React from "react";
-import { StaticRouter } from "react-router-dom/server.js";
 import ReactDOMServer from "react-dom/server";
 import { Homepage } from "../src/components/Homepage.js";
 import { config } from "../src/config.js";
@@ -23,22 +22,23 @@ try {
   console.log(`Build succeeded in ${deltaTime}ms`);
 } catch (error: any) {
   console.log(`Build failed: ${error.message || error}`);
+  if (error instanceof Error) {
+    console.error(error.stack);
+  }
   process.exit(1);
 }
 
 export async function writeHomepage(outputDir: string) {
+  const page = (
+    <Homepage pages={pages} transformImage={makeImageTransformer(outputDir)} />
+  );
   await writePage(
     <Page
       title="Ben Coveney"
       description="Ben Coveney's personal website"
       canonical={config.hostname}
     >
-      <StaticRouter location={{ pathname: `/` }}>
-        <Homepage
-          pages={pages}
-          transformImage={makeImageTransformer(outputDir)}
-        />
-      </StaticRouter>
+      {page}
     </Page>,
     path.resolve(outputDir, "index.html")
   );
@@ -79,23 +79,7 @@ export function Page(props: {
           type="text/css"
         />
       </head>
-      <body>
-        <div
-          id="react-root"
-          dangerouslySetInnerHTML={{ __html: content }}
-        ></div>
-        <script
-          type="module"
-          dangerouslySetInnerHTML={{
-            __html: `\nwindow.pages = JSON.parse(\`${JSON.stringify(
-              pages,
-              null,
-              2
-            ).replaceAll("\\", "\\\\")}\`);\r\n`,
-          }}
-        />
-        <script type="module" src="./index.js"></script>
-      </body>
+      <body dangerouslySetInnerHTML={{ __html: content }} />
     </html>
   );
 }
