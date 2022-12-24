@@ -1,11 +1,3 @@
-export type Config = {
-  categories: {
-    [alias: string]: { name: string; icon: string };
-  };
-  links: { name: string; href: string; icon: string }[];
-  hostname: string;
-};
-
 export const config = {
   categories: {
     ts: { name: "TypeScript", icon: "mdi-language-typescript" },
@@ -25,7 +17,7 @@ export const config = {
     "prog-lang": { name: "Programming Languages", icon: "mdi-desktop-classic" },
     image: { name: "Image Processing", icon: "mdi-image" },
     "genetic-algorithms": { name: "Genetic Algorithms", icon: "mdi-dna" },
-  },
+  } as { [alias: string]: { name: string; icon: string } },
   links: [
     {
       name: "Github",
@@ -47,6 +39,13 @@ export const config = {
       href: "https://steamcommunity.com/id/bencoveney",
       icon: "mdi-steam",
     },
-  ],
+  ] as { name: string; href: string; icon: string }[],
   hostname: "https://bencoveney.github.io/",
-} as Config;
+  brand: {
+    sizes: {
+      verticalPadding: "1em",
+    },
+  },
+};
+
+export type Config = typeof config;

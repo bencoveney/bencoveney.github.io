@@ -4,6 +4,10 @@ import { Page, Pages } from "../../scripts/loadPages.js";
 import { BigLinks } from "./BigLinks.js";
 import { Post } from "./Post.js";
 import { Project } from "./Project.js";
+import { styles } from "./Homepage.css.js";
+import { css, joinClasses } from "../css.js";
+
+const { classes } = css(styles);
 
 export function Homepage({
   pages,
@@ -14,18 +18,18 @@ export function Homepage({
 }) {
   return (
     <>
-      <div className="wrapper">
-        <div className="content">
+      <div className={classes.wrapper}>
+        <div className={classes.content}>
           <h1>Ben Coveney</h1>
-          <span className="tagline">Software Developer</span>
+          <span className={classes.tagline}>Software Developer</span>
           <BigLinks />
         </div>
 
-        <div className="content">
+        <div className={classes.content}>
           <h2>About</h2>
 
           <h3>Work Experience</h3>
-          <ul className="about">
+          <ul className={classes.about}>
             <li>
               Software Developer at Lighthouse Systems. Responsibilities include
               working on HTML5 UI overhaul project and serving as Scrum Master.
@@ -33,7 +37,7 @@ export function Homepage({
           </ul>
 
           <h3>Education</h3>
-          <ul className="about">
+          <ul className={classes.about}>
             <li>
               BSC with first-class honours from the University of Hull.
               Dissertation based on using genetic algorithms to optimize finite
@@ -46,7 +50,7 @@ export function Homepage({
           </ul>
 
           <h3>Interests</h3>
-          <ul className="about">
+          <ul className={classes.about}>
             <li>
               Software development, open source and new web technologies. Loves
               working with C#, TypeScript and CSS, and working on documentation,
@@ -59,7 +63,7 @@ export function Homepage({
           </ul>
         </div>
 
-        <div className="content projects">
+        <div className={classes.content}>
           <h2>Projects</h2>
           {Object.entries(pages.projects).map(([slug, project]) => (
             <Fragment key={slug}>
@@ -72,7 +76,7 @@ export function Homepage({
           ))}
         </div>
 
-        <div className="content posts">
+        <div className={joinClasses(classes.content, "posts")}>
           <h2>Posts</h2>
           {Object.entries(pages.posts)
             .filter(([_, post]) => !!post.published)

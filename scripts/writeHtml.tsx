@@ -7,6 +7,7 @@ import { config } from "../src/config.js";
 import { loadPages, Page } from "./loadPages.js";
 import { mkDirP } from "./mkdirp.js";
 import { makeImageTransformer } from "./writeImages.js";
+import jss from "jss";
 
 const pages = loadPages();
 
@@ -58,6 +59,7 @@ export function Page(props: {
   canonical: string;
 }) {
   const content = ReactDOMServer.renderToString(props.children);
+  const styles = jss.sheets.toString();
   return (
     <html lang="en">
       <head>
@@ -71,6 +73,7 @@ export function Page(props: {
         <link rel="apple-touch-icon" href="/favicon-180.png" />
         <link rel="manifest" href="/manifest.webmanifest" />
         <link rel="canonical" href={props.canonical} />
+        <style>{styles}</style>
         <link rel="stylesheet" href="index.css" />
         <link
           href="https://cdn.materialdesignicons.com/2.2.43/css/materialdesignicons.min.css"
