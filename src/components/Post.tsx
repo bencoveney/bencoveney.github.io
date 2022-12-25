@@ -3,6 +3,7 @@ import { TransformImage } from "react-markdown/lib/ast-to-react.js";
 import { Post } from "../../scripts/loadPages.js";
 import { css } from "../css.js";
 import { Categories } from "./Categories.js";
+import { Heading3 } from "./Heading.js";
 import { WebsiteLink } from "./Links.js";
 import { Markdown } from "./Markdown.js";
 import { styles } from "./Post.css.js";
@@ -18,7 +19,7 @@ export function Post({
 }) {
   return (
     <>
-      <h3>{post.title}</h3>
+      <Heading3>{post.title}</Heading3>
       <span className={classes.published}>
         {post.published ? `Published ${post.published}` : "Draft"}
       </span>

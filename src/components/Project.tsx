@@ -2,6 +2,7 @@ import React from "react";
 import { TransformImage } from "react-markdown/lib/ast-to-react.js";
 import { Project } from "../../scripts/loadPages.js";
 import { Categories } from "./Categories.js";
+import { Heading3 } from "./Heading.js";
 import {
   ItchLink,
   NpmLink,
@@ -20,7 +21,7 @@ export function Project({
 }) {
   return (
     <>
-      <h3>{project.title}</h3>
+      <Heading3>{project.title}</Heading3>
       <Markdown content={project.content} transformImage={transformImage} />
       <p>
         {project.itch && <ItchLink itch={project.itch} />}

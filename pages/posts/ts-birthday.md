@@ -15,7 +15,7 @@ Today on October 1st, 2019 TypeScript is passing its 7th birthday. We get a lot 
 
 ![Birthday Cupcake](./ts-birthday-cupcake.png "Birthday Cupcake")
 
-#### Setting The Scene
+## Setting The Scene
 
 As the de facto language of the web, JavaScript (despite its marred reputation) was spreading and codebases were growing. Developers were resigning themselves to needing _some way_ of creating JavaScript. Seeing that not even the ubiquitous JQuery would save them from writing questionable code, people were open to new languages and tools that might make coding a bit more pleasant.
 
@@ -27,7 +27,7 @@ One such example of an alternative language is Coffeescript, a compile-to-JavaSc
 
 > Some examples, like Dart, portend that JavaScript has fundamental flaws and to support these scenarios requires a “clean break” from JavaScript in both syntax and runtime. We disagree with this point of view. We believe that with committee participant focus, the standards runtime can be expanded and the syntactic features necessary to support JavaScript at scale can be built upon the existing JavaScript standard.
 
-#### Enter TypeScript
+## Enter TypeScript
 
 After two years of internal development inside Microsoft, Version 0.8 of TypeScript was announced on 1st October, 2012, [hosted on the (now defunct) codeplex](https://web.archive.org/web/20121003001917/http://typescript.codeplex.com/). At release, the following quote was emblazoned over the [TypeScript Homepage](https://web.archive.org/web/20121004051901/http://www.typescriptlang.org/):
 
@@ -49,7 +49,7 @@ While the example above looks (and compiles) like the TypeScript you know today,
 
 ![Improved error message in modern TypeScript](./ts-birthday-error-modern.png "Improved error message in modern TypeScript")
 
-#### Reception
+## Reception
 
 Upon release it wasn’t immediately clear how powerful and popular TypeScript would become. You can get a cheap laugh looking back now at comments on the initial posts, such as this one posted just 12 minutes after the release [on the 53 minute introductory video](https://channel9.msdn.com/posts/Anders-Hejlsberg-Introducing-TypeScript):
 
@@ -67,7 +67,7 @@ Unsurprisingly for Microsoft at the time, another notable point was the lack of 
 >
 > _[Miguel De Icaza’s blog (October 1st, 2012)](Miguel De Icaza’s blog (October 1st, 2012))_
 
-#### Early Steps
+## Early Steps
 
 Coming up on a year after the initial v0.8 release, [Microsoft dropped v0.9 into our laps](https://devblogs.microsoft.com/typescript/announcing-typescript-0-9/) with generics and enums being among the big-ticket features. During this early period in TypeScript’s life, releases were sporadic and small updates often targeted areas such as compiler performance and editor improvements.
 
@@ -75,7 +75,7 @@ Release details for v1.0 ([released April 2nd, 2014](https://devblogs.microsoft.
 
 ![Request for TypeScript to migrate to Github](./ts-birthday-migration.png "Request for TypeScript to migrate to Github")
 
-#### AtScript
+## AtScript
 
 Around this time Google had cottoned on to some of TypeScript’s growing reputation and at ng-conf Europe in October 2014 they announced a new Language of their own: [AtScript](https://en.wikipedia.org/wiki/AtScript).
 
@@ -83,7 +83,7 @@ In a pleasingly recursive fashion, AtScript would be a superset of TypeScript. T
 
 ![AtScript superset venn diagram](./ts-birthday-atscript-venn-diagram.png "AtScript superset venn diagram")
 
-#### Future Features, Now
+## Future Features, Now
 
 In addition to the language features added in the 1.x versions, TypeScript also began giving developers early access to future JavaScript syntax. Taking async/await as an example, initial support was included in TypeScript 1.6 ([16th September, 2015](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-1-6.html)), improved in version 1.7 and fully supported in v2.1 ([8th November, 2016](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-1.html)) ahead of its inclusion in major browsers or official release in ES2017.
 
@@ -91,7 +91,7 @@ Nowadays the team behind TypeScript will wait until the TC39 proposal has reache
 
 Some notable exceptions to the Stage 3 rule are some of the features promised to help replace the now abandoned AtScript. Decorators were included in v1.5 ([20th July, 2015](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-1-5.html)) and improved in v1.7 ([30th November, 2015](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-1-7.html)), however support for them has remained locked behind “experimental” compiler flags. The TC39 proposal has languished in Stage 2 for a while now, but has [recently received renewed](https://youtu.be/GLi37QPSOv4?t=881) focus so watch this space.
 
-#### Modern Process
+## Modern Process
 
 [TypeScript’s v2.0 release](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html) on 22nd September, 2016 could be considered the start of TypeScript’s modern era. Following this the release cadence has sped up and evened out, with at least 5 minor releases annually in the time since.
 
@@ -101,7 +101,7 @@ V2.0 was accompanied by another big change, [the release of @types packages on n
 
 Counter to Microsoft’s past reputation, much of the process surrounding TypeScript’s development now happens in the open with community involvement. Skimming through the torrent of daily Github issues (totalling over 23000 at the time of writing) you can find meeting minutes about the language’s progress tagged under “[Design Notes](https://github.com/Microsoft/TypeScript/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3A%22Design+Notes%22)” or “[Planning](https://github.com/Microsoft/TypeScript/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3A%22Planning%22)”, and the roadmap and design goals are easily accessible on the wiki.
 
-#### Success and Spread
+## Success and Spread
 
 Over the years TypeScript has risen to be one of the most popular languages around. In [Github’s 2018 Octoverse](https://octoverse.github.com/projects#languages) report TypeScript ranked as the 3rd fastest growing language, and the [latest RedMonk language rankings](https://redmonk.com/sogrady/2019/07/18/language-rankings-6-19/) placed TypeScript at number 10:
 
@@ -111,7 +111,7 @@ At this point TypeScript forms the foundation for a significant set of major pro
 
 Much of TypeScript’s success can be attributed to how discreetly it can work its way into JavaScript projects. A recent Microsoft blog post outlines how developers can “[Upgrade to TypeScript Without Anybody Noticing](https://devblogs.microsoft.com/typescript/how-to-upgrade-to-typescript-without-anybody-noticing-part-1/)”. Users of the text editor VSCode will already be getting compiler hints and Intellisense for dependencies on their JavaScript without necessarily realising TypeScript is the tool powering it all (a feature which [unintentionally DDoS-ed npm](https://code.visualstudio.com/blogs/2016/11/3/rollback) upon release).
 
-#### Looking to the future
+## Looking to the future
 
 In their [latest roadmap](https://github.com/microsoft/TypeScript/issues/33118#language-design-and-innovation) the TypeScript team outline a holistic set of goals:
 
@@ -127,7 +127,7 @@ In terms of language features, much of the exciting stuff entering the language 
 
 For the developer community there is no indication that TypeScript will stop growing in popularity. Two years ago prominent community member Basarat [posted an article](https://medium.com/@basarat/typescript-won-a4e0dfde4b08) comparing TypeScript to other JavaScript++ solutions and proclaimed “TypeScript Won”. At the time this stance attracted its fair share of critics, but as time has passed it is getting harder and harder to disagree.
 
-#### TypeScript at YouView
+## TypeScript at YouView
 
 There are traces of TypeScript at YouView as far back as May 2015, where it was initially being used in the overhaul of the user interface on set-top boxes; the previous iteration of which was built in Flash.
 

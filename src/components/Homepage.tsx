@@ -7,6 +7,7 @@ import { Project } from "./Project.js";
 import { styles } from "./Homepage.css.js";
 import { css, joinClasses } from "../css.js";
 import { Separator } from "./Separator.js";
+import { Heading1, Heading2, Heading3 } from "./Heading.js";
 
 const { classes } = css(styles);
 
@@ -21,15 +22,15 @@ export function Homepage({
     <>
       <div className={classes.wrapper}>
         <div className={classes.content}>
-          <h1>Ben Coveney</h1>
+          <Heading1>Ben Coveney</Heading1>
           <span className={classes.tagline}>Software Developer</span>
           <BigLinks />
         </div>
 
         <div className={classes.content}>
-          <h2>About</h2>
+          <Heading2>About</Heading2>
 
-          <h3>Work Experience</h3>
+          <Heading3>Work Experience</Heading3>
           <ul className={classes.about}>
             <li>
               Software Developer at Lighthouse Systems. Responsibilities include
@@ -37,7 +38,7 @@ export function Homepage({
             </li>
           </ul>
 
-          <h3>Education</h3>
+          <Heading3>Education</Heading3>
           <ul className={classes.about}>
             <li>
               BSC with first-class honours from the University of Hull.
@@ -50,7 +51,7 @@ export function Homepage({
             </li>
           </ul>
 
-          <h3>Interests</h3>
+          <Heading3>Interests</Heading3>
           <ul className={classes.about}>
             <li>
               Software development, open source and new web technologies. Loves
@@ -65,7 +66,7 @@ export function Homepage({
         </div>
 
         <div className={classes.content}>
-          <h2>Projects</h2>
+          <Heading2>Projects</Heading2>
           {Object.entries(pages.projects).map(([slug, project]) => (
             <Fragment key={slug}>
               <Project
@@ -78,7 +79,7 @@ export function Homepage({
         </div>
 
         <div className={joinClasses(classes.content, "posts")}>
-          <h2>Posts</h2>
+          <Heading2>Posts</Heading2>
           {Object.entries(pages.posts)
             .filter(([_, post]) => !!post.published)
             .map(([slug, post]) => (
