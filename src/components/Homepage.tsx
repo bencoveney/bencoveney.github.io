@@ -6,6 +6,7 @@ import { Post } from "./Post.js";
 import { Project } from "./Project.js";
 import { styles } from "./Homepage.css.js";
 import { css, joinClasses } from "../css.js";
+import { Separator } from "./Separator.js";
 
 const { classes } = css(styles);
 
@@ -71,7 +72,7 @@ export function Homepage({
                 project={project}
                 transformImage={transformImage?.(project)}
               />
-              <hr />
+              <Separator />
             </Fragment>
           ))}
         </div>
@@ -83,7 +84,7 @@ export function Homepage({
             .map(([slug, post]) => (
               <Fragment key={slug}>
                 <Post post={post} transformImage={transformImage?.(post)} />
-                <hr />
+                <Separator />
               </Fragment>
             ))}
         </div>

@@ -11,17 +11,9 @@ p,
 .posts h4,
 .posts h5,
 .posts h6,
-.posts blockquote,
-.published {
+.posts blockquote {
   /* use config.brand.sizes.verticalPadding */
   margin-top: 1em;
-}
-
-hr {
-  max-width: 50%;
-  display: block;
-  text-align: center;
-  margin: 1em auto;
 }
 
 /* Small screens */
@@ -79,9 +71,4 @@ hr {
 pre,
 .code {
   font-family: var(--font-family-mono);
-}
-
-.published {
-  font-style: italic;
-  font-size: 0.707em;
 }
