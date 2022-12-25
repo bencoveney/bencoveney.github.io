@@ -1,10 +1,10 @@
 import React from "react";
 import { TransformImage } from "react-markdown/lib/ast-to-react.js";
-import { Post } from "../../scripts/loadPages.js";
+import { Page } from "../../scripts/loadPages.js";
 import { css } from "../css.js";
 import { Categories } from "./Categories.js";
 import { Heading3 } from "./Heading.js";
-import { WebsiteLink } from "./Links.js";
+import { LinkSet } from "./Links.js";
 import { Markdown } from "./Markdown.js";
 import { styles } from "./Post.css.js";
 
@@ -14,7 +14,7 @@ export function Post({
   post,
   transformImage,
 }: {
-  post: Post;
+  post: Page;
   transformImage?: TransformImage;
 }) {
   return (
@@ -24,7 +24,7 @@ export function Post({
         {post.published ? `Published ${post.published}` : "Draft"}
       </span>
       <Markdown content={post.content} transformImage={transformImage} />
-      <p>{post.website && <WebsiteLink website={post.website} />}</p>
+      <LinkSet {...post} />
       <Categories categories={post.categories} />
     </>
   );

@@ -1,8 +1,25 @@
 import React from "react";
+import { Links } from "../../scripts/loadPages.js";
+import { css } from "../css.js";
+import { styles } from "./Links.css.js";
+
+const { classes } = css(styles);
+
+export function LinkSet({ itch, npm, nuget, website, github }: Links) {
+  return (
+    <div className={classes.linkSet}>
+      {itch && <ItchLink itch={itch} />}
+      {npm && <NpmLink npm={npm} />}
+      {nuget && <NugetLink nuget={nuget} />}
+      {website && <WebsiteLink website={website} />}
+      {github && <GithubLink github={github} />}
+    </div>
+  );
+}
 
 export function WebsiteLink({ website }: { website: string }) {
   return (
-    <a href={website}>
+    <a href={website} className={classes.link}>
       <i className="mdi mdi-web mdi-18px"></i> View website
     </a>
   );
@@ -10,7 +27,7 @@ export function WebsiteLink({ website }: { website: string }) {
 
 export function NpmLink({ npm }: { npm: string }) {
   return (
-    <a href={npm}>
+    <a href={npm} className={classes.link}>
       <i className="mdi mdi-npm mdi-18px"></i> View on NPM
     </a>
   );
@@ -18,7 +35,7 @@ export function NpmLink({ npm }: { npm: string }) {
 
 export function GithubLink({ github }: { github: string }) {
   return (
-    <a href={github}>
+    <a href={github} className={classes.link}>
       <i className="mdi mdi-github-circle mdi-18px"></i> View on Github
     </a>
   );
@@ -26,7 +43,7 @@ export function GithubLink({ github }: { github: string }) {
 
 export function NugetLink({ nuget }: { nuget: string }) {
   return (
-    <a href={nuget}>
+    <a href={nuget} className={classes.link}>
       <i className="mdi mdi-package mdi-18px"></i> View on Nuget
     </a>
   );
@@ -34,7 +51,7 @@ export function NugetLink({ nuget }: { nuget: string }) {
 
 export function ItchLink({ itch }: { itch: string }) {
   return (
-    <a href={itch}>
+    <a href={itch} className={classes.link}>
       <i className="mdi mdi-gamepad-variant mdi-18px"></i> Play on Itch
     </a>
   );

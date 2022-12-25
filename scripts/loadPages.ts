@@ -1,15 +1,7 @@
 import grayMatter from "gray-matter";
 import { dirname } from "path";
 
-export type Page = {
-  title: string;
-  categories: string[];
-  content: string;
-  route: string;
-  published?: string;
-};
-
-export type Project = Page & {
+export type Links = {
   npm?: string;
   github?: string;
   website?: string;
@@ -17,16 +9,20 @@ export type Project = Page & {
   itch?: string;
 };
 
-export type Projects = {
-  [path: string]: Project;
+export type Page = Links & {
+  title: string;
+  categories: string[];
+  content: string;
+  route: string;
+  published?: string;
 };
 
-export type Post = Page & {
-  website?: string;
+export type Projects = {
+  [path: string]: Page;
 };
 
 export type Posts = {
-  [path: string]: Project;
+  [path: string]: Page;
 };
 
 export type Pages = {
