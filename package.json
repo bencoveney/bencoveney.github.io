@@ -23,12 +23,11 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm-run-all build:clean build:copy-assets build:copy-styles build:build-html",
+    "build": "npm-run-all build:clean build:copy-assets build:build-html",
     "serve": "npm run build && http-server ./build -p 8000",
     "format:prettier": "prettier --write .",
     "build:clean": "rm -rf ./build",
     "build:copy-assets": "cpy --cwd=assets . ../build/",
-    "build:copy-styles": "cpy ./src/*.css ./build/ --flat",
     "build:build-html": "ts-node ./scripts/writeHtml.tsx"
   },
   "repository": {

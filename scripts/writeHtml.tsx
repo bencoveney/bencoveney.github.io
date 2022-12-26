@@ -76,7 +76,6 @@ export function Page(props: {
         <link rel="manifest" href="/manifest.webmanifest" />
         <link rel="canonical" href={props.canonical} />
         <style dangerouslySetInnerHTML={{ __html: styles }} />
-        <link rel="stylesheet" href="index.css" />
         <link
           href="https://cdn.materialdesignicons.com/2.2.43/css/materialdesignicons.min.css"
           media="all"

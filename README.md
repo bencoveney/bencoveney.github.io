@@ -19,6 +19,10 @@ Personal Page
   - Looks good, visual flair
   - Nerd cred
 
+## Misc TODOs
+
+- Consolidate css variables (in `css.ts`) with config (in `config.ts`).
+
 ## Decisions
 
 ### Embeds (tweets, YT vids)

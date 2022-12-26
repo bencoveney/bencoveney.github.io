@@ -1,0 +1,64 @@
+import { config } from "../config.js";
+import { styles as headingStyles } from "./Heading.css.js";
+import { styles as separatorStyles } from "./Separator.css.js";
+
+export const styles = {
+  markdown: {
+    "& p": {
+      marginTop: config.brand.sizes.verticalPadding,
+    },
+    "& blockquote": {
+      marginTop: config.brand.sizes.verticalPadding,
+      backgroundColor: "var(--bg-color-alternate)",
+      color: "var(--fg-color)",
+      padding: "0.01em 2em 1em 2em",
+    },
+    "& img": {
+      maxWidth: "100%",
+    },
+    "& pre": {
+      fontFamily: "var(--font-family-mono)",
+    },
+    "& code": {
+      fontFamily: "var(--font-family-mono)",
+    },
+    "& a:link, & a:hover, & a:visited, & a:active": {
+      textDecoration: "underline",
+    },
+    "& ul": {
+      marginTop: config.brand.sizes.verticalPadding,
+      marginLeft: "25px",
+      "& li": {
+        listStyleType: "disc",
+      },
+    },
+    "& h1": {
+      marginTop: config.brand.sizes.verticalPadding,
+      ...headingStyles.heading1,
+    },
+    "& h2": {
+      marginTop: config.brand.sizes.verticalPadding,
+      ...headingStyles.heading2,
+    },
+    "& h3": {
+      marginTop: config.brand.sizes.verticalPadding,
+      ...headingStyles.heading3,
+    },
+    "& h4": {
+      marginTop: config.brand.sizes.verticalPadding,
+      ...headingStyles.heading4,
+    },
+    "& h5": {
+      marginTop: config.brand.sizes.verticalPadding,
+      ...headingStyles.heading5,
+    },
+    "& h6": {
+      marginTop: config.brand.sizes.verticalPadding,
+      ...headingStyles.heading6,
+    },
+    "& hr": {
+      marginTop: config.brand.sizes.verticalPadding,
+      ...separatorStyles.separator,
+    },
+  },
+};
