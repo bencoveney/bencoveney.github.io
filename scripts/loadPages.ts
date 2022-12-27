@@ -1,5 +1,6 @@
 import grayMatter from "gray-matter";
 import { dirname } from "path";
+import { writeDownload } from "./writeImages.js";
 
 export type Links = {
   npm?: string;
@@ -7,6 +8,7 @@ export type Links = {
   website?: string;
   nuget?: string;
   itch?: string;
+  download?: string;
 };
 
 export type Page = Links & {
@@ -30,34 +32,46 @@ export type Pages = {
   posts: Posts;
 };
 
-export function loadPages(): Pages {
+export function loadPages(outputDir: string): Pages {
   return {
     projects: {
-      barrelsby: loadPage("./pages/projects/barrelsby.md"),
+      barrelsby: loadPage("./pages/projects/barrelsby.md", outputDir),
       "csgo-rankings-graph": loadPage(
-        "./pages/projects/csgo-rankings-graph.md"
+        "./pages/projects/csgo-rankings-graph.md",
+        outputDir
       ),
-      "database-objects": loadPage("./pages/projects/database-objects.md"),
-      milligrid: loadPage("./pages/projects/milligrid.md"),
-      quadrilactic: loadPage("./pages/projects/quadrilactic.md"),
-      dots: loadPage("./pages/projects/dots.md"),
-      tsfluff: loadPage("./pages/projects/tsfluff.md"),
-      bmprog: loadPage("./pages/projects/bmprog.md"),
-      bfinterpreter: loadPage("./pages/projects/bfinterpreter.md"),
-      "chromosome-library": loadPage("./pages/projects/chromosome-library.md"),
+      "database-objects": loadPage(
+        "./pages/projects/database-objects.md",
+        outputDir
+      ),
+      milligrid: loadPage("./pages/projects/milligrid.md", outputDir),
+      quadrilactic: loadPage("./pages/projects/quadrilactic.md", outputDir),
+      dots: loadPage("./pages/projects/dots.md", outputDir),
+      tsfluff: loadPage("./pages/projects/tsfluff.md", outputDir),
+      bmprog: loadPage("./pages/projects/bmprog.md", outputDir),
+      bfinterpreter: loadPage("./pages/projects/bfinterpreter.md", outputDir),
+      "chromosome-library": loadPage(
+        "./pages/projects/chromosome-library.md",
+        outputDir
+      ),
+      "sn-caldera": loadPage("./pages/projects/sn-caldera.md", outputDir),
     },
     posts: {
-      "ts-birthday": loadPage("./pages/posts/ts-birthday.md"),
+      "ts-birthday": loadPage("./pages/posts/ts-birthday.md", outputDir),
     },
   };
 }
 
-export function loadPage(pagePage: string): Page {
-  const route = dirname(pagePage);
-  const { data, content } = grayMatter.read(pagePage);
-  return {
+export function loadPage(pagePath: string, outputDir: string): Page {
+  const route = dirname(pagePath);
+  const { data, content } = grayMatter.read(pagePath);
+  const page = {
     ...(data as Page),
     content,
     route,
   };
+  if (page.download) {
+    page.download = writeDownload(page, outputDir, page.download);
+  }
+  return page;
 }

@@ -5,7 +5,14 @@ import { styles } from "./Links.css.js";
 
 const { classes } = css(styles);
 
-export function LinkSet({ itch, npm, nuget, website, github }: Links) {
+export function LinkSet({
+  itch,
+  npm,
+  nuget,
+  website,
+  github,
+  download,
+}: Links) {
   return (
     <div className={classes.linkSet}>
       {itch && <ItchLink itch={itch} />}
@@ -13,6 +20,7 @@ export function LinkSet({ itch, npm, nuget, website, github }: Links) {
       {nuget && <NugetLink nuget={nuget} />}
       {website && <WebsiteLink website={website} />}
       {github && <GithubLink github={github} />}
+      {download && <DownloadLink download={download} />}
     </div>
   );
 }
@@ -53,6 +61,14 @@ export function ItchLink({ itch }: { itch: string }) {
   return (
     <a href={itch} className={classes.link}>
       <i className="mdi mdi-gamepad-variant mdi-18px"></i> Play on Itch
+    </a>
+  );
+}
+
+export function DownloadLink({ download }: { download: string }) {
+  return (
+    <a href={download} className={classes.link} download>
+      <i className="mdi mdi-download mdi-18px"></i> Download
     </a>
   );
 }

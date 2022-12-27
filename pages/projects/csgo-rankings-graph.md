@@ -7,6 +7,7 @@ categories:
   - svg
   - dataviz
   - webscraping
+  - gaming
 ---
 
 Charts HLTV rankings of professional teams in the game Counter-Strike: Global Offensive.

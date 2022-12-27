@@ -17,6 +17,7 @@ export const config = {
     "prog-lang": { name: "Programming Languages", icon: "mdi-desktop-classic" },
     image: { name: "Image Processing", icon: "mdi-image" },
     "genetic-algorithms": { name: "Genetic Algorithms", icon: "mdi-dna" },
+    gaming: { name: "Gaming", icon: "mdi-gamepad-variant" },
   } as { [alias: string]: { name: string; icon: string } },
   links: [
     {

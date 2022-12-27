@@ -4,17 +4,16 @@ import React from "react";
 import ReactDOMServer from "react-dom/server";
 import { Homepage } from "../src/components/Homepage.js";
 import { config } from "../src/config.js";
-import { loadPages, Page } from "./loadPages.js";
+import { loadPages, Page, Pages } from "./loadPages.js";
 import { mkDirP } from "./mkdirp.js";
 import { makeImageTransformer } from "./writeImages.js";
 import jss from "jss";
 import { globalStyles } from "../src/css.js";
 
-const pages = loadPages();
-
 async function buildSite() {
   const outputDir = mkDirP(process.cwd(), "build");
-  await writeHomepage(outputDir);
+  const pages = loadPages(outputDir);
+  await writeHomepage(outputDir, pages);
 }
 
 const startTime = Date.now();
@@ -30,7 +29,7 @@ try {
   process.exit(1);
 }
 
-export async function writeHomepage(outputDir: string) {
+export async function writeHomepage(outputDir: string, pages: Pages) {
   globalStyles();
   const page = (
     <Homepage pages={pages} transformImage={makeImageTransformer(outputDir)} />
