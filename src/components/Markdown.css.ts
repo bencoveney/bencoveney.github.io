@@ -44,19 +44,15 @@ export const styles = {
       ...headingStyles.heading2,
     },
     "& h3": {
-      marginTop: config.brand.sizes.verticalPadding,
       ...headingStyles.heading3,
     },
     "& h4": {
-      marginTop: config.brand.sizes.verticalPadding,
       ...headingStyles.heading4,
     },
     "& h5": {
-      marginTop: config.brand.sizes.verticalPadding,
       ...headingStyles.heading5,
     },
     "& h6": {
-      marginTop: config.brand.sizes.verticalPadding,
       ...headingStyles.heading6,
     },
     "& hr": {

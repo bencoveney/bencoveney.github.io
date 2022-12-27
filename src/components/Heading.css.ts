@@ -22,6 +22,7 @@ export const styles = {
     },
   },
   heading3: {
+    marginTop: config.brand.sizes.verticalPadding,
     "@media screen and (max-width: 768px)": {
       fontSize: "1.618em",
     },
@@ -30,6 +31,7 @@ export const styles = {
     },
   },
   heading4: {
+    marginTop: config.brand.sizes.verticalPadding,
     "@media screen and (max-width: 768px)": {
       fontSize: "1.618em",
     },
@@ -38,6 +40,7 @@ export const styles = {
     },
   },
   heading5: {
+    marginTop: config.brand.sizes.verticalPadding,
     "@media screen and (max-width: 768px)": {
       fontSize: "1.618em",
     },
@@ -46,6 +49,7 @@ export const styles = {
     },
   },
   heading6: {
+    marginTop: config.brand.sizes.verticalPadding,
     "@media screen and (max-width: 768px)": {
       fontSize: "1.618em",
     },
