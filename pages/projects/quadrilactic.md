@@ -8,3 +8,5 @@ categories:
 ---
 
 Browser-based game about a square jumping and bouncing through space.
+
+![Quadrilactic](./quadrilactic.png "Quadrilactic")

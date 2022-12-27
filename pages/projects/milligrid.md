@@ -11,3 +11,5 @@ categories:
 ---
 
 Responsive CSS grid system built using flexbox and based on [Milligram](https://milligram.github.io/).
+
+![Milligrid Website](./milligrid.png "Milligrid Website")

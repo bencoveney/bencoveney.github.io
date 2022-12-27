@@ -10,3 +10,5 @@ categories:
 ---
 
 Charts HLTV rankings of professional teams in the game Counter-Strike: Global Offensive.
+
+![CSGO Rankings Graph](./csgo-rankings-graph.png "CSGO Rankings Graph")

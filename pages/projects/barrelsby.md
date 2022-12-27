@@ -10,3 +10,5 @@ categories:
 ---
 
 Node.js command line utility to automatically generates index.ts files for typescript codebases.
+
+![Barrelsby Icon](./barrelsby.png "Barrelsby Icon")

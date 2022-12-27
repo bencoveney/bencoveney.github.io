@@ -15,6 +15,9 @@ export const styles = {
     },
     "& img": {
       maxWidth: "100%",
+      display: "block",
+      margin: "0 auto",
+      boxShadow: "0 5px 10px 2px rgba(100, 100, 100, 0.2)",
     },
     "& pre": {
       fontFamily: "var(--font-family-mono)",
