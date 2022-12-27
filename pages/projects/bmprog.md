@@ -1,6 +1,7 @@
 ---
 title: "BMProg"
 github: https://github.com/bencoveney/BMProg
+website: https://bencoveney.github.io/BMProg/
 categories:
   - c-sharp
   - image
@@ -8,3 +9,5 @@ categories:
 ---
 
 Bitmap based programming "language" which uses pixels of images as instructions and outputs gif files showing execution.
+
+![BMProg Interpreter](./bmprog.png "BMProg Interpreter")
