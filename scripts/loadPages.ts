@@ -55,6 +55,10 @@ export function loadPages(outputDir: string): Pages {
         outputDir
       ),
       "sn-caldera": loadPage("./pages/projects/sn-caldera.md", outputDir),
+      "10-second-dirt": loadPage(
+        "./pages/projects/10-second-dirt.md",
+        outputDir
+      ),
     },
     posts: {
       "ts-birthday": loadPage("./pages/posts/ts-birthday.md", outputDir),

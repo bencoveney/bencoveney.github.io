@@ -22,6 +22,18 @@ Personal Page
 ## Misc TODOs
 
 - Consolidate css variables (in `css.ts`) with config (in `config.ts`).
+- Improve image anchor/titles
+- Improve a11y and aria attributes
+- Add projects:
+  - Music production
+  - Dwitter
+  - UKFT
+  - Personal site (+ history, netmag review)
+  - Superauto.pet
+  - Gists (like regex fractals)
+  - Internal talks?
+  - YouTube videos (Csgo clips, linerider)
+  - RWF
 
 ## Decisions
 
@@ -38,6 +50,8 @@ Prospect of writing own remark plugin unappealing.
 - Potentially just images are fine.
 
 Twitter manual embed gets automatic tracking for full capability.
+
+https://github.com/remark-embedder/transformer-oembed
 
 ### SPA
 
