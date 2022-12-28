@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
-import { TransformImage } from "react-markdown/lib/ast-to-react.js";
-import { Page, Pages } from "../../scripts/loadPages.js";
+import { Pages } from "../../scripts/loadPages.js";
 import { BigLinks } from "./BigLinks.js";
 import { Post } from "./Post.js";
 import { Project } from "./Project.js";
@@ -11,13 +10,7 @@ import { Heading1, Heading2, Heading3 } from "./Heading.js";
 
 const { classes } = css(styles);
 
-export function Homepage({
-  pages,
-  transformImage,
-}: {
-  pages: Pages;
-  transformImage?: (page: Page) => TransformImage;
-}) {
+export function Homepage({ pages }: { pages: Pages }) {
   return (
     <>
       <div className={classes.wrapper}>
@@ -69,10 +62,7 @@ export function Homepage({
           <Heading2>Projects</Heading2>
           {Object.entries(pages.projects).map(([slug, project]) => (
             <Fragment key={slug}>
-              <Project
-                project={project}
-                transformImage={transformImage?.(project)}
-              />
+              <Project project={project} />
               <Separator />
             </Fragment>
           ))}
@@ -84,7 +74,7 @@ export function Homepage({
             .filter(([_, post]) => !!post.published)
             .map(([slug, post]) => (
               <Fragment key={slug}>
-                <Post post={post} transformImage={transformImage?.(post)} />
+                <Post post={post} />
                 <Separator />
               </Fragment>
             ))}

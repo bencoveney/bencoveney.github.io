@@ -52,6 +52,7 @@ Prospect of writing own remark plugin unappealing.
 Twitter manual embed gets automatic tracking for full capability.
 
 https://github.com/remark-embedder/transformer-oembed
+https://www.ryanfiller.com/blog/remark-and-rehype-plugins
 
 ### SPA
 

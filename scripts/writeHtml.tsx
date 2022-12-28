@@ -6,13 +6,12 @@ import { Homepage } from "../src/components/Homepage.js";
 import { config } from "../src/config.js";
 import { loadPages, Page, Pages } from "./loadPages.js";
 import { mkDirP } from "./mkdirp.js";
-import { makeImageTransformer } from "./writeImages.js";
 import jss from "jss";
 import { globalStyles } from "../src/css.js";
 
 async function buildSite() {
   const outputDir = mkDirP(process.cwd(), "build");
-  const pages = loadPages(outputDir);
+  const pages = await loadPages(outputDir);
   await writeHomepage(outputDir, pages);
 }
 
@@ -31,9 +30,8 @@ try {
 
 export async function writeHomepage(outputDir: string, pages: Pages) {
   globalStyles();
-  const page = (
-    <Homepage pages={pages} transformImage={makeImageTransformer(outputDir)} />
-  );
+  // TODO: Do I need to create the page early? for styles to be run?
+  const page = <Homepage pages={pages} />;
   await writePage(
     <Page
       title="Ben Coveney"

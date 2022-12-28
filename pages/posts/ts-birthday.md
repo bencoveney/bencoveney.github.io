@@ -135,7 +135,7 @@ At the time TypeScript certainly wasn’t the safest bet, it was in the early v1
 
 YouView’s new look launched in November 2016 and since then we have continued to use TypeScript, keeping up to date with compiler releases and trying to adopt the latest best practices as they have evolved.
 
-[The Next Generation of YouView](https://www.youtube.com/watch?v=W520_RUzwpc)
+https://www.youtube.com/watch?v=W520_RUzwpc
 
 Our UI runs as ES5 JavaScript in a webpage on top of a TV video feed, but in addition to running in the browser, the language has begun to spread out from our core product and begun infiltrating cloud services, test tools and build tools; bringing some additional reliability to our other projects running on node.
 

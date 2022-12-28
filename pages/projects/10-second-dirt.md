@@ -14,3 +14,5 @@ You can play it by searching for "10 second dirt" in the in-game library.
 ![Map 21 from the campaign](./10-second-dirt-map-21.jpg "Map 21 from the campaign")
 
 ![Map 25 from the campaign](./10-second-dirt-map-25.jpg "Map 25 from the campaign")
+
+https://www.youtube.com/watch?v=Em9Tvm51j74

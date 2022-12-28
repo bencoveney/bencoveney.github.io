@@ -1,5 +1,7 @@
 import grayMatter from "gray-matter";
 import { dirname } from "path";
+import { ReactElement } from "react";
+import { getConverter } from "../src/components/Markdown.js";
 import { writeDownload } from "./writeImages.js";
 
 export type Links = {
@@ -15,6 +17,7 @@ export type Page = Links & {
   title: string;
   categories: string[];
   content: string;
+  element: ReactElement;
   route: string;
   published?: string;
 };
@@ -32,48 +35,59 @@ export type Pages = {
   posts: Posts;
 };
 
-export function loadPages(outputDir: string): Pages {
+export async function loadPages(outputDir: string): Promise<Pages> {
   return {
     projects: {
-      barrelsby: loadPage("./pages/projects/barrelsby.md", outputDir),
-      "csgo-rankings-graph": loadPage(
+      barrelsby: await loadPage("./pages/projects/barrelsby.md", outputDir),
+      "csgo-rankings-graph": await loadPage(
         "./pages/projects/csgo-rankings-graph.md",
         outputDir
       ),
-      "database-objects": loadPage(
+      "database-objects": await loadPage(
         "./pages/projects/database-objects.md",
         outputDir
       ),
-      milligrid: loadPage("./pages/projects/milligrid.md", outputDir),
-      quadrilactic: loadPage("./pages/projects/quadrilactic.md", outputDir),
-      dots: loadPage("./pages/projects/dots.md", outputDir),
-      tsfluff: loadPage("./pages/projects/tsfluff.md", outputDir),
-      bmprog: loadPage("./pages/projects/bmprog.md", outputDir),
-      bfinterpreter: loadPage("./pages/projects/bfinterpreter.md", outputDir),
-      "chromosome-library": loadPage(
+      milligrid: await loadPage("./pages/projects/milligrid.md", outputDir),
+      quadrilactic: await loadPage(
+        "./pages/projects/quadrilactic.md",
+        outputDir
+      ),
+      dots: await loadPage("./pages/projects/dots.md", outputDir),
+      tsfluff: await loadPage("./pages/projects/tsfluff.md", outputDir),
+      bmprog: await loadPage("./pages/projects/bmprog.md", outputDir),
+      bfinterpreter: await loadPage(
+        "./pages/projects/bfinterpreter.md",
+        outputDir
+      ),
+      "chromosome-library": await loadPage(
         "./pages/projects/chromosome-library.md",
         outputDir
       ),
-      "sn-caldera": loadPage("./pages/projects/sn-caldera.md", outputDir),
-      "10-second-dirt": loadPage(
+      "sn-caldera": await loadPage("./pages/projects/sn-caldera.md", outputDir),
+      "10-second-dirt": await loadPage(
         "./pages/projects/10-second-dirt.md",
         outputDir
       ),
     },
     posts: {
-      "ts-birthday": loadPage("./pages/posts/ts-birthday.md", outputDir),
+      "ts-birthday": await loadPage("./pages/posts/ts-birthday.md", outputDir),
     },
   };
 }
 
-export function loadPage(pagePath: string, outputDir: string): Page {
+export async function loadPage(
+  pagePath: string,
+  outputDir: string
+): Promise<Page> {
   const route = dirname(pagePath);
   const { data, content } = grayMatter.read(pagePath);
-  const page = {
+  const page: Page = {
     ...(data as Page),
     content,
     route,
   };
+  const converter = getConverter(outputDir, page);
+  page.element = (await converter.process(content)).result;
   if (page.download) {
     page.download = writeDownload(page, outputDir, page.download);
   }

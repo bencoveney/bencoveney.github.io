@@ -59,5 +59,12 @@ export const styles = {
       marginTop: config.brand.sizes.verticalPadding,
       ...separatorStyles.separator,
     },
+    "& iframe": {
+      marginTop: config.brand.sizes.verticalPadding,
+      // Force width/height to flex
+      aspectRatio: "16 / 9",
+      height: "100%",
+      width: "100%",
+    },
   },
 };
