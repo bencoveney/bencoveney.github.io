@@ -1,5 +1,5 @@
 import React from "react";
-import { Page } from "../../scripts/loadPages.js";
+import { Page } from "../loadPages.js";
 import { css } from "../css.js";
 import { Categories } from "./Categories.js";
 import { Heading3 } from "./Heading.js";

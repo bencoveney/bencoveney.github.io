@@ -9,13 +9,17 @@ import remarkRehype from "remark-rehype";
 import { inspectUrls } from "@jsdevtools/rehype-url-inspector";
 import { css } from "../css.js";
 import { styles } from "./Markdown.css.js";
-import { writeDownload } from "../../scripts/writeImages.js";
-import { Page } from "../../scripts/loadPages.js";
+import { includeAsset } from "../includeAsset.js";
+import { Page } from "../loadPages.js";
 
 const { classes } = css(styles);
 
-export function getConverter(outputDir: string, page: Page) {
-  return unified()
+export async function markdownToReact(
+  outputDir: string,
+  page: Page,
+  content: string
+) {
+  const { result } = await unified()
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkEmbedder.default, {
@@ -34,7 +38,7 @@ export function getConverter(outputDir: string, page: Page) {
     .use(inspectUrls, {
       inspectEach({ node }) {
         if (node.properties?.src) {
-          node.properties.src = writeDownload(
+          node.properties.src = includeAsset(
             page,
             outputDir,
             node.properties.src as string
@@ -54,7 +58,9 @@ export function getConverter(outputDir: string, page: Page) {
         h5: (props: any) => <h6 {...props} />,
         h6: (props: any) => <h6 {...props} />,
       },
-    });
+    })
+    .process(content);
+  return result;
 }
 
 export function Markdown({ children }: PropsWithChildren<{}>) {

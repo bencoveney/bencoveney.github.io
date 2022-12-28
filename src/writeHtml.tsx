@@ -5,7 +5,7 @@ import ReactDOMServer from "react-dom/server";
 import { Homepage } from "../src/components/Homepage.js";
 import { config } from "../src/config.js";
 import { loadPages, Page, Pages } from "./loadPages.js";
-import { mkDirP } from "./mkdirp.js";
+import { mkDirP } from "@bencoveney/utils/dist/node.js";
 import jss from "jss";
 import { globalStyles } from "../src/css.js";
 

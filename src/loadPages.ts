@@ -1,8 +1,8 @@
 import grayMatter from "gray-matter";
 import { dirname } from "path";
 import { ReactElement } from "react";
-import { getConverter } from "../src/components/Markdown.js";
-import { writeDownload } from "./writeImages.js";
+import { markdownToReact } from "./components/Markdown.js";
+import { includeAsset } from "./includeAsset.js";
 
 export type Links = {
   npm?: string;
@@ -86,10 +86,9 @@ export async function loadPage(
     content,
     route,
   };
-  const converter = getConverter(outputDir, page);
-  page.element = (await converter.process(content)).result;
+  page.element = await markdownToReact(outputDir, page, content);
   if (page.download) {
-    page.download = writeDownload(page, outputDir, page.download);
+    page.download = includeAsset(page, outputDir, page.download);
   }
   return page;
 }

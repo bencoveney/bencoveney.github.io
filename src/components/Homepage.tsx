@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Pages } from "../../scripts/loadPages.js";
+import { Pages } from "../loadPages.js";
 import { BigLinks } from "./BigLinks.js";
 import { Post } from "./Post.js";
 import { Project } from "./Project.js";
