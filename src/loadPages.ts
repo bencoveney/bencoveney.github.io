@@ -68,6 +68,7 @@ export async function loadPages(outputDir: string): Promise<Pages> {
         "./pages/projects/10-second-dirt.md",
         outputDir
       ),
+      dwitter: await loadPage("./pages/projects/dwitter.md", outputDir),
     },
     posts: {
       "ts-birthday": await loadPage("./pages/posts/ts-birthday.md", outputDir),

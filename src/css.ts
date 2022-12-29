@@ -41,13 +41,13 @@ export function globalStyles() {
         padding: 0,
         listStyleType: "none",
         textDecoration: "none",
-        color: "var(--fg-color)",
       },
 
-      "html, body": {
+      "html, body, a:link, a:visited, a:active, a:hover": {
         width: "100%",
         height: "100%",
         fontFamily: "var(--font-family)",
+        color: "var(--fg-color)",
       },
     },
   });

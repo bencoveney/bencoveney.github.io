@@ -74,6 +74,12 @@ export function Page(props: {
         <link rel="canonical" href={props.canonical} />
         <style dangerouslySetInnerHTML={{ __html: styles }} />
         <link
+          href="./gruvbox-dark-medium.css"
+          media="all"
+          rel="stylesheet"
+          type="text/css"
+        />
+        <link
           href="https://cdn.materialdesignicons.com/2.2.43/css/materialdesignicons.min.css"
           media="all"
           rel="stylesheet"

@@ -20,6 +20,7 @@ export const styles = {
       boxShadow: "0 5px 10px 2px rgba(100, 100, 100, 0.2)",
     },
     "& pre": {
+      marginTop: config.brand.sizes.verticalPadding,
       fontFamily: "var(--font-family-mono)",
     },
     "& code": {
@@ -65,6 +66,10 @@ export const styles = {
       aspectRatio: "16 / 9",
       height: "100%",
       width: "100%",
+    },
+    "& video": {
+      marginTop: config.brand.sizes.verticalPadding,
+      maxWidth: "100%",
     },
   },
 };

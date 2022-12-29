@@ -6,6 +6,8 @@ import { unified } from "unified";
 import rehypeReact from "rehype-react";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
+import rehypeHighlight from "rehype-highlight";
+import rehypeVideo from "rehype-video";
 import { inspectUrls } from "@jsdevtools/rehype-url-inspector";
 import { css } from "../css.js";
 import { styles } from "./Markdown.css.js";
@@ -24,17 +26,31 @@ export async function markdownToReact(
     .use(remarkGfm)
     .use(remarkEmbedder.default, {
       transformers: [
-        oembedTransformer.default,
-        {
-          params: {
-            theme: "dark",
-            dnt: true,
-            omit_script: true,
+        [
+          {
+            ...oembedTransformer.default,
+            shouldTransform: async (url: string) => {
+              console.log(url);
+              const result = await oembedTransformer.default.shouldTransform(
+                url
+              );
+              console.log(result);
+              return result;
+            },
           },
-        } as any,
+          {
+            params: {
+              theme: "dark",
+              dnt: true,
+              omit_script: true,
+            },
+          } as any,
+        ],
       ],
     })
     .use(remarkRehype)
+    .use(rehypeHighlight)
+    .use(rehypeVideo, { details: false })
     .use(inspectUrls, {
       inspectEach({ node }) {
         if (node.properties?.src) {
@@ -45,7 +61,10 @@ export async function markdownToReact(
           );
         }
       },
-      selectors: ["img[src]"],
+      selectors: [
+        { tagName: "img", propertyName: "src" },
+        { tagName: "video", propertyName: "src" },
+      ],
     })
     .use(rehypeReact, {
       createElement,
