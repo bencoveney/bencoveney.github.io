@@ -1,16 +1,15 @@
 import React, { Fragment } from "react";
-import { Pages } from "../loadPages.js";
+import { Posts } from "../loadPosts.js";
 import { BigLinks } from "./BigLinks.js";
 import { Post } from "./Post.js";
-import { Project } from "./Project.js";
 import { styles } from "./Homepage.css.js";
-import { css, joinClasses } from "../css.js";
+import { css } from "../css.js";
 import { Separator } from "./Separator.js";
 import { Heading1, Heading2, Heading3 } from "./Heading.js";
 
 const { classes } = css(styles);
 
-export function Homepage({ pages }: { pages: Pages }) {
+export function Homepage({ posts }: { posts: Posts }) {
   return (
     <>
       <div className={classes.wrapper}>
@@ -59,25 +58,13 @@ export function Homepage({ pages }: { pages: Pages }) {
         </div>
 
         <div className={classes.content}>
-          <Heading2>Projects</Heading2>
-          {Object.entries(pages.projects).map(([slug, project]) => (
+          <Heading2>Posts</Heading2>
+          {Object.entries(posts).map(([slug, post]) => (
             <Fragment key={slug}>
-              <Project project={project} />
+              <Post post={post} />
               <Separator />
             </Fragment>
           ))}
-        </div>
-
-        <div className={joinClasses(classes.content, "posts")}>
-          <Heading2>Posts</Heading2>
-          {Object.entries(pages.posts)
-            .filter(([_, post]) => !!post.published)
-            .map(([slug, post]) => (
-              <Fragment key={slug}>
-                <Post post={post} />
-                <Separator />
-              </Fragment>
-            ))}
         </div>
       </div>
     </>

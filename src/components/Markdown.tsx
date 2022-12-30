@@ -12,13 +12,13 @@ import { inspectUrls } from "@jsdevtools/rehype-url-inspector";
 import { css } from "../css.js";
 import { styles } from "./Markdown.css.js";
 import { includeAsset } from "../includeAsset.js";
-import { Page } from "../loadPages.js";
+import { Post } from "../loadPosts.js";
 
 const { classes } = css(styles);
 
 export async function markdownToReact(
   outputDir: string,
-  page: Page,
+  post: Post,
   content: string
 ) {
   const { result } = await unified()
@@ -45,7 +45,7 @@ export async function markdownToReact(
       inspectEach({ node }) {
         if (node.properties?.src) {
           node.properties.src = includeAsset(
-            page,
+            post,
             outputDir,
             node.properties.src as string
           );

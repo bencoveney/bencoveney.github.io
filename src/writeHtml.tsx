@@ -4,14 +4,14 @@ import React from "react";
 import ReactDOMServer from "react-dom/server";
 import { Homepage } from "../src/components/Homepage.js";
 import { config } from "../src/config.js";
-import { loadPages, Page, Pages } from "./loadPages.js";
+import { loadPosts, Posts } from "./loadPosts.js";
 import { mkDirP } from "@bencoveney/utils/dist/node.js";
 import jss from "jss";
 import { globalStyles } from "../src/css.js";
 
 async function buildSite() {
   const outputDir = mkDirP(process.cwd(), "build");
-  const pages = await loadPages(outputDir);
+  const pages = await loadPosts(outputDir);
   await writeHomepage(outputDir, pages);
 }
 
@@ -28,10 +28,10 @@ try {
   process.exit(1);
 }
 
-export async function writeHomepage(outputDir: string, pages: Pages) {
+export async function writeHomepage(outputDir: string, posts: Posts) {
   globalStyles();
   // TODO: Do I need to create the page early? for styles to be run?
-  const page = <Homepage pages={pages} />;
+  const page = <Homepage posts={posts} />;
   await writePage(
     <Page
       title="Ben Coveney"

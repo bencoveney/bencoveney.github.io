@@ -1,5 +1,5 @@
 import React from "react";
-import { Links } from "../loadPages.js";
+import { Links } from "../loadPosts.js";
 import { css } from "../css.js";
 import { styles } from "./Links.css.js";
 
