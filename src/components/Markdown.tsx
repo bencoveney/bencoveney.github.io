@@ -9,12 +9,10 @@ import remarkRehype from "remark-rehype";
 import rehypeHighlight from "rehype-highlight";
 import rehypeVideo from "rehype-video";
 import { inspectUrls } from "@jsdevtools/rehype-url-inspector";
-import { css } from "../css.js";
 import { styles } from "./Markdown.css.js";
 import { includeAsset } from "../includeAsset.js";
 import { Post } from "../loadPosts.js";
-
-const { classes } = css(styles);
+import { createCssHook } from "../contexts/CssContext.js";
 
 export async function markdownToReact(
   outputDir: string,
@@ -72,6 +70,9 @@ export async function markdownToReact(
   return result;
 }
 
+const { useCss } = createCssHook(styles);
+
 export function Markdown({ children }: PropsWithChildren<{}>) {
+  const { classes } = useCss();
   return <div className={classes.markdown}>{children}</div>;
 }

@@ -1,9 +1,9 @@
 import React from "react";
 import { Links } from "../loadPosts.js";
-import { css } from "../css.js";
 import { styles } from "./Links.css.js";
+import { createCssHook } from "../contexts/CssContext.js";
 
-const { classes } = css(styles);
+const { useCss } = createCssHook(styles);
 
 export function LinkSet({
   itch,
@@ -13,6 +13,7 @@ export function LinkSet({
   github,
   download,
 }: Links) {
+  const { classes } = useCss();
   return (
     <div className={classes.linkSet}>
       {itch && <ItchLink itch={itch} />}
@@ -26,6 +27,7 @@ export function LinkSet({
 }
 
 export function WebsiteLink({ website }: { website: string }) {
+  const { classes } = useCss();
   return (
     <a href={website} className={classes.link}>
       <i className="mdi mdi-web mdi-18px"></i> View website
@@ -34,6 +36,7 @@ export function WebsiteLink({ website }: { website: string }) {
 }
 
 export function NpmLink({ npm }: { npm: string }) {
+  const { classes } = useCss();
   return (
     <a href={npm} className={classes.link}>
       <i className="mdi mdi-npm mdi-18px"></i> View on NPM
@@ -42,6 +45,7 @@ export function NpmLink({ npm }: { npm: string }) {
 }
 
 export function GithubLink({ github }: { github: string }) {
+  const { classes } = useCss();
   return (
     <a href={github} className={classes.link}>
       <i className="mdi mdi-github-circle mdi-18px"></i> View on Github
@@ -50,6 +54,7 @@ export function GithubLink({ github }: { github: string }) {
 }
 
 export function NugetLink({ nuget }: { nuget: string }) {
+  const { classes } = useCss();
   return (
     <a href={nuget} className={classes.link}>
       <i className="mdi mdi-package mdi-18px"></i> View on Nuget
@@ -58,6 +63,7 @@ export function NugetLink({ nuget }: { nuget: string }) {
 }
 
 export function ItchLink({ itch }: { itch: string }) {
+  const { classes } = useCss();
   return (
     <a href={itch} className={classes.link}>
       <i className="mdi mdi-gamepad-variant mdi-18px"></i> Play on Itch
@@ -66,6 +72,7 @@ export function ItchLink({ itch }: { itch: string }) {
 }
 
 export function DownloadLink({ download }: { download: string }) {
+  const { classes } = useCss();
   return (
     <a href={download} className={classes.link} download>
       <i className="mdi mdi-download mdi-18px"></i> Download

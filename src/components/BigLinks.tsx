@@ -1,11 +1,12 @@
 import React from "react";
 import { config, Config } from "../config.js";
-import { css } from "../css.js";
+import { createCssHook } from "../contexts/CssContext.js";
 import { styles } from "./BigLinks.css.js";
 
-const { classes } = css(styles);
+const { useCss } = createCssHook(styles);
 
 export function BigLinks() {
+  const { classes } = useCss();
   return (
     <ul className={classes.links}>
       {config.links.map((link, index) => (
@@ -16,6 +17,7 @@ export function BigLinks() {
 }
 
 function BigLink({ name, href, icon }: Config["links"][0]) {
+  const { classes } = useCss();
   return (
     <li className={classes.link}>
       <a href={href}>

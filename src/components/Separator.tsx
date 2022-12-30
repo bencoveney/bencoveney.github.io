@@ -1,9 +1,10 @@
 import React from "react";
-import { css } from "../css.js";
 import { styles } from "./Separator.css.js";
+import { createCssHook } from "../contexts/CssContext.js";
 
-const { classes } = css(styles);
+const { useCss } = createCssHook(styles);
 
 export function Separator() {
+  const { classes } = useCss();
   return <hr className={classes.separator} />;
 }

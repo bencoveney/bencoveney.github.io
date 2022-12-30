@@ -7,7 +7,7 @@ import { config } from "../src/config.js";
 import { loadPosts, Posts } from "./loadPosts.js";
 import { mkDirP } from "@bencoveney/utils/dist/node.js";
 import jss from "jss";
-import { globalStyles } from "../src/css.js";
+import { CssProvider } from "./contexts/CssContext.js";
 
 async function buildSite() {
   const outputDir = mkDirP(process.cwd(), "build");
@@ -29,14 +29,18 @@ try {
 }
 
 export async function writeHomepage(outputDir: string, posts: Posts) {
-  globalStyles();
-  // TODO: Do I need to create the page early? for styles to be run?
-  const page = <Homepage posts={posts} />;
+  const registry = new jss.SheetsRegistry();
+  const page = (
+    <CssProvider value={{ registry }}>
+      <Homepage posts={posts} />
+    </CssProvider>
+  );
   await writePage(
     <Page
       title="Ben Coveney"
       description="Ben Coveney's personal website"
       canonical={config.hostname}
+      registry={registry}
     >
       {page}
     </Page>,
@@ -56,9 +60,10 @@ export function Page(props: {
   title: string;
   description: string;
   canonical: string;
+  registry: jss.SheetsRegistry;
 }) {
   const content = ReactDOMServer.renderToString(props.children);
-  const styles = jss.sheets.toString();
+  const styles = props.registry.toString({ format: false });
   return (
     <html lang="en">
       <head>

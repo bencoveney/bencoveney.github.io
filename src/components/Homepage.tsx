@@ -3,13 +3,14 @@ import { Posts } from "../loadPosts.js";
 import { BigLinks } from "./BigLinks.js";
 import { Post } from "./Post.js";
 import { styles } from "./Homepage.css.js";
-import { css } from "../css.js";
 import { Separator } from "./Separator.js";
 import { Heading1, Heading2, Heading3 } from "./Heading.js";
+import { createCssHook } from "../contexts/CssContext.js";
 
-const { classes } = css(styles);
+const { useCss } = createCssHook(styles);
 
 export function Homepage({ posts }: { posts: Posts }) {
+  const { classes } = useCss();
   return (
     <>
       <div className={classes.wrapper}>
