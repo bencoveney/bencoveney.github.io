@@ -2,6 +2,69 @@ import { config } from "../config.js";
 import { styles as headingStyles } from "./Heading.css.js";
 import { styles as separatorStyles } from "./Separator.css.js";
 
+// node_modules/highlight.js/styles/base16/gruvbox-dark-medium.css
+const gruvbox = {
+  "& pre code.hljs": {
+    display: "block",
+    overflowX: "auto",
+    padding: "1em",
+  },
+  "& code.hljs": {
+    padding: "3px 5px",
+  },
+  "& .hljs": {
+    color: "#d5c4a1",
+    background: "#282828",
+  },
+  "& .hljs ::selection, & .hljs::selection": {
+    backgroundColor: "#504945",
+    color: "#d5c4a1",
+  },
+  "& .hljs-comment": {
+    color: "#665c54",
+  },
+  "& .hljs-tag": {
+    color: "#bdae93",
+  },
+  "& .hljs-operator, & .hljs-punctuation, & .hljs-subst": {
+    color: "#d5c4a1",
+  },
+  "& .hljs-operator": {
+    opacity: "0.7",
+  },
+  "& .hljs-bullet, & .hljs-deletion, & .hljs-name, & .hljs-selector-tag, & .hljs-template-variable, & .hljs-variable":
+    {
+      color: "#fb4934",
+    },
+  "& .hljs-attr, & .hljs-link, & .hljs-literal, & .hljs-number, & .hljs-symbol, & .hljs-variable.constant_":
+    {
+      color: "#fe8019",
+    },
+  "& .hljs-class .hljs-title, & .hljs-title, & .hljs-title.class_": {
+    color: "#fabd2f",
+  },
+  "& .hljs-strong": {
+    fontWeight: "700",
+    color: "#fabd2f",
+  },
+  "& .hljs-addition, & .hljs-code, & .hljs-string, & .hljs-title.class_.inherited__":
+    {
+      color: "#b8bb26",
+    },
+  "& .hljs-built_in, & .hljs-doctag, & .hljs-keyword.hljs-atrule, & .hljs-quote, & .hljs-regexp":
+    { color: "#8ec07c" },
+  "& .hljs-attribute, & .hljs-function .hljs-title, & .hljs-section, & .hljs-title.function_, & .ruby .hljs-property":
+    { color: "#83a598" },
+  "& .diff .hljs-meta, & .hljs-keyword, & .hljs-template-tag, & .hljs-type": {
+    color: "#d3869b",
+  },
+  "& .hljs-emphasis": { color: "#d3869b", fontStyle: "italic" },
+  "& .hljs-meta, & .hljs-meta .hljs-keyword, & .hljs-meta .hljs-string": {
+    color: "#d65d0e",
+  },
+  "& .hljs-meta .hljs-keyword, & .hljs-meta-keyword": { fontWeight: "700" },
+};
+
 export const styles = {
   markdown: {
     "& p": {
@@ -71,5 +134,6 @@ export const styles = {
       marginTop: config.brand.sizes.verticalPadding,
       maxWidth: "100%",
     },
+    ...gruvbox,
   },
 };

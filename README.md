@@ -1,6 +1,6 @@
 # bencoveney.github.io
 
-Personal Page
+[https://bencoveney.github.io/](https://bencoveney.github.io/)
 
 ## Requirements
 
@@ -24,9 +24,10 @@ Personal Page
 - Consolidate css variables (in `css.ts`) with config (in `config.ts`).
 - Improve image anchor/titles
 - Improve a11y and aria attributes
+- Permalink headers
+- Categories
 - Add projects:
   - Music production
-  - Dwitter
   - UKFT
   - Personal site (+ history, netmag review)
   - Superauto.pet
@@ -34,6 +35,7 @@ Personal Page
   - Internal talks?
   - YouTube videos (Csgo clips, linerider)
   - RWF
+  - Flesh out projects
 
 ## Decisions
 

@@ -65,7 +65,7 @@ Unsurprisingly for Microsoft at the time, another notable point was the lack of 
 >
 > There is no Eclipse, MonoDevelop or Emacs support for any of the language features.
 >
-> _[Miguel De Icaza’s blog (October 1st, 2012)](Miguel De Icaza’s blog (October 1st, 2012))_
+> _[Miguel De Icaza’s blog (October 1st, 2012)](https://tirania.org/blog/archive/2012/Oct-01.html)_
 
 ## Early Steps
 

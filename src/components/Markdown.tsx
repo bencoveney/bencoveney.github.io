@@ -27,17 +27,7 @@ export async function markdownToReact(
     .use(remarkEmbedder.default, {
       transformers: [
         [
-          {
-            ...oembedTransformer.default,
-            shouldTransform: async (url: string) => {
-              console.log(url);
-              const result = await oembedTransformer.default.shouldTransform(
-                url
-              );
-              console.log(result);
-              return result;
-            },
-          },
+          oembedTransformer.default,
           {
             params: {
               theme: "dark",
