@@ -10,6 +10,7 @@ import { styles } from "./Post.css.js";
 const { classes } = css(styles);
 
 export function Post({ post }: { post: Post }) {
+  // TODO: Use article, section tag
   return (
     <>
       <Heading3>{post.title}</Heading3>

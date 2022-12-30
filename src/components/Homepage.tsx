@@ -13,6 +13,11 @@ export function Homepage({ posts }: { posts: Posts }) {
   return (
     <>
       <div className={classes.wrapper}>
+        <aside>
+          <header></header>
+          <nav></nav>
+        </aside>
+
         <div className={classes.content}>
           <Heading1>Ben Coveney</Heading1>
           <span className={classes.tagline}>Software Developer</span>
