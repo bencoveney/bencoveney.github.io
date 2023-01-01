@@ -13,7 +13,7 @@ export type Links = {
   download?: string;
 };
 
-export type Post = Links & {
+export type PostDetails = Links & {
   title: string;
   categories: string[];
   content: string;
@@ -22,11 +22,11 @@ export type Post = Links & {
   published?: string;
 };
 
-export type Posts = {
-  [path: string]: Post;
+export type PostsDetails = {
+  [path: string]: PostDetails;
 };
 
-export async function loadPosts(outputDir: string): Promise<Posts> {
+export async function loadPosts(outputDir: string): Promise<PostsDetails> {
   return {
     barrelsby: await loadPost("./posts/barrelsby.md", outputDir),
     "csgo-rankings-graph": await loadPost(
@@ -57,11 +57,11 @@ export async function loadPosts(outputDir: string): Promise<Posts> {
 export async function loadPost(
   pagePath: string,
   outputDir: string
-): Promise<Post> {
+): Promise<PostDetails> {
   const route = dirname(pagePath);
   const { data, content } = grayMatter.read(pagePath);
-  const page: Post = {
-    ...(data as Post),
+  const page: PostDetails = {
+    ...(data as PostDetails),
     content,
     route,
   };

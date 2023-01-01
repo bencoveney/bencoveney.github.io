@@ -11,12 +11,12 @@ import rehypeVideo from "rehype-video";
 import { inspectUrls } from "@jsdevtools/rehype-url-inspector";
 import { styles } from "./Markdown.css.js";
 import { includeAsset } from "../includeAsset.js";
-import { Post } from "../loadPosts.js";
+import { PostDetails } from "../loadPosts.js";
 import { createCssHook } from "../contexts/CssContext.js";
 
 export async function markdownToReact(
   outputDir: string,
-  post: Post,
+  post: PostDetails,
   content: string
 ) {
   const { result } = await unified()
@@ -57,14 +57,7 @@ export async function markdownToReact(
     .use(rehypeReact, {
       createElement,
       Fragment,
-      components: {
-        h1: (props: any) => <h3 {...props} />,
-        h2: (props: any) => <h4 {...props} />,
-        h3: (props: any) => <h5 {...props} />,
-        h4: (props: any) => <h6 {...props} />,
-        h5: (props: any) => <h6 {...props} />,
-        h6: (props: any) => <h6 {...props} />,
-      },
+      components: {},
     })
     .process(content);
   return result;

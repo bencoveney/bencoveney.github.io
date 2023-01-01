@@ -1,15 +1,15 @@
 import React, { Fragment } from "react";
-import { Posts } from "../loadPosts.js";
+import { PostsDetails } from "../loadPosts.js";
 import { BigLinks } from "./BigLinks.js";
-import { Post } from "./Post.js";
 import { styles } from "./Homepage.css.js";
 import { Separator } from "./Separator.js";
 import { Heading1, Heading2, Heading3 } from "./Heading.js";
 import { createCssHook } from "../contexts/CssContext.js";
+import { Post } from "./Post.js";
 
 const { useCss } = createCssHook(styles);
 
-export function Homepage({ posts }: { posts: Posts }) {
+export function Homepage({ posts }: { posts: PostsDetails }) {
   const { classes } = useCss();
   return (
     <>

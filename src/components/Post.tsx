@@ -1,5 +1,5 @@
 import React from "react";
-import { Post } from "../loadPosts.js";
+import { PostDetails } from "../loadPosts.js";
 import { Categories } from "./Categories.js";
 import { Heading3 } from "./Heading.js";
 import { LinkSet } from "./Links.js";
@@ -9,7 +9,7 @@ import { createCssHook } from "../contexts/CssContext.js";
 
 const { useCss } = createCssHook(styles);
 
-export function Post({ post }: { post: Post }) {
+export function Post({ post }: { post: PostDetails }) {
   const { classes } = useCss();
   return (
     <>
