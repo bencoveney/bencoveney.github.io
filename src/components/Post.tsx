@@ -12,7 +12,7 @@ const { useCss } = createCssHook(styles);
 export function Post({ post }: { post: PostDetails }) {
   const { classes } = useCss();
   return (
-    <>
+    <article>
       <Heading3>{post.title}</Heading3>
       {post.published && (
         <span className={classes.published}>Published {post.published}</span>
@@ -20,6 +20,6 @@ export function Post({ post }: { post: PostDetails }) {
       <Markdown>{post.element}</Markdown>
       <LinkSet {...post} />
       <Categories categories={post.categories} />
-    </>
+    </article>
   );
 }

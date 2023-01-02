@@ -9,6 +9,7 @@ import { Categories } from "./Categories.js";
 import { Wrapper } from "./Wrapper.js";
 import { Content } from "./Content.js";
 import { GlobalStyles } from "./GlobalStyles.js";
+import { Header } from "./Header.js";
 
 const { useCss } = createCssHook(styles);
 
@@ -24,6 +25,7 @@ export function PostPage({
     <>
       <GlobalStyles />
       <Wrapper>
+        <Header />
         <Content>
           <Heading1>{post.title}</Heading1>
           {post.published && (

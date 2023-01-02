@@ -1,6 +1,6 @@
 import { config } from "../config.js";
 
-const commonHeadingStyles = {
+export const commonHeadingStyles = {
   fontFamily: "var(--font-family-serif)",
   fontWeight: 100,
 };

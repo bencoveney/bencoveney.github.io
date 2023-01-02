@@ -116,8 +116,8 @@ export const styles = {
       ...headingStyles.heading6,
     },
     "& hr": {
-      marginTop: config.brand.sizes.verticalPadding,
       ...separatorStyles.separator,
+      margin: "2em auto",
     },
     "& iframe": {
       marginTop: config.brand.sizes.verticalPadding,

@@ -1,27 +1,21 @@
 import React, { Fragment } from "react";
 import { PostsDetails } from "../loadPosts.js";
-import { BigLinks } from "./BigLinks.js";
-import { styles } from "./Homepage.css.js";
-import { Heading1, Heading2, Heading3 } from "./Heading.js";
-import { createCssHook } from "../contexts/CssContext.js";
+import { Heading2, Heading3 } from "./Heading.js";
 import { GlobalStyles } from "./GlobalStyles.js";
 import { Wrapper } from "./Wrapper.js";
 import { Content } from "./Content.js";
-
-const { useCss } = createCssHook(styles);
+import { Header } from "./Header.js";
+import { BigLinks } from "./BigLinks.js";
 
 export function Homepage({ posts }: { posts: PostsDetails }) {
-  const { classes } = useCss();
   return (
     <>
       <GlobalStyles />
       <Wrapper>
+        <Header />
         <Content>
-          <Heading1>Ben Coveney</Heading1>
-          <span className={classes.tagline}>Software Developer</span>
           <BigLinks />
         </Content>
-
         <Content>
           <Heading2>Posts</Heading2>
           {Object.entries(posts)
