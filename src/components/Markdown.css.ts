@@ -4,14 +4,6 @@ import { styles as separatorStyles } from "./Separator.css.js";
 
 // node_modules/highlight.js/styles/base16/gruvbox-dark-medium.css
 const gruvbox = {
-  "& pre code.hljs": {
-    display: "block",
-    overflowX: "auto",
-    padding: "1em",
-  },
-  "& code.hljs": {
-    padding: "3px 5px",
-  },
   "& .hljs": {
     color: "#d5c4a1",
     background: "#282828",
@@ -82,12 +74,16 @@ export const styles = {
       margin: "0 auto",
       boxShadow: "0 5px 10px 2px rgba(100, 100, 100, 0.2)",
     },
-    "& pre": {
+    "& pre code.hljs": {
       marginTop: config.brand.sizes.verticalPadding,
-      fontFamily: "var(--font-family-mono)",
+      maxWidth: "100%",
+      display: "block",
+      overflowX: "auto",
+      padding: "1em",
     },
-    "& code": {
+    "& code.hljs": {
       fontFamily: "var(--font-family-mono)",
+      padding: "3px 5px",
     },
     "& a:link, & a:hover, & a:visited, & a:active": {
       textDecoration: "underline",
