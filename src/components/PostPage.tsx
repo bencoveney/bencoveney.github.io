@@ -6,6 +6,9 @@ import { PostDetails, PostsDetails } from "../loadPosts.js";
 import { Markdown } from "./Markdown.js";
 import { LinkSet } from "./Links.js";
 import { Categories } from "./Categories.js";
+import { Wrapper } from "./Wrapper.js";
+import { Content } from "./Content.js";
+import { GlobalStyles } from "./GlobalStyles.js";
 
 const { useCss } = createCssHook(styles);
 
@@ -19,8 +22,9 @@ export function PostPage({
   const { classes } = useCss();
   return (
     <>
-      <div className={classes.wrapper}>
-        <div className={classes.content}>
+      <GlobalStyles />
+      <Wrapper>
+        <Content>
           <Heading1>{post.title}</Heading1>
           {post.published && (
             <span className={classes.published}>
@@ -30,8 +34,8 @@ export function PostPage({
           <Markdown>{post.element}</Markdown>
           <LinkSet {...post} />
           <Categories categories={post.categories} />
-        </div>
-      </div>
+        </Content>
+      </Wrapper>
     </>
   );
 }

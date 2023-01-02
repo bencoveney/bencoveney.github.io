@@ -26,6 +26,7 @@
 - Improve a11y and aria attributes
 - Permalink headers
 - Categories
+- Migrate icons to something new
 - Add projects:
   - Music production
   - UKFT
