@@ -2,6 +2,14 @@ import { config } from "../config.js";
 import { styles as headingStyles } from "./Heading.css.js";
 import { styles as separatorStyles } from "./Separator.css.js";
 
+const pullout = {
+  marginLeft: `-${config.brand.sizes.horizontalPadding}`,
+  marginRight: `-${config.brand.sizes.horizontalPadding}`,
+  "--double-margin": `calc(${config.brand.sizes.horizontalPadding} * 2)`,
+  width: `calc(100% + var(--double-margin))`,
+  boxSizing: "border-box",
+};
+
 // node_modules/highlight.js/styles/base16/gruvbox-dark-medium.css
 const gruvbox = {
   "& .hljs": {
@@ -66,20 +74,19 @@ export const styles = {
       marginTop: config.brand.sizes.verticalPadding,
       backgroundColor: "var(--bg-color-alternate)",
       color: "var(--fg-color)",
-      padding: "0.01em 2em 1em 2em",
+      padding: `0.01em ${config.brand.sizes.horizontalPadding} ${config.brand.sizes.verticalPadding} ${config.brand.sizes.horizontalPadding}`,
+      ...pullout,
     },
     "& img": {
-      maxWidth: "100%",
+      ...pullout,
       display: "block",
-      margin: "0 auto",
-      boxShadow: "0 5px 10px 2px rgba(100, 100, 100, 0.2)",
     },
     "& pre code.hljs": {
       marginTop: config.brand.sizes.verticalPadding,
-      maxWidth: "100%",
       display: "block",
       overflowX: "auto",
-      padding: "1em",
+      padding: `${config.brand.sizes.verticalPadding} ${config.brand.sizes.horizontalPadding}`,
+      ...pullout,
     },
     "& code.hljs": {
       fontFamily: "var(--font-family-mono)",
@@ -124,11 +131,11 @@ export const styles = {
       // Force width/height to flex
       aspectRatio: "16 / 9",
       height: "100%",
-      width: "100%",
+      ...pullout,
     },
     "& video": {
+      ...pullout,
       marginTop: config.brand.sizes.verticalPadding,
-      maxWidth: "100%",
     },
     ...gruvbox,
   },

@@ -44,7 +44,8 @@ export const config = {
   hostname: "https://bencoveney.github.io/",
   brand: {
     sizes: {
-      verticalPadding: "1em",
+      verticalPadding: "1.5em",
+      horizontalPadding: "3em",
     },
   },
 };
