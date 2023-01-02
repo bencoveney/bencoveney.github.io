@@ -4,15 +4,17 @@ import React from "react";
 import ReactDOMServer from "react-dom/server";
 import { Homepage } from "../src/components/Homepage.js";
 import { config } from "../src/config.js";
-import { loadPosts, Posts } from "./loadPosts.js";
+import { loadPosts, PostDetails, PostsDetails } from "./loadPosts.js";
 import { mkDirP } from "@bencoveney/utils/dist/node.js";
 import jss from "jss";
 import { CssProvider } from "./contexts/CssContext.js";
+import { PostPage } from "./components/PostPage.js";
 
 async function buildSite() {
   const outputDir = mkDirP(process.cwd(), "build");
-  const pages = await loadPosts(outputDir);
-  await writeHomepage(outputDir, pages);
+  const posts = await loadPosts(outputDir);
+  await writeHomePage(outputDir, posts);
+  await writePostPages(outputDir, posts);
 }
 
 const startTime = Date.now();
@@ -28,14 +30,14 @@ try {
   process.exit(1);
 }
 
-export async function writeHomepage(outputDir: string, posts: Posts) {
+async function writeHomePage(outputDir: string, posts: PostsDetails) {
   const registry = new jss.SheetsRegistry();
   const page = (
     <CssProvider value={{ registry }}>
       <Homepage posts={posts} />
     </CssProvider>
   );
-  await writePage(
+  await writeDocumentToFile(
     <Page
       title="Ben Coveney"
       description="Ben Coveney's personal website"
@@ -48,14 +50,50 @@ export async function writeHomepage(outputDir: string, posts: Posts) {
   );
 }
 
-export async function writePage(content: React.ReactElement, filePath: string) {
+async function writePostPages(outputDir: string, posts: PostsDetails) {
+  await Promise.all(
+    Object.entries(posts).map(([key, post]) =>
+      writePostPage(outputDir, posts, key, post)
+    )
+  );
+}
+
+async function writePostPage(
+  outputDir: string,
+  posts: PostsDetails,
+  key: string,
+  post: PostDetails
+) {
+  const registry = new jss.SheetsRegistry();
+  const page = (
+    <CssProvider value={{ registry }}>
+      <PostPage key={key} post={post} posts={posts} />
+    </CssProvider>
+  );
+  await writeDocumentToFile(
+    <Page
+      title="Ben Coveney"
+      description="Ben Coveney's personal website"
+      canonical={config.hostname}
+      registry={registry}
+    >
+      {page}
+    </Page>,
+    path.resolve(outputDir, `${key}.html`)
+  );
+}
+
+async function writeDocumentToFile(
+  content: React.ReactElement,
+  filePath: string
+) {
   const rendered =
     "<!DOCTYPE html>" + ReactDOMServer.renderToStaticMarkup(content);
   await fs.promises.writeFile(filePath, rendered);
   console.log(`Wrote ${filePath}`);
 }
 
-export function Page(props: {
+function Page(props: {
   children: React.ReactElement;
   title: string;
   description: string;

@@ -1,15 +1,13 @@
 import React, { Fragment } from "react";
-import { Posts } from "../loadPosts.js";
+import { PostsDetails } from "../loadPosts.js";
 import { BigLinks } from "./BigLinks.js";
-import { Post } from "./Post.js";
-import { styles } from "./Homepage.css.js";
-import { Separator } from "./Separator.js";
+import { styles } from "./Homepage.css.js"
 import { Heading1, Heading2, Heading3 } from "./Heading.js";
 import { createCssHook } from "../contexts/CssContext.js";
 
 const { useCss } = createCssHook(styles);
 
-export function Homepage({ posts }: { posts: Posts }) {
+export function Homepage({ posts }: { posts: PostsDetails }) {
   const { classes } = useCss();
   return (
     <>
@@ -21,49 +19,10 @@ export function Homepage({ posts }: { posts: Posts }) {
         </div>
 
         <div className={classes.content}>
-          <Heading2>About</Heading2>
-
-          <Heading3>Work Experience</Heading3>
-          <ul className={classes.about}>
-            <li>
-              Software Developer at Lighthouse Systems. Responsibilities include
-              working on HTML5 UI overhaul project and serving as Scrum Master.
-            </li>
-          </ul>
-
-          <Heading3>Education</Heading3>
-          <ul className={classes.about}>
-            <li>
-              BSC with first-class honours from the University of Hull.
-              Dissertation based on using genetic algorithms to optimize finite
-              state machines for video game artificial intelligence.
-            </li>
-            <li>
-              A Levels in Maths, Physics and Applied ICT, AS Level in Further
-              Maths.
-            </li>
-          </ul>
-
-          <Heading3>Interests</Heading3>
-          <ul className={classes.about}>
-            <li>
-              Software development, open source and new web technologies. Loves
-              working with C#, TypeScript and CSS, and working on documentation,
-              code quality and data visualization projects.
-            </li>
-            <li>
-              Video games including clan server hosting and traveling to
-              spectate at tournaments abroad.
-            </li>
-          </ul>
-        </div>
-
-        <div className={classes.content}>
           <Heading2>Posts</Heading2>
-          {Object.entries(posts).map(([slug, post]) => (
+          {Object.entries(posts).sort((a, b) => +(a[1].title > b[1].title)).map(([slug, post]) => (
             <Fragment key={slug}>
-              <Post post={post} />
-              <Separator />
+              <Heading3><a href={`./${slug}.html`}>{post.title}</a></Heading3>
             </Fragment>
           ))}
         </div>
