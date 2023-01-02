@@ -1,7 +1,13 @@
 import { config } from "../config.js";
 
+const commonHeadingStyles = {
+  fontFamily: "var(--font-family-serif)",
+  fontWeight: 100,
+};
+
 export const styles = {
   heading1: {
+    ...commonHeadingStyles,
     display: "block",
     textAlign: "center",
     "@media screen and (max-width: 768px)": {
@@ -12,6 +18,7 @@ export const styles = {
     },
   },
   heading2: {
+    ...commonHeadingStyles,
     display: "block",
     textAlign: "center",
     "@media screen and (max-width: 768px)": {
@@ -22,6 +29,7 @@ export const styles = {
     },
   },
   heading3: {
+    ...commonHeadingStyles,
     marginTop: config.brand.sizes.verticalPadding,
     "@media screen and (max-width: 768px)": {
       fontSize: "1.618em",
@@ -31,6 +39,7 @@ export const styles = {
     },
   },
   heading4: {
+    ...commonHeadingStyles,
     marginTop: config.brand.sizes.verticalPadding,
     "@media screen and (max-width: 768px)": {
       fontSize: "1.618em",
@@ -40,6 +49,7 @@ export const styles = {
     },
   },
   heading5: {
+    ...commonHeadingStyles,
     marginTop: config.brand.sizes.verticalPadding,
     "@media screen and (max-width: 768px)": {
       fontSize: "1.618em",
@@ -49,6 +59,7 @@ export const styles = {
     },
   },
   heading6: {
+    ...commonHeadingStyles,
     marginTop: config.brand.sizes.verticalPadding,
     "@media screen and (max-width: 768px)": {
       fontSize: "1.618em",

@@ -125,8 +125,8 @@ function Page(props: {
         {/* Panelbear */}
         <script async src="https://cdn.panelbear.com/analytics.js?site=KTNcjMZJMdC"></script>
         <script dangerouslySetInnerHTML={{ __html: `
-            window.panelbear = window.panelbear || function() { (window.panelbear.q = window.panelbear.q || []).push(arguments); };
-            panelbear('config', { site: 'KTNcjMZJMdC' });
+          window.panelbear = window.panelbear || function() { (window.panelbear.q = window.panelbear.q || []).push(arguments); };
+          panelbear('config', { site: 'KTNcjMZJMdC' });
         ` }}>
         </script>
       </head>

@@ -4,7 +4,7 @@ categories:
   - ts
 ---
 
-## Work Experienc
+## Work Experience
 
 - Software Developer at Lighthouse Systems. Responsibilities include working on HTML5 UI overhaul project and serving as Scrum Master.
 
