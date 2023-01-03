@@ -13,6 +13,7 @@ import { styles } from "./Markdown.css.js";
 import { includeAsset } from "../includeAsset.js";
 import { PostDetails } from "../loadPosts.js";
 import { createCssHook } from "../contexts/CssContext.js";
+import { PermaLink } from "./Permalink.js";
 
 export async function markdownToReact(
   outputDir: string,
@@ -57,7 +58,58 @@ export async function markdownToReact(
     .use(rehypeReact, {
       createElement,
       Fragment,
-      components: {},
+      components: {
+        h1: ({ children }: PropsWithChildren) => {
+          return (
+            <h1>
+              <PermaLink>{children}</PermaLink>
+            </h1>
+          );
+        },
+        h2: ({ children }: PropsWithChildren) => {
+          return (
+            <h2>
+              <PermaLink>{children}</PermaLink>
+            </h2>
+          );
+        },
+        h3: ({ children }: PropsWithChildren) => {
+          return (
+            <h3>
+              <PermaLink>{children}</PermaLink>
+            </h3>
+          );
+        },
+        h4: ({ children }: PropsWithChildren) => {
+          return (
+            <h4>
+              <PermaLink>{children}</PermaLink>
+            </h4>
+          );
+        },
+        h5: ({ children }: PropsWithChildren) => {
+          return (
+            <h5>
+              <PermaLink>{children}</PermaLink>
+            </h5>
+          );
+        },
+        h6: ({ children }: PropsWithChildren) => {
+          return (
+            <h6>
+              <PermaLink>{children}</PermaLink>
+            </h6>
+          );
+        },
+        // img: (props: any) => {
+        //   console.log(props);
+        //   return (
+        //     <PermaLink>
+        //       <img {...props} />
+        //     </PermaLink>
+        //   );
+        // },
+      },
     })
     .process(content);
   return result;

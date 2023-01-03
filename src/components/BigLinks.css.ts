@@ -12,4 +12,7 @@ export const styles = {
   name: {
     display: "block",
   },
+  icon: {
+    lineHeight: "1",
+  },
 };

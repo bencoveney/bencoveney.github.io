@@ -3,6 +3,8 @@ import { config } from "../config.js";
 export const commonHeadingStyles = {
   fontFamily: "var(--font-family-serif)",
   fontWeight: 100,
+  position: "relative",
+  lineHeight: "120%",
 };
 
 export const styles = {

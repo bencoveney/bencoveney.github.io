@@ -73,8 +73,10 @@ export const styles = {
     "& blockquote": {
       marginTop: config.brand.sizes.verticalPadding,
       backgroundColor: "var(--bg-color-alternate)",
+      fontFamily: "var(--font-family-serif)",
       color: "var(--fg-color)",
       padding: `0.01em ${config.brand.sizes.horizontalPadding} ${config.brand.sizes.verticalPadding} ${config.brand.sizes.horizontalPadding}`,
+      fontSize: "1.1em",
       ...pullout,
     },
     "& img": {

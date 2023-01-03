@@ -13,5 +13,6 @@ export const styles = {
   },
   compact: {
     padding: `10px ${config.brand.sizes.horizontalPadding}`,
+    margin: `0 auto`,
   },
 };

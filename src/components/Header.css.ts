@@ -4,6 +4,7 @@ export const styles = {
   container: {
     position: "sticky",
     top: 0,
+    zIndex: 1,
   },
   link: {
     display: "flex",
@@ -14,5 +15,7 @@ export const styles = {
     ...commonHeadingStyles,
     fontSize: "1.618em",
   },
-  home: {},
+  home: {
+    textAlign: "right",
+  },
 };

@@ -21,7 +21,7 @@ function BigLink({ name, href, icon }: Config["links"][0]) {
   return (
     <li className={classes.link}>
       <a href={href}>
-        <i className={`mdi ${icon} mdi-48px`}></i>
+        <i className={`mdi ${icon} mdi-48px ${classes.icon}`}></i>
         <span className={classes.name}>{name}</span>
       </a>
     </li>

@@ -18,6 +18,7 @@ export const styles = {
       padding: 0,
       listStyleType: "none",
       textDecoration: "none",
+      lineHeight: "150%",
     },
 
     "html, body": {
