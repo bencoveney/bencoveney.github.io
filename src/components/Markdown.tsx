@@ -101,14 +101,20 @@ export async function markdownToReact(
             </h6>
           );
         },
-        // img: (props: any) => {
-        //   console.log(props);
-        //   return (
-        //     <PermaLink>
-        //       <img {...props} />
-        //     </PermaLink>
-        //   );
-        // },
+        img: (props: any) => {
+          return (
+            <figure className="image-wrapper">
+              <img {...props} />
+              <figcaption className="image-title">{props.title}</figcaption>
+            </figure>
+          );
+        },
+        p: (props: any) => {
+          if (!props || !props.children || props.children.length == 0) {
+            console.log("emp", props);
+          }
+          return <p {...props} />;
+        },
       },
     })
     .process(content);

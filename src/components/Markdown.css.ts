@@ -79,9 +79,25 @@ export const styles = {
       fontSize: "1.1em",
       ...pullout,
     },
-    "& img": {
+    "& .image-wrapper": {
       ...pullout,
-      display: "block",
+      marginTop: config.brand.sizes.verticalPadding,
+      backgroundColor: "black",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      padding: `${config.brand.sizes.verticalPadding} ${config.brand.sizes.horizontalPadding}`,
+      "& img": {
+        display: "block",
+        maxWidth: "100%",
+        maxHeight: "50vh",
+        backgroundColor: "white",
+      },
+      "& .image-title": {
+        marginTop: "0.5rem",
+        color: "white",
+      },
     },
     "& pre code.hljs": {
       marginTop: config.brand.sizes.verticalPadding,

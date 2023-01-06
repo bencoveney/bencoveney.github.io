@@ -26,6 +26,7 @@ export const styles = {
       height: "100%",
       fontFamily: "var(--font-family)",
       color: "var(--fg-color)",
+      backgroundColor: "#eee",
     },
 
     "a:link, a:visited, a:active, a:hover": {
