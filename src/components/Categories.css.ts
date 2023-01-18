@@ -4,17 +4,9 @@ export const styles = {
   technologies: {
     clear: "both",
     marginTop: config.brand.sizes.verticalPadding,
-    "&::before": {
-      content: '"Technologies:"',
-      clear: "both",
-      display: "block",
-      fontStyle: "italic",
-    },
-    "&::after": {
-      content: '""',
-      clear: "both",
-      display: "block",
-    },
+  },
+  compact: {
+    marginTop: 0,
   },
   technology: {
     float: "left",

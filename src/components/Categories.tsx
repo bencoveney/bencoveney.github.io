@@ -6,10 +6,18 @@ import { styles } from "./Categories.css.js";
 
 const { useCss } = createCssHook(styles);
 
-export function Categories({ categories }: { categories: string[] }) {
+export function Categories({
+  categories,
+  compact,
+}: {
+  categories: string[];
+  compact?: boolean;
+}) {
   const { classes } = useCss();
   return (
-    <ul className={classes.technologies}>
+    <ul
+      className={joinClasses(classes.technologies, compact && classes.compact)}
+    >
       {categories.map((categoryId) => {
         const category = config.categories[categoryId];
         return (

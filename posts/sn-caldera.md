@@ -2,6 +2,8 @@
 title: "sn_caldera"
 website: https://gamebanana.com/mods/71640
 download: ./sn_caldera_fix.zip
+summary: 'sn_caldera_fix is a map for the "snipers only" gamemode in Team Fortress 2 built in the Hammer editor.'
+preview: "./sn-caldera-1.jpg"
 categories:
   - gaming
 ---

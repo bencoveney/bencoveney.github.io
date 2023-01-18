@@ -1,5 +1,6 @@
 ---
 title: "About"
+summary: "Information about me, where I've worked, and what I've worked on."
 categories:
   - ts
 ---

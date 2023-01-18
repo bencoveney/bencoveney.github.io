@@ -3,6 +3,7 @@ import { dirname } from "path";
 import { ReactElement } from "react";
 import { markdownToReact } from "./components/Markdown.js";
 import { includeAsset } from "./includeAsset.js";
+import path from "path";
 
 export type Links = {
   npm?: string;
@@ -17,8 +18,10 @@ export type PostDetails = Links & {
   title: string;
   categories: string[];
   content: string;
+  summary: string;
   element: ReactElement;
   route: string;
+  preview?: string;
   published?: string;
 };
 
@@ -60,13 +63,26 @@ export async function loadPost(
   outputDir: string
 ): Promise<PostDetails> {
   const route = dirname(pagePath);
-  const { data, content } = grayMatter.read(pagePath);
+  let data: PostDetails;
+  let content: string;
+  try {
+    const frontmatter = grayMatter.read(pagePath);
+    data = frontmatter.data as PostDetails;
+    content = frontmatter.content;
+  } catch (err) {
+    throw new Error(`Error reading frontmatter for ${pagePath}`, {
+      cause: err,
+    });
+  }
   const page: PostDetails = {
-    ...(data as PostDetails),
+    ...data,
     content,
     route,
   };
   page.element = await markdownToReact(outputDir, page, content);
+  if (page.preview) {
+    page.preview = includeAsset(page, outputDir, page.preview);
+  }
   if (page.download) {
     page.download = includeAsset(page, outputDir, page.download);
   }

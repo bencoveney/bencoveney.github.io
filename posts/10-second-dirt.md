@@ -1,6 +1,8 @@
 ---
 title: "10 Second Dirt"
 website: https://trackmania.io/#/campaigns/21641/31753
+summary: '"10 Second Dirt" is a Trackmania 2020 campaign I created featuring 25 different dirt maps with Author Times below 10 seconds.'
+preview: "./10-second-dirt-map-17.jpg"
 categories:
   - gaming
 ---

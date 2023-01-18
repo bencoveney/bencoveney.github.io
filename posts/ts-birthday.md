@@ -3,6 +3,7 @@ title: "Celebrating Another Year of TypeScript"
 npm: "https://www.npmjs.com/package/barrelsby"
 github: "https://github.com/bencoveney/barrelsby"
 published: "Oct 1, 2019"
+summary: "A blog post to celebrate TypeScripts birthday, written for YouView's engineering blog."
 categories:
   - ts
 ---

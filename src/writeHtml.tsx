@@ -26,6 +26,10 @@ try {
   console.log(`Build failed: ${error.message || error}`);
   if (error instanceof Error) {
     console.error(error.stack);
+    if (error.cause && error.cause instanceof Error) {
+      console.error(`Cause: ${error.cause}`);
+      console.error(error.cause.stack);
+    }
   }
   process.exit(1);
 }
@@ -123,12 +127,18 @@ function Page(props: {
           type="text/css"
         />
         {/* Panelbear */}
-        <script async src="https://cdn.panelbear.com/analytics.js?site=KTNcjMZJMdC"></script>
-        <script dangerouslySetInnerHTML={{ __html: `
+        <script
+          async
+          src="https://cdn.panelbear.com/analytics.js?site=KTNcjMZJMdC"
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
           window.panelbear = window.panelbear || function() { (window.panelbear.q = window.panelbear.q || []).push(arguments); };
           panelbear('config', { site: 'KTNcjMZJMdC' });
-        ` }}>
-        </script>
+        `,
+          }}
+        ></script>
       </head>
       <body dangerouslySetInnerHTML={{ __html: content }} />
     </html>
