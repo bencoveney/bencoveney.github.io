@@ -4,6 +4,8 @@ import { commonHeadingStyles } from "./Heading.css.js";
 export const styles = {
   wrapper: {
     display: "flex",
+    flexDirection: "column",
+    alignItems: "stretch",
     backgroundColor: "rgb(250, 250, 250)",
     flex: "0 0 auto",
     margin: `0 auto ${config.brand.sizes.verticalPadding} auto`,
@@ -11,18 +13,37 @@ export const styles = {
     width: "100%",
     maxWidth: "800px",
   },
-  preview: {
-    flex: "0 0 auto",
-    maxWidth: "200px",
+  previewWrapper: {
+    position: "relative",
+    maxWidth: "100%",
     backgroundColor: "black",
-    "@media screen and (max-width: 768px)": {
-      display: "none",
-    },
+    overflow: "hidden",
+    borderBottom: "1px solid black",
+  },
+  preview: {
+    display: "flex",
+    maxWidth: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
+    zIndex: 1,
+  },
+  previewBackground: {
+    position: "absolute",
+    display: "block",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    filter: "blur(10px)",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
   },
   previewImage: {
-    aspectRatio: "1 / 1",
-    maxWidth: "200px",
-    maxHeight: "200px",
+    flex: "0 0 auto",
+    maxWidth: "100%",
+    maxHeight: "450px",
     display: "block",
   },
   content: {

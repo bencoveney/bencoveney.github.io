@@ -5,7 +5,7 @@ export const styles = {
   container: {
     position: "sticky",
     top: 0,
-    zIndex: 1,
+    zIndex: 10,
     marginBottom: config.brand.sizes.verticalPadding,
   },
   link: {

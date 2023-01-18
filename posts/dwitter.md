@@ -1,6 +1,7 @@
 ---
 title: "Dwitter"
 summary: "Explainations for some of my posts to dwitter - a code-golfing social network."
+preview: "./dwitter-preview.png"
 categories:
   - canvas
   - js
