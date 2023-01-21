@@ -59,48 +59,48 @@ export async function markdownToReact(
       createElement,
       Fragment,
       components: {
-        h1: ({ children }: PropsWithChildren) => {
-          return (
-            <h1>
-              <PermaLink>{children}</PermaLink>
-            </h1>
-          );
-        },
-        h2: ({ children }: PropsWithChildren) => {
-          return (
-            <h2>
-              <PermaLink>{children}</PermaLink>
-            </h2>
-          );
-        },
-        h3: ({ children }: PropsWithChildren) => {
-          return (
-            <h3>
-              <PermaLink>{children}</PermaLink>
-            </h3>
-          );
-        },
-        h4: ({ children }: PropsWithChildren) => {
-          return (
-            <h4>
-              <PermaLink>{children}</PermaLink>
-            </h4>
-          );
-        },
-        h5: ({ children }: PropsWithChildren) => {
-          return (
-            <h5>
-              <PermaLink>{children}</PermaLink>
-            </h5>
-          );
-        },
-        h6: ({ children }: PropsWithChildren) => {
-          return (
-            <h6>
-              <PermaLink>{children}</PermaLink>
-            </h6>
-          );
-        },
+        // h1: ({ children }: PropsWithChildren) => {
+        //   return (
+        //     <h1>
+        //       <PermaLink>{children}</PermaLink>
+        //     </h1>
+        //   );
+        // },
+        // h2: ({ children }: PropsWithChildren) => {
+        //   return (
+        //     <h2>
+        //       <PermaLink>{children}</PermaLink>
+        //     </h2>
+        //   );
+        // },
+        // h3: ({ children }: PropsWithChildren) => {
+        //   return (
+        //     <h3>
+        //       <PermaLink>{children}</PermaLink>
+        //     </h3>
+        //   );
+        // },
+        // h4: ({ children }: PropsWithChildren) => {
+        //   return (
+        //     <h4>
+        //       <PermaLink>{children}</PermaLink>
+        //     </h4>
+        //   );
+        // },
+        // h5: ({ children }: PropsWithChildren) => {
+        //   return (
+        //     <h5>
+        //       <PermaLink>{children}</PermaLink>
+        //     </h5>
+        //   );
+        // },
+        // h6: ({ children }: PropsWithChildren) => {
+        //   return (
+        //     <h6>
+        //       <PermaLink>{children}</PermaLink>
+        //     </h6>
+        //   );
+        // },
         img: (props: any) => {
           return (
             <figure className="image-wrapper">

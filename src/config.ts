@@ -18,6 +18,7 @@ export const config = {
     image: { name: "Image Processing", icon: "mdi-image" },
     "genetic-algorithms": { name: "Genetic Algorithms", icon: "mdi-dna" },
     gaming: { name: "Gaming", icon: "mdi-gamepad-variant" },
+    me: { name: "About Me", icon: "mdi-human" },
   } as { [alias: string]: { name: string; icon: string } },
   links: [
     {

@@ -58,6 +58,7 @@ export async function loadPosts(outputDir: string): Promise<PostsDetails> {
       "./posts/light-switch-sim.md",
       outputDir
     ),
+    "tier-list": await loadPost("./posts/tier-list.md", outputDir),
   };
 }
 
