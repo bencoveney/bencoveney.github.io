@@ -38,6 +38,11 @@
   - Voxels
   - RWF
   - Flesh out projects
+  - https://bencoveney.com/doclooks/
+  - https://github.com/bencoveney/light-switch-simulator-pro
+  - GeneticAlgorithms
+    - Dissertation
+    - https://github.com/bencoveney/ChromosomeLibrary
 
 ## Decisions
 

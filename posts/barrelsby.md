@@ -4,6 +4,7 @@ npm: https://www.npmjs.com/package/barrelsby
 github: https://github.com/bencoveney/barrelsby
 summary: "Node.js command line utility to automatically generates index.ts files for typescript codebases."
 published: "Feb 19, 2017"
+preview: "./barrelsby-downloads.png"
 categories:
   - ts
   - ci

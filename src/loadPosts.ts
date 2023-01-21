@@ -45,8 +45,7 @@ export async function loadPosts(outputDir: string): Promise<PostsDetails> {
     quadrilactic: await loadPost("./posts/quadrilactic.md", outputDir),
     dots: await loadPost("./posts/dots.md", outputDir),
     tsfluff: await loadPost("./posts/tsfluff.md", outputDir),
-    bmprog: await loadPost("./posts/bmprog.md", outputDir),
-    bfinterpreter: await loadPost("./posts/bfinterpreter.md", outputDir),
+    esolangs: await loadPost("./posts/esolangs.md", outputDir),
     "chromosome-library": await loadPost(
       "./posts/chromosome-library.md",
       outputDir
