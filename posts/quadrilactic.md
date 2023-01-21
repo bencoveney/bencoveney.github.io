@@ -2,7 +2,7 @@
 title: "Quadrilactic"
 itch: https://bencoveney.itch.io/quadrilactic
 github: https://github.com/bencoveney/Quadrilactic
-summary: "A browser-based game about a square jumping and bouncing through space."
+summary: "A game about a square jumping and bouncing through space, that you can play in your browser."
 preview: "./quadrilactic.png"
 categories:
   - canvas
