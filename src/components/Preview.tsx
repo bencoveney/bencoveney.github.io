@@ -16,6 +16,15 @@ export function Preview({
   const { classes } = useCss();
   return (
     <div className={classes.wrapper}>
+      <div className={classes.content}>
+        <a href={`./${postKey}.html`}>
+          <h2 className={classes.title}>{post.title}</h2>
+        </a>
+        <p className={classes.blurb}>
+          {post.summary || "A wonderful surprise..."}
+        </p>
+        <Categories compact {...post} />
+      </div>
       {post.preview && (
         <div className={classes.previewWrapper}>
           <div
@@ -31,15 +40,6 @@ export function Preview({
           </div>
         </div>
       )}
-      <div className={classes.content}>
-        <a href={`./${postKey}.html`}>
-          <h2 className={classes.title}>{post.title}</h2>
-        </a>
-        <p className={classes.blurb}>
-          {post.summary || "A wonderful surprise..."}
-        </p>
-        <Categories compact {...post} />
-      </div>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import { config } from "../config.js";
 
 export const commonHeadingStyles = {
-  fontFamily: "var(--font-family-serif)",
+  fontFamily: "var(--font-family-heading)",
   fontWeight: 100,
   position: "relative",
   lineHeight: "120%",

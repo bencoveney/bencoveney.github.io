@@ -18,7 +18,7 @@ export const styles = {
     maxWidth: "100%",
     backgroundColor: "black",
     overflow: "hidden",
-    borderBottom: "1px solid black",
+    borderTop: "1px solid black",
   },
   preview: {
     display: "flex",

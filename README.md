@@ -2,6 +2,12 @@
 
 [https://bencoveney.github.io/](https://bencoveney.github.io/)
 
+## Design inspiration
+
+- https://mxb.dev/
+- https://css-irl.info/quick-tip-negative-animation-delay/
+- https://daverupert.com/
+
 ## Requirements
 
 - Occasional blog post
