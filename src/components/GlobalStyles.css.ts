@@ -17,8 +17,8 @@ export const styles = {
       "--font-family-mono":
         "Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace",
       // Prefer these ones for referencing fonts:
-      "--font-family-body": "var(--font-family-serif)",
-      "--font-family-heading": "var(--font-family-sans-serif)",
+      "--font-family-body": "var(--font-family-sans-serif)",
+      "--font-family-heading": "var(--font-family-serif)",
       "--font-family-code": "var(--font-family-mono)",
 
       "--background-color-dark": backgroundColorDark,
