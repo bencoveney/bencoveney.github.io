@@ -81,7 +81,7 @@ export const styles = {
     "& .image-wrapper": {
       ...pullout,
       marginTop: config.brand.sizes.verticalPadding,
-      backgroundColor: "black",
+      backgroundColor: "var(--pure-black)",
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
@@ -91,11 +91,10 @@ export const styles = {
         display: "block",
         maxWidth: "100%",
         maxHeight: "50vh",
-        backgroundColor: "white",
       },
       "& .image-title": {
         marginTop: "0.5rem",
-        color: "white",
+        color: "var(--fg-color)",
       },
     },
     "& pre code.hljs": {

@@ -6,7 +6,7 @@ export const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "stretch",
-    backgroundColor: "rgb(250, 250, 250)",
+    backgroundColor: "var(--background-color-medium)",
     flex: "0 0 auto",
     margin: `0 auto ${config.brand.sizes.verticalPadding} auto`,
     boxSizing: "border-box",
@@ -16,7 +16,7 @@ export const styles = {
   previewWrapper: {
     position: "relative",
     maxWidth: "100%",
-    backgroundColor: "black",
+    backgroundColor: "var(--background-color-light)",
     overflow: "hidden",
     borderTop: "1px solid black",
   },

@@ -20,12 +20,11 @@ export const styles = {
     alignItems: "center",
   },
   icon: {
-    color: "rgb(255, 255, 255)",
+    color: "var(--fg-color)",
     margin: "0 5px",
   },
   tag: {
-    color: "rgb(255, 255, 255)",
-    backgroundColor: "var(--fg-color)",
+    backgroundColor: "var(--bg-color-alternate)",
     padding: "5px",
     borderRadius: "5px",
   },

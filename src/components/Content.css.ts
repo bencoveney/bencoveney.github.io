@@ -2,7 +2,7 @@ import { config } from "../config.js";
 
 export const styles = {
   content: {
-    backgroundColor: "rgb(250, 250, 250)",
+    backgroundColor: "var(--background-color-medium)",
     flex: "0 0 auto",
     margin: `0 auto ${config.brand.sizes.verticalPadding} auto`,
     boxSizing: "border-box",

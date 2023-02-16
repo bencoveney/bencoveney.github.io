@@ -1,3 +1,12 @@
+const backgroundColorDark = "hsl(238, 6%, 4%)";
+const foregroundColorDark = "hsl(238, 6%, 96%)";
+const backgroundColorMedium = "hsl(238, 6%, 8%)";
+const foregroundColorMedium = "hsl(238, 6%, 92%)";
+const backgroundColorLight = "hsl(238, 6%, 14%)";
+const foregroundColorLight = "hsl(238, 6%, 86%)";
+const pureBlack = "hsl(0, 0%, 0%)";
+const highlightColor = "rgb(180, 20, 20)";
+
 export const styles = {
   "@global": {
     ":root": {
@@ -12,9 +21,18 @@ export const styles = {
       "--font-family-heading": "var(--font-family-sans-serif)",
       "--font-family-code": "var(--font-family-mono)",
 
-      "--fg-color": `rgb(50, 50, 50)`,
-      "--highlight-color": "rgb(180, 20, 20)",
-      "--bg-color-alternate": `rgba(220, 220, 220, 0.9)`,
+      "--background-color-dark": backgroundColorDark,
+      "--foreground-color-dark": foregroundColorDark,
+      "--background-color-medium": backgroundColorMedium,
+      "--foreground-color-medium": foregroundColorMedium,
+      "--background-color-light": backgroundColorLight,
+      "--foreground-color-light": foregroundColorLight,
+      "--highlight-color": highlightColor,
+      "--pure-black": pureBlack,
+
+      "--fg-color": "var(--foreground-color-light)",
+      "--bg-color": "var(--background-color-dark)",
+      "--bg-color-alternate": "var(--background-color-light)",
     },
 
     /* Reset */
@@ -31,7 +49,7 @@ export const styles = {
       height: "100%",
       fontFamily: "var(--font-family-body)",
       color: "var(--fg-color)",
-      backgroundColor: "#eee",
+      backgroundColor: "var(--bg-color)",
     },
 
     "a:link, a:visited, a:active, a:hover": {

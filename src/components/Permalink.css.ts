@@ -11,7 +11,7 @@ export const styles = {
   permalink: {
     "&:link, &:active, &:focus, &:visited, &:focus-visible": {
       outline: "none",
-      color: "rgb(150, 150, 150)",
+      color: "var(--bg-color-alternate)",
     },
     "&:hover": {
       outline: "none",
