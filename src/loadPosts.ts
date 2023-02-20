@@ -59,6 +59,7 @@ export async function loadPosts(outputDir: string): Promise<PostsDetails> {
       outputDir
     ),
     "tier-list": await loadPost("./posts/tier-list.md", outputDir),
+    "ai-hype": await loadPost("./posts/ai-hype.md", outputDir),
   };
 }
 
