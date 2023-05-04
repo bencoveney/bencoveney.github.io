@@ -76,6 +76,7 @@ export const styles = {
       color: "var(--fg-color)",
       padding: `0.01em ${config.brand.sizes.horizontalPadding} ${config.brand.sizes.verticalPadding} ${config.brand.sizes.horizontalPadding}`,
       fontSize: "1.1em",
+      fontStyle: "italic",
       ...pullout,
     },
     "& .image-wrapper": {

@@ -7,6 +7,7 @@
 - https://mxb.dev/
 - https://css-irl.info/quick-tip-negative-animation-delay/
 - https://daverupert.com/
+- https://mattwynne.net/new-beginning
 
 ## Requirements
 
