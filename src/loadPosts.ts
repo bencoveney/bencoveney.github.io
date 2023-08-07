@@ -52,6 +52,7 @@ export async function loadPosts(outputDir: string): Promise<PostsDetails> {
     ),
     "sn-caldera": await loadPost("./posts/sn-caldera.md", outputDir),
     "10-second-dirt": await loadPost("./posts/10-second-dirt.md", outputDir),
+    "15-second-dirt": await loadPost("./posts/15-second-dirt.md", outputDir),
     dwitter: await loadPost("./posts/dwitter.md", outputDir),
     "ts-birthday": await loadPost("./posts/ts-birthday.md", outputDir),
     "light-switch-sim": await loadPost(
