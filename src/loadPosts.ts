@@ -32,6 +32,27 @@ export async function loadPosts(outputDir: string): Promise<PostsDetails> {
   return {
     about: await loadPost("./posts/about.md", outputDir),
     barrelsby: await loadPost("./posts/barrelsby.md", outputDir),
+    "react-context": await loadPost("./posts/react-context.md", outputDir),
+    "ts-birthday": await loadPost("./posts/ts-birthday.md", outputDir),
+    dwitter: await loadPost("./posts/dwitter.md", outputDir),
+    milligrid: await loadPost("./posts/milligrid.md", outputDir),
+    quadrilactic: await loadPost("./posts/quadrilactic.md", outputDir),
+    esolangs: await loadPost("./posts/esolangs.md", outputDir),
+    "light-switch-sim": await loadPost(
+      "./posts/light-switch-sim.md",
+      outputDir
+    ),
+    "10-second-dirt": await loadPost("./posts/10-second-dirt.md", outputDir),
+    "15-second-dirt": await loadPost("./posts/15-second-dirt.md", outputDir),
+    "sn-caldera": await loadPost("./posts/sn-caldera.md", outputDir),
+    "tier-list": await loadPost("./posts/tier-list.md", outputDir),
+    // Need work:
+    "chromosome-library": await loadPost(
+      "./posts/chromosome-library.md",
+      outputDir
+    ),
+    tsfluff: await loadPost("./posts/tsfluff.md", outputDir),
+    dots: await loadPost("./posts/dots.md", outputDir),
     "csgo-rankings-graph": await loadPost(
       "./posts/csgo-rankings-graph.md",
       outputDir
@@ -40,26 +61,6 @@ export async function loadPosts(outputDir: string): Promise<PostsDetails> {
       "./posts/database-objects.md",
       outputDir
     ),
-    milligrid: await loadPost("./posts/milligrid.md", outputDir),
-    quadrilactic: await loadPost("./posts/quadrilactic.md", outputDir),
-    dots: await loadPost("./posts/dots.md", outputDir),
-    tsfluff: await loadPost("./posts/tsfluff.md", outputDir),
-    esolangs: await loadPost("./posts/esolangs.md", outputDir),
-    "chromosome-library": await loadPost(
-      "./posts/chromosome-library.md",
-      outputDir
-    ),
-    "sn-caldera": await loadPost("./posts/sn-caldera.md", outputDir),
-    "10-second-dirt": await loadPost("./posts/10-second-dirt.md", outputDir),
-    "15-second-dirt": await loadPost("./posts/15-second-dirt.md", outputDir),
-    dwitter: await loadPost("./posts/dwitter.md", outputDir),
-    "ts-birthday": await loadPost("./posts/ts-birthday.md", outputDir),
-    "light-switch-sim": await loadPost(
-      "./posts/light-switch-sim.md",
-      outputDir
-    ),
-    "tier-list": await loadPost("./posts/tier-list.md", outputDir),
-    "react-context": await loadPost("./posts/react-context.md", outputDir),
   };
 }
 
