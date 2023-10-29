@@ -115,7 +115,11 @@ export const styles = {
       marginTop: config.brand.sizes.verticalPadding,
       marginLeft: "25px",
       "& li": {
+        marginTop: "0.5rem",
         listStyleType: "disc",
+      },
+      "& ul": {
+        marginTop: 0,
       },
     },
     "& h1": {

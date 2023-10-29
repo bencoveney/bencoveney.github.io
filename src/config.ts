@@ -19,6 +19,7 @@ export const config = {
     "genetic-algorithms": { name: "Genetic Algorithms", icon: "mdi-dna" },
     gaming: { name: "Gaming", icon: "mdi-gamepad-variant" },
     me: { name: "About Me", icon: "mdi-human" },
+    react: { name: "React", icon: "mdi-react" },
   } as { [alias: string]: { name: string; icon: string } },
   links: [
     {

@@ -3,7 +3,6 @@ import { dirname } from "path";
 import { ReactElement } from "react";
 import { markdownToReact } from "./components/Markdown.js";
 import { includeAsset } from "./includeAsset.js";
-import path from "path";
 
 export type Links = {
   npm?: string;
@@ -60,6 +59,7 @@ export async function loadPosts(outputDir: string): Promise<PostsDetails> {
       outputDir
     ),
     "tier-list": await loadPost("./posts/tier-list.md", outputDir),
+    "react-context": await loadPost("./posts/react-context.md", outputDir),
   };
 }
 
