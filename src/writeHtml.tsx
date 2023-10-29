@@ -114,9 +114,16 @@ function Page(props: {
         <title>{props.title}</title>
         <meta name="description" content={props.description} />
         <meta name="author" content="Ben Coveney" />
-        <link rel="icon" href="/favicon-32.ico" sizes="any" />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/favicon-180.png" />
+        <link
+          rel="icon"
+          type="image/png"
+          href="https://emojifavicon.dev/favicons/1f4bb.png"
+        />
+        <link
+          rel="shortcut icon"
+          type="image/x-icon"
+          href="https://emojifavicon.dev/favicons/1f4bb.ico"
+        />
         <link rel="manifest" href="/manifest.webmanifest" />
         <link rel="canonical" href={props.canonical} />
         <style dangerouslySetInnerHTML={{ __html: styles }} />
