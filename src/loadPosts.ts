@@ -33,7 +33,6 @@ export async function loadPosts(outputDir: string): Promise<PostsDetails> {
     about: await loadPost("./posts/about.md", outputDir),
     barrelsby: await loadPost("./posts/barrelsby.md", outputDir),
     "react-context": await loadPost("./posts/react-context.md", outputDir),
-    "map-object": await loadPost("./posts/map-object.md", outputDir),
     "ts-birthday": await loadPost("./posts/ts-birthday.md", outputDir),
     dwitter: await loadPost("./posts/dwitter.md", outputDir),
     milligrid: await loadPost("./posts/milligrid.md", outputDir),
