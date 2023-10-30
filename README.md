@@ -36,8 +36,6 @@
 - Add projects:
   - Music production
   - UKFT
-  - Personal site (+ history, netmag review)
-  - Superauto.pet
   - Gists (like regex fractals)
   - Internal talks?
   - YouTube videos (Csgo clips, linerider)
@@ -45,7 +43,6 @@
   - RWF
   - Flesh out projects
   - https://bencoveney.com/doclooks/
-  - https://github.com/bencoveney/light-switch-simulator-pro
   - GeneticAlgorithms
     - Dissertation
     - https://github.com/bencoveney/ChromosomeLibrary

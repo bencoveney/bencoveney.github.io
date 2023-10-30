@@ -25,7 +25,11 @@ An example to illustrate this would be global variables. When a function reaches
 
 Global variables also make code harder to refactor and reuse. When you extract or move a function around, you get no warning that the function expects the global variables to be present and in a specific state, because those variables are not listed in the parameter list.
 
-React Context suffers from a very similar set of problems to Global Variables. Both of them allow you to make your parameter lists look smaller, and some developers might think that makes the code look clean and tidy. But when you use Context instead of a prop, the dependency on the parameter is still there. The code isn't any less complex, but some of the complexity has just been hidden, and it can potentially cause problems later.
+React Context suffers from a very similar set of problems to Global Variables. Both of them allow you to make your parameter lists look smaller, and some developers might think that makes the code look clean and tidy. But when you use Context instead of a prop, the dependency on the parameter is still there.
+
+There is another subtler implication of the way Context works: Context will be passed silently to any child components, without any visible indication. This makes it difficult to put constraints on where that context should/shouldn't be consumed, if that's something you'd ever want to do. This again has parallels to global state - Over time it will inevitably spread its tendrils out throughout the codebase.
+
+Ultimately Context hides complexity, but that it not the same as reducing complexity. In the long run, you may find that it increases instead.
 
 ## Increasing Context use
 
@@ -52,6 +56,7 @@ I am not universally against React Context. I wouldn't even say that I am univer
 If you want to use React Context safely, there are some checks you could perform that might help you make a good decision:
 
 - Try building the app using tools like `useState` on their own before reaching for Context. You always have the option to adopt it later without too many problems. Going the other way (removing Context after it has been added) will be harder, because the compiler cannot help identify which descendent components rely on the Context to be set.
+- Try using custom hooks to tidy up complex state before reaching for Context.
 - Treat Context with the same caution that you would use with global state, and ask yourself similar questions, for example:
   - Could unexpected changes to this state cause any of the dependencies to behave in weird ways?
   - Does this state really apply to the whole page (for example login state or internationalisation)?
