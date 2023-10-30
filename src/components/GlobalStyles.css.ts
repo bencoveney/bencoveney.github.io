@@ -6,7 +6,7 @@ const backgroundColorLight = "hsl(238, 6%, 14%)";
 const foregroundColorLight = "hsl(238, 6%, 86%)";
 const pureBlack = "hsl(0, 0%, 0%)";
 const highlightColor = "rgb(180, 20, 20)";
-const highlightColor2 = "rgb(32, 79, 19)";
+const highlightColor2 = "rgb(181, 105, 19)";
 
 export const styles = {
   "@global": {
