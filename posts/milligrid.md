@@ -6,6 +6,7 @@ website: http://bencoveney.github.io/Milligrid/
 summary: "Responsive CSS grid system built using flexbox and based on Milligram"
 preview: "./milligrid.png"
 categories:
+  - project
   - sass
   - css
   - ci

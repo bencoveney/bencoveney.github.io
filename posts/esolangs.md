@@ -5,6 +5,7 @@ website: https://bencoveney.github.io/BMProg/
 summary: "Adventures in esoteric programming languages"
 preview: "./esolangs-bmprog-interpreter.png"
 categories:
+  - project
   - c-sharp
   - image
   - prog-lang

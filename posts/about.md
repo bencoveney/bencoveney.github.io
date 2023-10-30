@@ -4,7 +4,7 @@ summary: "How I learned to code, where I've worked, and what I've worked on."
 published: "Jan 21, 2021"
 github: https://github.com/bencoveney/bencoveney.github.io
 categories:
-  - me
+  - writing
   - react
 ---
 

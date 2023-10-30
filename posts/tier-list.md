@@ -6,6 +6,7 @@ summary: "A tier list for CSGO Wingman maps."
 preview: "./tier-list-complete.png"
 published: "Jan 21, 2021"
 categories:
+  - project
   - gaming
   - js
 ---

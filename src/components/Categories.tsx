@@ -21,7 +21,13 @@ export function Categories({
       {categories.map((categoryId) => {
         const category = config.categories[categoryId];
         return (
-          <li className={classes.technology} key={categoryId}>
+          <li
+            className={joinClasses(
+              classes.technology,
+              category.color === "red" ? classes.tagRed : classes.tagGreen
+            )}
+            key={categoryId}
+          >
             <i
               className={joinClasses(
                 classes.icon,

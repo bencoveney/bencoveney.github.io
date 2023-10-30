@@ -10,7 +10,6 @@ export const styles = {
   },
   technology: {
     float: "left",
-    backgroundColor: "var(--highlight-color)",
     borderRadius: "5px",
     fontSize: "0.707em",
     margin: "5px",
@@ -18,6 +17,12 @@ export const styles = {
     flexDirection: "row",
     flexWrap: "nowrap",
     alignItems: "center",
+  },
+  tagRed: {
+    backgroundColor: "var(--highlight-color)",
+  },
+  tagGreen: {
+    backgroundColor: "var(--highlight-color-2)",
   },
   icon: {
     color: "var(--fg-color)",

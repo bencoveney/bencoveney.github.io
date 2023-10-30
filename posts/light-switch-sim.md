@@ -5,6 +5,7 @@ github: https://github.com/bencoveney/light-switch-simulator-pro
 summary: "A tongue-in-cheek light switch management simulator you can play in your browser."
 preview: "./light-switch-sim.png"
 categories:
+  - project
   - css
   - gaming
 ---

@@ -5,6 +5,7 @@ github: https://github.com/bencoveney/Quadrilactic
 summary: "A game about a square jumping and bouncing through space, that you can play in your browser."
 preview: "./quadrilactic.png"
 categories:
+  - project
   - canvas
   - ts
   - gaming

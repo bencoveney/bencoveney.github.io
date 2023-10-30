@@ -4,6 +4,7 @@ summary: "Hiding dependencies for fun and complexity."
 preview: "./react-context.png"
 published: "Oct 29, 2023"
 categories:
+  - writing
   - ts
   - react
 ---

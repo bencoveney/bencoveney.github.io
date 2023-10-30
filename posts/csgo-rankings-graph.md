@@ -5,6 +5,7 @@ github: https://github.com/bencoveney/CsgoRankingsGraph
 summary: "Charts HLTV rankings of professional teams in the game Counter-Strike: Global Offensive."
 preview: "./csgo-rankings-graph.png"
 categories:
+  - project
   - ts
   - svg
   - dataviz

@@ -3,6 +3,7 @@ title: "Dwitter"
 summary: "Explainations for some of my posts to Dwitter - a code-golfing social network."
 preview: "./dwitter-preview.png"
 categories:
+  - writing
   - canvas
   - js
   - prog-lang

@@ -3,6 +3,7 @@ title: "ChromosomeLibrary"
 github: https://github.com/bencoveney/ChromosomeLibrary
 summary: "A library of bit-string crossover and mutation functionality for use in genetic algorithm projects."
 categories:
+  - project
   - c-sharp
   - genetic-algorithms
 ---

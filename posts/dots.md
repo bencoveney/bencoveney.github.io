@@ -5,6 +5,7 @@ github: https://github.com/bencoveney/dots
 summary: "An animated HTML5 canvas effect previously used on this page."
 preview: "./dots.png"
 categories:
+  - project
   - canvas
   - js
 ---

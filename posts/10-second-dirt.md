@@ -5,6 +5,7 @@ summary: '"10 Second Dirt" is a campaign I created for the game Trackmania 2020 
 preview: "./10-second-dirt-map-17.jpg"
 published: "Oct 08, 2022"
 categories:
+  - project
   - gaming
 ---
 

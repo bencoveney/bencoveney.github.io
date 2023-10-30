@@ -6,6 +6,7 @@ summary: "Node.js command line utility to automatically generates index.ts files
 published: "Feb 19, 2017"
 preview: "./barrelsby-downloads.png"
 categories:
+  - project
   - ts
   - ci
   - unit-test

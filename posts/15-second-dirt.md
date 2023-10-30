@@ -5,6 +5,7 @@ summary: '"15 Second Dirt" is the second campaign I created for Trackmania 2020 
 preview: "./15-second-dirt-map-13.jpg"
 published: "May 14, 2022"
 categories:
+  - project
   - gaming
 ---
 
