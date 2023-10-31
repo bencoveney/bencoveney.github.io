@@ -1,7 +1,7 @@
 ---
 title: "Dots"
-website: https://bencoveney.github.io/dots/
-github: https://github.com/bencoveney/dots
+website: http://bencoveney.com/dots/
+github: https://github.com/bencoveney/Dots
 summary: "An animated HTML5 canvas effect previously used on this page."
 preview: "./dots.png"
 categories:
@@ -10,6 +10,8 @@ categories:
   - js
 ---
 
-Animated HTML5 canvas effect previously used on this page.
+On a previous version of my personal site, I added a fancy animated background.
 
-![Dots preview](./dots.png "Dots preview")
+![A preview of the effect](./dots.png "A preview of the effect")
+
+It is implemented using canvas and straight JavaScript. Dots fly randomly around the screen and will form "links" to any nearby dots, which fade over time. It's not even 200 lines of code, but it might be useful if you ever want to add some similar flair to a site.
