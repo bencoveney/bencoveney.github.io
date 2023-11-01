@@ -45,17 +45,17 @@ export async function loadPosts(outputDir: string): Promise<PostsDetails> {
     ),
     "10-second-dirt": await loadPost("./posts/10-second-dirt.md", outputDir),
     "15-second-dirt": await loadPost("./posts/15-second-dirt.md", outputDir),
-    "sn-caldera": await loadPost("./posts/sn-caldera.md", outputDir),
     "tier-list": await loadPost("./posts/tier-list.md", outputDir),
-    // Need work:
-    "chromosome-library": await loadPost(
-      "./posts/chromosome-library.md",
-      outputDir
-    ),
     tsfluff: await loadPost("./posts/tsfluff.md", outputDir),
     dots: await loadPost("./posts/dots.md", outputDir),
     "csgo-rankings-graph": await loadPost(
       "./posts/csgo-rankings-graph.md",
+      outputDir
+    ),
+    // Need work:
+    "sn-caldera": await loadPost("./posts/sn-caldera.md", outputDir),
+    "chromosome-library": await loadPost(
+      "./posts/chromosome-library.md",
       outputDir
     ),
     "database-objects": await loadPost(
