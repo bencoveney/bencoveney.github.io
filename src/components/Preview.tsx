@@ -16,30 +16,30 @@ export function Preview({
   const { classes } = useCss();
   return (
     <div className={classes.wrapper}>
-      <div className={classes.content}>
-        <a href={`./${postKey}.html`}>
+      <a className={classes.link} href={`./${postKey}.html`}>
+        <div className={classes.content}>
           <h2 className={classes.title}>{post.title}</h2>
-        </a>
-        <p className={classes.blurb}>
-          {post.summary || "A wonderful surprise..."}
-        </p>
-        <Categories compact {...post} />
-      </div>
-      {post.preview && (
-        <div className={classes.previewWrapper}>
-          <div
-            style={{ backgroundImage: `url(${post.preview})` }}
-            className={classes.previewBackground}
-          />
-          <div className={classes.preview}>
-            <img
-              src={post.preview}
-              className={classes.previewImage}
-              loading="lazy"
-            />
-          </div>
+          <p className={classes.blurb}>
+            {post.summary || "A wonderful surprise..."}
+          </p>
+          <Categories compact {...post} />
         </div>
-      )}
+        {post.preview && (
+          <div className={classes.previewWrapper}>
+            <div
+              style={{ backgroundImage: `url(${post.preview})` }}
+              className={classes.previewBackground}
+            />
+            <div className={classes.preview}>
+              <img
+                src={post.preview}
+                className={classes.previewImage}
+                loading="lazy"
+              />
+            </div>
+          </div>
+        )}
+      </a>
     </div>
   );
 }

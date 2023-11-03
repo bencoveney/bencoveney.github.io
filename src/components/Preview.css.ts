@@ -6,7 +6,6 @@ export const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "stretch",
-    backgroundColor: "var(--background-color-medium)",
     flex: "0 0 auto",
     margin: `0 auto ${config.brand.sizes.verticalPadding} auto`,
     boxSizing: "border-box",
@@ -62,5 +61,18 @@ export const styles = {
     ...commonHeadingStyles,
     display: "block",
     fontSize: "1.618em",
+  },
+  link: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "stretch",
+    width: "100%",
+    height: "100%",
+    position: "relative",
+    margin: 0,
+    backgroundColor: "var(--background-color-medium)",
+    "&:hover": {
+      backgroundColor: "var(--background-color-light)",
+    },
   },
 };
