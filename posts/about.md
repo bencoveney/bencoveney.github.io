@@ -3,12 +3,15 @@ title: "About Me"
 summary: "How I learned to code, where I've worked, and what I've worked on."
 published: "Jan 21, 2021"
 github: https://github.com/bencoveney/bencoveney.github.io
+preview: "./about.jpg"
 categories:
   - writing
   - react
 ---
 
 As you might guess from the site header, my name is Ben. Writing about yourself is difficult, so don't expect to find too much on this page, but take a look around the site if you want to see what kind of things I'm interested in.
+
+![Me](./about.jpg "This is what I look like.")
 
 ## Websites
 
