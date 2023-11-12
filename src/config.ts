@@ -49,11 +49,6 @@ export const config = {
       icon: "mdi-linkedin",
     },
     {
-      name: "Blog",
-      href: "https://www.bencoveney.com",
-      icon: "mdi-book-open-page-variant",
-    },
-    {
       name: "Steam",
       href: "https://steamcommunity.com/id/bencoveney",
       icon: "mdi-steam",
