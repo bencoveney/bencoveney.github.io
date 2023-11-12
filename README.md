@@ -35,17 +35,14 @@
 - Migrate icons to something new
 - Add projects:
   - Music production
+  - ESBuild github pages
+  - Add 3 thing game to about page
   - Utils https://github.com/bencoveney/utils
-  - Voxels
-    - https://github.com/bencoveney/octree-webgl https://bencoveney.com/octree-webgl/
-    - https://github.com/bencoveney/webgl-voxel https://bencoveney.com/webgl-voxel/
   - TS Function Docs https://github.com/bencoveney/ts-function-docs/tree/master
   - AWS Games https://github.com/bencoveney/aws-games
   - UKFT
   - Gists (like regex fractals)
   - Internal talks?
-  - YouTube videos (Csgo clips, linerider)
-  - Voxels
   - RWF
   - Items? Dials? Charts?
   - https://bencoveney.com/doclooks/
