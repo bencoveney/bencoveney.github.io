@@ -42,15 +42,17 @@ export const styles = {
   previewImage: {
     flex: "0 0 auto",
     maxWidth: "100%",
-    maxHeight: "450px",
+    maxHeight: "min(450px, 60vh)",
     display: "block",
   },
   content: {
     flex: "1 1 auto",
     padding: `${config.brand.sizes.verticalPadding} ${config.brand.sizes.horizontalPadding}`,
+    paddingTop: 0,
   },
   blurb: {
-    marginTop: "10px",
+    marginTop: "1rem",
+    marginBottom: "1rem",
     display: "inline-block",
     "@media screen and (min-width: 769px)": {
       textOverflow: "ellipsis",
@@ -61,6 +63,16 @@ export const styles = {
     ...commonHeadingStyles,
     display: "block",
     fontSize: "1.618em",
+    position: "absolute",
+    zIndex: 2,
+    bottom: 0,
+    padding: `${config.brand.sizes.verticalPadding} ${config.brand.sizes.horizontalPadding}`,
+    backgroundColor: "var(--background-color-medium)",
+    paddingBottom: 0,
+    "@media screen and (max-width: 768px)": {
+      fontSize: "2.618em",
+      position: "relative",
+    },
   },
   link: {
     display: "flex",
@@ -72,6 +84,7 @@ export const styles = {
     margin: 0,
     backgroundColor: "var(--background-color-medium)",
     "&:hover": {
+      "--background-color-medium": "var(--background-color-light)",
       backgroundColor: "var(--background-color-light)",
     },
   },

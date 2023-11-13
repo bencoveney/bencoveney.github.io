@@ -17,14 +17,7 @@ export function Preview({
   return (
     <div className={classes.wrapper}>
       <a className={classes.link} href={`./${postKey}.html`}>
-        <div className={classes.content}>
-          <h2 className={classes.title}>{post.title}</h2>
-          <p className={classes.blurb}>
-            {post.summary || "A wonderful surprise..."}
-          </p>
-          <Categories compact {...post} />
-        </div>
-        {post.preview && (
+        {post.preview ? (
           <div className={classes.previewWrapper}>
             <div
               style={{ backgroundImage: `url(${post.preview})` }}
@@ -37,8 +30,17 @@ export function Preview({
                 loading="lazy"
               />
             </div>
+            <h2 className={classes.title}>{post.title}</h2>
           </div>
+        ) : (
+          <h2 className={classes.title}>{post.title}</h2>
         )}
+        <div className={classes.content}>
+          <p className={classes.blurb}>
+            {post.summary || "A wonderful surprise..."}
+          </p>
+          <Categories compact {...post} />
+        </div>
       </a>
     </div>
   );
