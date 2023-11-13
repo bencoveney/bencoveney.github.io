@@ -124,7 +124,6 @@ function Page(props: {
           type="image/x-icon"
           href="https://emojifavicon.dev/favicons/1f4bb.ico"
         />
-        <link rel="manifest" href="/manifest.webmanifest" />
         <link rel="canonical" href={props.canonical} />
         <style dangerouslySetInnerHTML={{ __html: styles }} />
         <link

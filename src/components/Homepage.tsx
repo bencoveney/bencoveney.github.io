@@ -18,8 +18,13 @@ export function Homepage({ posts }: { posts: PostsDetails }) {
         </Content>
         {Object.entries(posts)
           .sort((a, b) => +(a[1].title > b[1].title))
-          .map(([postKey, post]) => (
-            <Preview post={post} postKey={postKey} key={postKey} />
+          .map(([postKey, post], index) => (
+            <Preview
+              post={post}
+              postKey={postKey}
+              key={postKey}
+              lazy={index >= 3}
+            />
           ))}
       </Wrapper>
     </>

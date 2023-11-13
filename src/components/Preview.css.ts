@@ -70,9 +70,11 @@ export const styles = {
     backgroundColor: "var(--background-color-medium)",
     paddingBottom: 0,
     "@media screen and (max-width: 768px)": {
-      fontSize: "2.618em",
       position: "relative",
     },
+  },
+  noPreview: {
+    position: "relative",
   },
   link: {
     display: "flex",
