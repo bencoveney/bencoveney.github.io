@@ -13,7 +13,6 @@ import { styles } from "./Markdown.css.js";
 import { includeAsset } from "../includeAsset.js";
 import { PostDetails } from "../loadPosts.js";
 import { createCssHook } from "../contexts/CssContext.js";
-import { PermaLink } from "./Permalink.js";
 
 export async function markdownToReact(
   outputDir: string,
