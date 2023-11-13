@@ -20,8 +20,8 @@ function BigLink({ name, href, icon }: Config["links"][0]) {
   const { classes } = useCss();
   return (
     <li className={classes.link}>
-      <a href={href}>
-        <i className={`mdi ${icon} mdi-48px ${classes.icon}`}></i>
+      <a href={href} className={classes.button}>
+        <i className={`mdi ${icon} mdi-24px ${classes.icon}`}></i>
         <span className={classes.name}>{name}</span>
       </a>
     </li>

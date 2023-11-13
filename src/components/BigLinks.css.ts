@@ -1,18 +1,22 @@
 export const styles = {
   links: {
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(125px, 1fr))",
+    gap: "1em",
   },
   link: {
-    flex: "1 1 auto",
-    textAlign: "center",
     minWidth: "100px",
+  },
+  button: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   name: {
     display: "block",
   },
   icon: {
     lineHeight: "1",
+    marginRight: "1rem",
   },
 };
