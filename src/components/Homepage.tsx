@@ -6,6 +6,7 @@ import { Content } from "./Content.js";
 import { Header } from "./Header.js";
 import { BigLinks } from "./BigLinks.js";
 import { Preview } from "./Preview.js";
+import { Filters } from "./Filters.js";
 
 export function Homepage({ posts }: { posts: PostsDetails }) {
   return (
@@ -21,6 +22,9 @@ export function Homepage({ posts }: { posts: PostsDetails }) {
           .map(([postKey, post]) => (
             <Preview post={post} postKey={postKey} key={postKey} />
           ))}
+        <Content>
+          <Filters />
+        </Content>
       </Wrapper>
     </>
   );

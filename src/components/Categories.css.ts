@@ -4,6 +4,8 @@ export const styles = {
   technologies: {
     clear: "both",
     marginTop: config.brand.sizes.verticalPadding,
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(165px, 1fr))",
   },
   compact: {
     marginTop: 0,
@@ -32,5 +34,6 @@ export const styles = {
     backgroundColor: "var(--bg-color-alternate)",
     padding: "5px",
     borderRadius: "5px",
+    flexGrow: 1,
   },
 };
