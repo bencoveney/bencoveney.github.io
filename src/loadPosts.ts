@@ -54,12 +54,12 @@ export async function loadPosts(outputDir: string): Promise<PostsDetails> {
     ),
     // Need work:
     "sn-caldera": await loadPost("./posts/sn-caldera.md", outputDir),
-    "chromosome-library": await loadPost(
-      "./posts/chromosome-library.md",
-      outputDir
-    ),
     "database-objects": await loadPost(
       "./posts/database-objects.md",
+      outputDir
+    ),
+    "chromosome-library": await loadPost(
+      "./posts/chromosome-library.md",
       outputDir
     ),
   };
