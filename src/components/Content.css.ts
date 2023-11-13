@@ -8,7 +8,7 @@ export const styles = {
     boxSizing: "border-box",
     width: "100%",
     maxWidth: "800px",
-    padding: config.brand.sizes.horizontalPadding,
+    padding: `${config.brand.sizes.verticalPadding} ${config.brand.sizes.horizontalPadding}`,
   },
   compact: {
     padding: `10px ${config.brand.sizes.horizontalPadding}`,
