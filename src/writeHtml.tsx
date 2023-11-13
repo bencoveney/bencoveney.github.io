@@ -76,7 +76,7 @@ async function writePostPage(
   );
   await writeDocumentToFile(
     <Page
-      title="Ben Coveney"
+      title={`${post.title} - Ben Coveney`}
       description="Ben Coveney's personal website"
       canonical={config.hostname}
       registry={registry}
