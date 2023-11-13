@@ -83,7 +83,7 @@ async function writePostPage(
     >
       {page}
     </Page>,
-    path.resolve(outputDir, `${key}.html`)
+    path.resolve(outputDir, `posts/${key}.html`)
   );
 }
 

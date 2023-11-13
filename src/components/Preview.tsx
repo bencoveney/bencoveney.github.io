@@ -19,7 +19,7 @@ export function Preview({
   const { classes } = useCss();
   return (
     <div className={classes.wrapper}>
-      <a className={classes.link} href={`./${postKey}.html`}>
+      <a className={classes.link} href={`posts/${postKey}.html`}>
         {post.preview ? (
           <div className={classes.previewWrapper}>
             <div

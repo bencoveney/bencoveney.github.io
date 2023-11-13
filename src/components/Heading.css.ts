@@ -16,7 +16,7 @@ export const styles = {
       fontSize: "2.618em",
     },
     "@media screen and (min-width: 769px)": {
-      fontSize: "4.236em",
+      fontSize: "3em",
     },
   },
   heading2: {
