@@ -35,6 +35,7 @@ export async function loadPosts(outputDir: string): Promise<PostsDetails> {
     "react-context": await loadPost("./posts/react-context.md", outputDir),
     "super-auto-pets": await loadPost("./posts/super-auto-pets.md", outputDir),
     "ts-birthday": await loadPost("./posts/ts-birthday.md", outputDir),
+    voxels: await loadPost("./posts/voxels.md", outputDir),
     dwitter: await loadPost("./posts/dwitter.md", outputDir),
     milligrid: await loadPost("./posts/milligrid.md", outputDir),
     quadrilactic: await loadPost("./posts/quadrilactic.md", outputDir),

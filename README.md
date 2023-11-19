@@ -28,7 +28,7 @@
 ## Misc TODOs
 
 - Consolidate css variables (in `css.ts`) with config (in `config.ts`).
-- Improve image anchor/titles
+- Improve image anchor/titles, resize and convert to webp.
 - Improve a11y and aria attributes
 - Permalink headers
 - Categories
