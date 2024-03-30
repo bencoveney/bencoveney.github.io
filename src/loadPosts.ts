@@ -32,6 +32,7 @@ export async function loadPosts(outputDir: string): Promise<PostsDetails> {
   return {
     about: await loadPost("./posts/about.md", outputDir),
     barrelsby: await loadPost("./posts/barrelsby.md", outputDir),
+    "react-false": await loadPost("./posts/react-false.md", outputDir),
     "react-context": await loadPost("./posts/react-context.md", outputDir),
     "super-auto-pets": await loadPost("./posts/super-auto-pets.md", outputDir),
     "ts-birthday": await loadPost("./posts/ts-birthday.md", outputDir),
