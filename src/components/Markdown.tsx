@@ -1,4 +1,5 @@
-import React, { createElement, Fragment, PropsWithChildren } from "react";
+import React, { createElement, PropsWithChildren } from "react";
+import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 import remarkGfm from "remark-gfm";
 import remarkEmbedder from "@remark-embedder/core";
 import oembedTransformer from "@remark-embedder/transformer-oembed";
@@ -22,7 +23,7 @@ export async function markdownToReact(
   const { result } = await unified()
     .use(remarkParse)
     .use(remarkGfm)
-    .use(remarkEmbedder.default, {
+    .use(remarkEmbedder.default as any, {
       transformers: [
         [
           oembedTransformer.default,
@@ -57,6 +58,8 @@ export async function markdownToReact(
     .use(rehypeReact, {
       createElement,
       Fragment,
+      jsx,
+      jsxs,
       components: {
         // h1: ({ children }: PropsWithChildren) => {
         //   return (
@@ -115,7 +118,7 @@ export async function markdownToReact(
           return <p {...props} />;
         },
       },
-    })
+    } as any)
     .process(content);
   return result;
 }
