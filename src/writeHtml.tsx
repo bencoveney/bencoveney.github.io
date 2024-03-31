@@ -9,12 +9,14 @@ import { mkDirP } from "@bencoveney/utils/dist/node.js";
 import jss from "jss";
 import { CssProvider } from "./contexts/CssContext.js";
 import { PostPage } from "./components/PostPage.js";
+import { getRss } from "./rss.js";
 
 async function buildSite() {
   const outputDir = mkDirP(process.cwd(), "build");
   const posts = await loadPosts(outputDir);
   await writeHomePage(outputDir, posts);
   await writePostPages(outputDir, posts);
+  await writeRssFeed(outputDir, posts);
 }
 
 const startTime = Date.now();
@@ -132,8 +134,19 @@ function Page(props: {
           rel="stylesheet"
           type="text/css"
         />
+        <link
+          rel="alternate"
+          type="application/atom+xml"
+          title="Ben Coveney's Blog"
+          href="/feed.xml"
+        />
       </head>
       <body dangerouslySetInnerHTML={{ __html: content }} />
     </html>
   );
+}
+
+async function writeRssFeed(outputDir: string, posts: PostsDetails) {
+  const content = getRss(posts);
+  await fs.promises.writeFile(path.resolve(outputDir, "feed.xml"), content);
 }

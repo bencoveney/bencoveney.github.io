@@ -3,7 +3,7 @@ title: "15 Second Dirt"
 website: https://trackmania.io/#/campaigns/21641/41617
 summary: '"15 Second Dirt" is the second campaign I created for Trackmania 2020 featuring 25 dirt maps with author times below 15 seconds.'
 preview: "./15-second-dirt-map-13.jpg"
-published: "May 14, 2022"
+published: "May 14, 2023"
 categories:
   - project
   - gaming

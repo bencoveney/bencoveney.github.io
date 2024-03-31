@@ -39,6 +39,11 @@ export const config = {
   },
   links: [
     {
+      name: "RSS Feed",
+      href: "https://bencoveney.com/feed.xml",
+      icon: "mdi-rss",
+    },
+    {
       name: "Github",
       href: "https://github.com/bencoveney",
       icon: "mdi-github-circle",
