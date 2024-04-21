@@ -31,7 +31,6 @@ export type PostsDetails = {
 export async function loadPosts(outputDir: string): Promise<PostsDetails> {
   return {
     about: await loadPost("./posts/about.md", outputDir),
-    barrelsby: await loadPost("./posts/barrelsby.md", outputDir),
     "rudiment-wiki": await loadPost("./posts/rudiment-wiki.md", outputDir),
     "dotnet-container": await loadPost(
       "./posts/dotnet-container.md",
@@ -39,9 +38,13 @@ export async function loadPosts(outputDir: string): Promise<PostsDetails> {
     ),
     "react-false": await loadPost("./posts/react-false.md", outputDir),
     "react-context": await loadPost("./posts/react-context.md", outputDir),
+    "15-second-dirt": await loadPost("./posts/15-second-dirt.md", outputDir),
+    "10-second-dirt": await loadPost("./posts/10-second-dirt.md", outputDir),
     "super-auto-pets": await loadPost("./posts/super-auto-pets.md", outputDir),
+    "tier-list": await loadPost("./posts/tier-list.md", outputDir),
     "ts-birthday": await loadPost("./posts/ts-birthday.md", outputDir),
     voxels: await loadPost("./posts/voxels.md", outputDir),
+    barrelsby: await loadPost("./posts/barrelsby.md", outputDir),
     dwitter: await loadPost("./posts/dwitter.md", outputDir),
     milligrid: await loadPost("./posts/milligrid.md", outputDir),
     quadrilactic: await loadPost("./posts/quadrilactic.md", outputDir),
@@ -50,9 +53,6 @@ export async function loadPosts(outputDir: string): Promise<PostsDetails> {
       "./posts/light-switch-sim.md",
       outputDir
     ),
-    "10-second-dirt": await loadPost("./posts/10-second-dirt.md", outputDir),
-    "15-second-dirt": await loadPost("./posts/15-second-dirt.md", outputDir),
-    "tier-list": await loadPost("./posts/tier-list.md", outputDir),
     tsfluff: await loadPost("./posts/tsfluff.md", outputDir),
     dots: await loadPost("./posts/dots.md", outputDir),
     "csgo-rankings-graph": await loadPost(
