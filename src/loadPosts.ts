@@ -32,6 +32,7 @@ export async function loadPosts(outputDir: string): Promise<PostsDetails> {
   return {
     about: await loadPost("./posts/about.md", outputDir),
     barrelsby: await loadPost("./posts/barrelsby.md", outputDir),
+    "rudiment-wiki": await loadPost("./posts/rudiment-wiki.md", outputDir),
     "dotnet-container": await loadPost(
       "./posts/dotnet-container.md",
       outputDir

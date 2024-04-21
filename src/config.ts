@@ -32,6 +32,7 @@ export const config = {
     gaming: { name: "Gaming", icon: "mdi-gamepad-variant", color: "red" },
     me: { name: "About Me", icon: "mdi-human", color: "red" },
     react: { name: "React", icon: "mdi-react", color: "red" },
+    music: { name: "Music", icon: "mdi-music", color: "red" },
     writing: { name: "Writing", icon: "mdi-lead-pencil", color: "green" },
     project: { name: "Project", icon: "mdi-cube", color: "green" },
   } as {
