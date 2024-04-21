@@ -4,9 +4,16 @@
     <title>Ben Coveney</title>
     <link>https://bencoveney.com/</link>
     <description>Ben Coveney's personal website</description>
-    <lastBuildDate>Tue, 16 Apr 2024 00:03:25 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 21 Apr 2024 17:59:24 GMT</lastBuildDate>
     <atom:link href="http://bencoveney.com/feed.xml" rel="self" type="application/rss+xml" />
     <language>en-gb</language>
+    <item>
+      <title>Drum Rudiment Wiki</title>
+      <link>https://bencoveney.com/posts/rudiment-wiki.html</link>
+      <guid>https://bencoveney.com/posts/rudiment-wiki.html</guid>
+      <description>Reference website for the 40 essential drum rudiments</description>
+      <pubDate>Sun, 21 Apr 2024 00:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>.Net Web App Boilerplate</title>
       <link>https://bencoveney.com/posts/dotnet-container.html</link>
