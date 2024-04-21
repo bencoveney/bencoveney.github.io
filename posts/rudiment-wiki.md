@@ -14,17 +14,17 @@ categories:
   - react
 ---
 
-I played drums as a teenager and have been thinking about picking them back up again. Recently for christmas I received a drum practice pad which goes a lot of the way towards scratching that itch. It obviously isn't a full kit, you only have one "drum", but you still get all the satisfaction of tapping away and keeping your hands busy.
+I played drums as a teenager and have been thinking about picking them back up again. Recently for christmas I received a drum practice pad which goes a lot of the way towards scratching that itch. It obviously isn't a full kit, you only have one "drum", but you still get the satisfaction of tapping away and keeping your hands busy.
 
 ![My drum pad, and a pair of 7As](./rudiment-wiki-pad.jpg "My drum pad, and a pair of 7As")
 
-One thing these pads are great for is practising "Drum Rudiments", which are patterns of left and right strokes, sometimes doubled-up, and sometimes flammed. They are designed to be simple, to help you work on your rhythm and hand movements, and can be incorporated around the drum kit once you have the space and money for a full kit. There are many standardised sets of rudiments from different kinds of drumming, but one of the most prevalent sets is the [40 International Drum Rudiments](https://www.pas.org/resources/rudiments) organised by the Percussive Arts Society.
+One thing these pads are great for is practising "drum rudiments", which are patterns of left and right strokes, sometimes doubled-up, and sometimes flammed. They are designed to be simple, to help you work on your rhythm and hand movements, and can be incorporated around the drum kit once you have the space and money for a full kit. There are many standardised sets of rudiments from different kinds of drumming, but one of the most prevalent sets is the [40 International Drum Rudiments](https://www.pas.org/resources/rudiments) organised by the Percussive Arts Society.
 
 I decided I wanted to try and build a reference site for drum rudiments. There are plenty of good references online already, but in particular I was interested in exploring some of the tools around music notation, and building a straightforward webpage where all the rudiments could be accessed quickly and easily for streamlined practice.
 
 ## Lilypond
 
-After looking at a few different options for manipulating music notation (including the option of building my own) I settled on using [LilyPond](https://lilypond.org/)
+After looking at a few different options for manipulating music notation (including the option of building my own) I settled on using [LilyPond](https://lilypond.org/).
 
 > LilyPond is a music engraving program, devoted to producing the highest-quality sheet music possible. It brings the aesthetics of traditionally engraved music to computer printouts. LilyPond is free software and part of the [GNU Project](https://gnu.org/).
 
@@ -60,7 +60,7 @@ rudiment = \drummode {
 }
 ```
 
-One of the recently added features of LilyPond was that it can render the output straight to SVG, which was perfect for embedding directly into my HTML page. The SVG output is a little verbose, so I do some post-processing to group repeated structures, but at the end I had some high quality and compact music notation assets:
+One of the features recently added to LilyPond was the ability to render the output straight to SVG, which are perfect for embedding directly into an HTML page. The SVG output is a little verbose, so I do some post-processing to group repeated structures, but at the end I had some high quality and compact music notation assets:
 
 ![The LilyPond SVG embedded in the page](./rudiment-wiki-notation.png "The LilyPond SVG embedded in the page")
 
@@ -70,29 +70,29 @@ One of the other niceties about using LilyPond is that it is available in the Ub
 
 ## A single HTML file
 
-You can often come across criticisms of modern web development online these days, discussing the complexity and size that website have grown to, and the flakiness and instability that comes with it. I decided during development that I was going to see if I could make the site a single HTML file.
+You can often come across criticisms of the modern web online these days, discussing the complexity and size that website have grown to, and the flakiness and instability that this brings. I decided during development that I was going to see if I could make the site a single HTML file.
 
 ![A website in a single glorious network request](./rudiment-wiki-network.png "A website in a single glorious network request")
 
-The main benefit I see here is that anyone can easily save the page to their device, and open it to view later without needing a network connection. For a site that was intended to be a basic reference and doesn't need analytics, a backend or fancy supporting assets to serve its purpose.
+The main benefit I see here is that anyone can easily save the page to their device, and open it to view later without needing a network connection. I think this makes sense for a basic reference page that doesn't really need analytics, a backend or any fancy supporting assets to serve its purpose.
 
-If you're a web nerd it is kind of refreshing to be able to "view source" on a webpage and see everything it needs to work right there in a single document. It also poses an interesting technical space to work in, as it is kind of counter to the mindset and workflow of a lot of modern tooling.
+If you're a web nerd it is kind of refreshing to be able to "view source" on a webpage and see everything it needs right there in a single document. It also poses an interesting technical space to work in, as it is counter to the current mindset and workflow of a lot of modern web tooling.
 
-For the most-part this wasn't too tricky. Many assets like SVGs (or anything you can `base64` encode) can be embedded directly into HTML files directly, including favicons. There's some basic responsive styles, including a print stylesheet, but generally I didn't add too many bells and whistles.
+For the most-part this wasn't too tricky to achieve. Many assets can be embedded directly into HTML files directly by `base64` encoding them, including favicons. I added basic responsive CSS styles, including a print stylesheet, but generally didn't add too many bells and whistles.
 
-![Styles are stripped back to simple black-and-white page for printing](./rudiment-wiki-print.png "Styles are stripped back to simple black-and-white page for printing")
+![Styles are stripped back to simple black-and-white page for printing](./rudiment-wiki-print.png "Styling is stripped back to a simple black-and-white page for printing")
 
-To build the page I have a simple TypeScript script which I (and Github Actions) execute in node. This does use React, but only as a templating tool at build time to get nicer syntax - there's no React at runtime. There's some naive minification happening on the assets, mainly stripping whitespace, but really it is just a task of clobbering a few files together into one.
+To build the page I have a simple TypeScript script which I (and Github Actions) execute in node. This does use React, but only as a templating tool at build time to get nicer syntax - there's no React at runtime. I also run some naive minification happening on the assets, mainly stripping out whitespace, but really it is just a task of clobbering a few files together into one.
 
 ## Web Audio Timing
 
 Practising drum rudiments can be an exercise in improving your timing, so one feature I wanted to include on the page was a metronome. There are a lot of APIs available in the modern web for working with audio, but I did run into some roadbumps joining everything together.
 
-A metronome - by definition - should be clicking at the most regular time intervals possible. There are a few basic timing options within JavaScript that are commonly used for timing (`setTimeout`, `setInterval` and `requestAnimationFrame`) but unfortunately none of these make solid promises about the exact time when they will run. To get regular timing you instead need to maintain a schedule of upcoming sounds within the audio APIs (discussed in more detail in the post [A tale of two clocks](https://web.dev/articles/audio-scheduling)).
+A metronome - by definition - should be clicking at the most regular time intervals possible. There are a few basic timing options within JavaScript that are commonly used for timing (`setTimeout`, `setInterval` and `requestAnimationFrame`) but unfortunately none of these make solid promises about the precise time when they will run. To get consistent timing you instead need to maintain a schedule of upcoming sounds within the audio API (covered in more detail in the great post [A tale of two clocks](https://web.dev/articles/audio-scheduling)).
 
 > The worst part of the JavaScript timing APIs are that although Date.now()’s millisecond precision doesn’t sound too bad to live with, the actual callback of timer events in JavaScript (through window.setTimeout() or window.setInterval) can easily be skewed by tens of milliseconds or more by layout, rendering, garbage collection, and XMLHTTPRequest and other callbacks - in short, by any number of things happening on the main execution thread.
 
-To get this flow working I also wasn't able to use the basic `<audio>` HTML tag, which allows easy embedding of a `base64` audio file but has a less complete API. Instead needed to do some legwork to embed and load the "click" sound to and from `base64` myself with.
+To get this flow working I also wasn't able to use the basic `<audio>` HTML tag, which allows easy embedding of a `base64` audio file but has a less complete API. To work around this I have to do some legwork to embed the click sound the click sound as `base64` myself, and reconstruct a sound asset when the page loads.
 
 None of these issues were too problematic, but I am left feeling like either these APIs either aren't wholly cohesive and "joined up", or I simply don't understand them well enough yet.
 
@@ -101,6 +101,6 @@ None of these issues were too problematic, but I am left feeling like either the
 Looking forward, there's some stuff I'd like to add in the future:
 
 - It would be nice to add the ability to "play back" a rudiment, so that you could hear an example if you aren't familiar with it. There's a question there about if/how the left/right hands should be represented in audio. It also might involve working out a way to either embed and read MIDI data, or render some audio files from the LilyPond inputs.
-- At the moment the site only includes the 40 PAS rudiments - but there's a whole world of rudiments out there I could add in. Even within the PAS set I have seen some variations, for example different resources include or exclude accents on certain beats. If the set of rudiments grows, I'd probably need to put some thought into sorting and filtering the list, and ensuring the single HTML file doesn't grow too large.
+- At the moment the site only includes the 40 PAS rudiments - but there's a whole world of rudiments out there I could add in (or accept as community submissions). Even within the PAS set I have seen some variations, for example different resources include or exclude accents on certain beats. If the collection of rudiments grows, I'd probably need to put some thought into sorting and filtering the list, and ensuring the single HTML file doesn't grow too large.
 
 With that said, I'm pretty happy with the way the page looks now. I was able to get all the rudiments rendering nicely, in a single concise HTML file, with enough added "juice" to make it a useful practice resource.
