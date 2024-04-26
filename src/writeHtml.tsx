@@ -45,9 +45,10 @@ async function writeHomePage(outputDir: string, posts: PostsDetails) {
   );
   await writeDocumentToFile(
     <Page
-      title="Ben Coveney"
+      title={config.sitename}
       description="Ben Coveney's personal website"
-      canonical={config.hostname}
+      image={posts["about"].preview}
+      canonical={config.hostname + "index.html"}
       registry={registry}
     >
       {page}
@@ -78,9 +79,10 @@ async function writePostPage(
   );
   await writeDocumentToFile(
     <Page
-      title={`${post.title} - Ben Coveney`}
-      description="Ben Coveney's personal website"
-      canonical={config.hostname}
+      title={`${post.title} - ${config.sitename}`}
+      description={post.summary}
+      image={post.preview}
+      canonical={config.hostname + `posts/${key}.html`}
       registry={registry}
     >
       {page}
@@ -103,6 +105,7 @@ function Page(props: {
   children: React.ReactElement;
   title: string;
   description: string;
+  image: string | undefined;
   canonical: string;
   registry: jss.SheetsRegistry;
 }) {
@@ -127,7 +130,6 @@ function Page(props: {
           href="https://emojifavicon.dev/favicons/1f4bb.ico"
         />
         <link rel="canonical" href={props.canonical} />
-        <style dangerouslySetInnerHTML={{ __html: styles }} />
         <link
           href="https://cdn.materialdesignicons.com/2.2.43/css/materialdesignicons.min.css"
           media="all"
@@ -137,9 +139,17 @@ function Page(props: {
         <link
           rel="alternate"
           type="application/atom+xml"
-          title="Ben Coveney's Blog"
+          title={config.sitename}
           href="/feed.xml"
         />
+        <meta property="og:title" content={props.title} />
+        <meta property="og:type" content="article" />
+        {props.image && <meta property="og:image" content={props.image} />}
+        <meta property="og:url" content={props.canonical} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="og:description" content={props.description} />
+        <meta property="og:site_name" content={config.sitename} />
+        <style dangerouslySetInnerHTML={{ __html: styles }} />
       </head>
       <body dangerouslySetInnerHTML={{ __html: content }} />
     </html>

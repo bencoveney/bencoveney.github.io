@@ -60,7 +60,8 @@ export const config = {
       icon: "mdi-steam",
     },
   ] as { name: string; href: string; icon: string }[],
-  hostname: "https://bencoveney.github.io/",
+  sitename: "Ben Coveney's Blog",
+  hostname: "https://bencoveney.com/",
   brand: {
     sizes: {
       verticalPadding: "1.5rem",
