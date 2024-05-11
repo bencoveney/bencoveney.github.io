@@ -95,6 +95,7 @@ export const styles = {
       "& .image-title": {
         marginTop: "0.5rem",
         color: "var(--fg-color)",
+        textAlign: "center",
       },
     },
     "& pre code.hljs": {
@@ -119,6 +120,17 @@ export const styles = {
         listStyleType: "disc",
       },
       "& ul": {
+        marginTop: 0,
+      },
+    },
+    "& ol": {
+      marginTop: config.brand.sizes.verticalPadding,
+      marginLeft: "25px",
+      "& li": {
+        marginTop: "0.5rem",
+        listStyleType: "decimal",
+      },
+      "& ol": {
         marginTop: 0,
       },
     },
