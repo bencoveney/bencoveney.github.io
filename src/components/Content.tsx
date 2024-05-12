@@ -4,18 +4,8 @@ import { createCssHook } from "../contexts/CssContext.js";
 
 const { useCss } = createCssHook(styles);
 
-export function Content({
-  children,
-  compact,
-  bottomBorder,
-}: PropsWithChildren<{ compact?: boolean; bottomBorder?: boolean }>) {
+export function Content({ children }: PropsWithChildren) {
   const { classes } = useCss();
   let className = classes.content;
-  if (!!compact) {
-    className += ` ${classes.compact}`;
-  }
-  if (!!bottomBorder) {
-    className += ` ${classes.bottomBorder}`;
-  }
   return <div className={className}>{children}</div>;
 }

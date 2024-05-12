@@ -1,6 +1,5 @@
 import React from "react";
 import { createCssHook } from "../contexts/CssContext.js";
-import { Content } from "./Content.js";
 import { styles } from "./Header.css.js";
 
 const { useCss } = createCssHook(styles);
@@ -8,14 +7,17 @@ export function Header() {
   const { classes } = useCss();
   return (
     <div className={classes.container}>
-      <Content compact bottomBorder>
+      <header className={classes.name}>
         <a href="/" className={classes.link}>
-          <header className={classes.name}>Ben Coveney</header>
-          <nav className={classes.home}>
-            Home <i className={`mdi mdi-home`} />
-          </nav>
+          Ben Coveney
         </a>
-      </Content>
+      </header>
+      <nav className={classes.home}>
+        <a href="/" className={classes.link}>
+          <div>Home</div>
+          <i className={`mdi mdi-home mdi-18px ${classes.icon}`} />
+        </a>
+      </nav>
     </div>
   );
 }

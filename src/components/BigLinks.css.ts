@@ -18,5 +18,6 @@ export const styles = {
   icon: {
     lineHeight: "1",
     marginRight: "1rem",
+    color: "var(--foreground-color-dark)",
   },
 };
