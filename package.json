@@ -38,7 +38,7 @@
     "serve": "npm run build && http-server ./build -p 8000",
     "format:prettier": "prettier --write .",
     "build:clean": "rm -rf ./build",
-    "build:copy-assets": "cpy --cwd=assets . ../build/",
+    "build:copy-assets": "npx cpy-cli assets/**/* build/",
     "build:build-html": "tsc --noEmit && node --loader ts-node/esm ./src/writeHtml.tsx"
   },
   "repository": {

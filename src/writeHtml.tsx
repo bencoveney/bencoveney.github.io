@@ -120,15 +120,26 @@ function Page(props: {
         <meta name="description" content={props.description} />
         <meta name="author" content="Ben Coveney" />
         <link
-          rel="icon"
-          type="image/png"
-          href="https://emojifavicon.dev/favicons/1f4bb.png"
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
         />
         <link
-          rel="shortcut icon"
-          type="image/x-icon"
-          href="https://emojifavicon.dev/favicons/1f4bb.ico"
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
         />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#10141a" />
+        <meta name="msapplication-TileColor" content="#10141a" />
+        <meta name="theme-color" content="#10141a" />
         <link rel="canonical" href={props.canonical} />
         <link
           href="https://cdn.materialdesignicons.com/2.2.43/css/materialdesignicons.min.css"
