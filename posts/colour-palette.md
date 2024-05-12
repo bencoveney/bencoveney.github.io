@@ -31,13 +31,13 @@ For a lot of the terms in this domain there are overlaps. Different people and t
 
 I don't think I am an artistic person, any time I need to do something creative it ends up being a bit analytical: trying to take the parts I like from references, and finding constraints that might help guide me towards a good solution. With that in mind, I settled on the following:
 
-- **Usage:** - The colours should would work well on websites first-and-foremost. It would also be good to keep in mind data visualisations, game art (which commonly uses a smaller constrained palette) and some "nice-to-have" usages like syntax highlighting or terminal output.
-- **Hue:** - Strike a balance between having enough hues to be broadly useful on a range of projects, but not too many hues that there is no personality.
-- **Lightness:** - For each hue, I want a complete set of evenly-spaced tints, ideally so that that:
+- **Usage:** The colours should would work well on websites first-and-foremost. It would also be good to keep in mind data visualisations, game art (which commonly uses a smaller constrained palette) and some "nice-to-have" usages like syntax highlighting or terminal output.
+- **Hue:** Strike a balance between having enough hues to be broadly useful on a range of projects, but not too many hues that there is no personality.
+- **Lightness:** For each hue, I want a complete set of evenly-spaced tints, ideally so that that:
   - Each tint has meaningful contrast from the previous one.
   - There is a complete range of options from dark to light, and you could invert a "light theme" and have a reasonable-enough starting point for a "dark theme", and vice-versa.
   - The tints are consistent across hues, so that a design can be switched from red to blue without needing much modification.
-- **Saturation:** - I would ideally have distinctive bright options to use as primary design colours and highlights, but also some greys and muted options for typography, backgrounds and layouts.
+- **Saturation:** I would ideally have distinctive bright options to use as primary design colours and highlights, but also some greys and muted options for typography, backgrounds and layouts.
 
 ## RGB Doesn't Make Sense
 
