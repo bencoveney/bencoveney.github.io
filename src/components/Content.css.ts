@@ -12,4 +12,7 @@ export const styles = {
     padding: "10px var(--horizontal-padding)",
     margin: `0 auto`,
   },
+  bottomBorder: {
+    borderBottom: "3px solid var(--color-blue-400)",
+  },
 };

@@ -81,7 +81,7 @@ export const styles = {
     "& .image-wrapper": {
       ...pullout,
       marginTop: "var(--vertical-padding)",
-      backgroundColor: "var(--pure-black)",
+      backgroundColor: "var(--color-black)",
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",

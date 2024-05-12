@@ -8,7 +8,7 @@ export function Header() {
   const { classes } = useCss();
   return (
     <div className={classes.container}>
-      <Content compact>
+      <Content compact bottomBorder>
         <a href="/" className={classes.link}>
           <header className={classes.name}>Ben Coveney</header>
           <nav className={classes.home}>
