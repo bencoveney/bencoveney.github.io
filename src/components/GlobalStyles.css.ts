@@ -356,6 +356,7 @@ export const styles = {
       "--foreground-color-dark": "var(--color-night-500)",
       "--foreground-color-medium": "var(--color-night-700)",
       "--fg-color": "var(--color-night-950)",
+      "--foreground-color-link": "var(--fg-color)",
 
       "--highlight-color": "var(--color-sky-500)",
       "--highlight-color-2": "var(--color-violet-500)",
@@ -386,7 +387,7 @@ export const styles = {
     },
 
     "a:link, a:visited, a:active, a:hover": {
-      color: "var(--fg-color)",
+      color: "var(--foreground-color-link)",
     },
   },
 };

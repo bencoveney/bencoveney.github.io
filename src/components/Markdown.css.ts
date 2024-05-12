@@ -66,6 +66,7 @@ const gruvbox = {
 
 export const styles = {
   markdown: {
+    "--foreground-color-link": "var(--color-blue-700)",
     "& p": {
       marginTop: "var(--vertical-padding)",
     },
@@ -145,7 +146,7 @@ export const styles = {
       ...headingStyles.heading1,
     },
     "& h2": {
-      marginTop: "var(--vertical-padding)",
+      marginTop: "calc(var(--vertical-padding) * 2)",
       ...headingStyles.heading2,
     },
     "& h3": {
