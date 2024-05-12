@@ -106,7 +106,9 @@ export async function markdownToReact(
         img: (props: any) => {
           return (
             <figure className="image-wrapper">
-              <img {...props} />
+              <a href={props.src}>
+                <img {...props} />
+              </a>
               <figcaption className="image-title">{props.title}</figcaption>
             </figure>
           );

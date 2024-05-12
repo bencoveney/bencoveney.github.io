@@ -1,8 +1,6 @@
-import { config } from "../config.js";
-
 export const styles = {
   published: {
-    marginTop: config.brand.sizes.verticalPadding,
+    marginTop: "1rem",
     fontStyle: "italic",
     fontSize: "0.707em",
     textAlign: "center",

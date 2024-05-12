@@ -1,7 +1,7 @@
 const backgroundColorDark = "hsl(238, 6%, 4%)";
-const foregroundColorDark = "hsl(238, 6%, 96%)";
+const foregroundColorDark = "hsl(238, 6%, 50%)";
 const backgroundColorMedium = "hsl(238, 6%, 8%)";
-const foregroundColorMedium = "hsl(238, 6%, 92%)";
+const foregroundColorMedium = "hsl(238, 6%, 57%)";
 const backgroundColorLight = "hsl(238, 6%, 14%)";
 const foregroundColorLight = "hsl(238, 6%, 86%)";
 const pureBlack = "hsl(0, 0%, 0%)";
@@ -35,6 +35,13 @@ export const styles = {
       "--fg-color": "var(--foreground-color-light)",
       "--bg-color": "var(--background-color-dark)",
       "--bg-color-alternate": "var(--background-color-light)",
+
+      "--horizontal-padding": "3rem",
+      "--vertical-padding": "1.5rem",
+
+      "@media screen and (max-width: 768px)": {
+        "--horizontal-padding": "1.5rem",
+      },
     },
 
     /* Reset */

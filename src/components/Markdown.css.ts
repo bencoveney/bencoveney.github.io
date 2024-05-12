@@ -3,8 +3,8 @@ import { styles as headingStyles } from "./Heading.css.js";
 import { styles as separatorStyles } from "./Separator.css.js";
 
 const pullout = {
-  marginLeft: `-${config.brand.sizes.horizontalPadding}`,
-  marginRight: `-${config.brand.sizes.horizontalPadding}`,
+  marginLeft: `calc(${config.brand.sizes.horizontalPadding} * -1)`,
+  marginRight: `calc(${config.brand.sizes.horizontalPadding} * -1)`,
   "--double-margin": `calc(${config.brand.sizes.horizontalPadding} * 2)`,
   width: `calc(100% + var(--double-margin))`,
   boxSizing: "border-box",
@@ -116,8 +116,11 @@ export const styles = {
       marginTop: config.brand.sizes.verticalPadding,
       marginLeft: "25px",
       "& li": {
-        marginTop: "0.5rem",
+        marginTop: "0.75rem",
         listStyleType: "disc",
+        "&::marker": {
+          color: "var(--foreground-color-dark)",
+        },
       },
       "& ul": {
         marginTop: 0,
@@ -127,8 +130,11 @@ export const styles = {
       marginTop: config.brand.sizes.verticalPadding,
       marginLeft: "25px",
       "& li": {
-        marginTop: "0.5rem",
+        marginTop: "0.75rem",
         listStyleType: "decimal",
+        "&::marker": {
+          color: "var(--foreground-color-medium)",
+        },
       },
       "& ol": {
         marginTop: 0,

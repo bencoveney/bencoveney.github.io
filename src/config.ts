@@ -64,8 +64,8 @@ export const config = {
   hostname: "https://bencoveney.com/",
   brand: {
     sizes: {
-      verticalPadding: "1.5rem",
-      horizontalPadding: "3rem",
+      verticalPadding: "var(--vertical-padding)",
+      horizontalPadding: "var(--horizontal-padding)",
     },
   },
 };
