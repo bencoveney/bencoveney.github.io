@@ -1,8 +1,6 @@
-import { config } from "../config.js";
-
 export const styles = {
   linkSet: {
-    marginTop: config.brand.sizes.verticalPadding,
+    marginTop: "var(--vertical-padding)",
   },
   link: {
     marginRight: "5px",

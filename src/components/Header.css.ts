@@ -1,4 +1,3 @@
-import { config } from "../config.js";
 import { commonHeadingStyles } from "./Heading.css.js";
 
 export const styles = {
@@ -6,7 +5,7 @@ export const styles = {
     position: "sticky",
     top: 0,
     zIndex: 10,
-    marginBottom: config.brand.sizes.verticalPadding,
+    marginBottom: "var(--vertical-padding)",
   },
   link: {
     display: "flex",

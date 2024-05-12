@@ -1,5 +1,3 @@
-import { config } from "../config.js";
-
 export const commonHeadingStyles = {
   fontFamily: "var(--font-family-heading)",
   fontWeight: 100,
@@ -32,7 +30,7 @@ export const styles = {
   },
   heading3: {
     ...commonHeadingStyles,
-    marginTop: config.brand.sizes.verticalPadding,
+    marginTop: "var(--vertical-padding)",
     "@media screen and (max-width: 768px)": {
       fontSize: "1.618em",
     },
@@ -42,7 +40,7 @@ export const styles = {
   },
   heading4: {
     ...commonHeadingStyles,
-    marginTop: config.brand.sizes.verticalPadding,
+    marginTop: "var(--vertical-padding)",
     "@media screen and (max-width: 768px)": {
       fontSize: "1.618em",
     },
@@ -52,7 +50,7 @@ export const styles = {
   },
   heading5: {
     ...commonHeadingStyles,
-    marginTop: config.brand.sizes.verticalPadding,
+    marginTop: "var(--vertical-padding)",
     "@media screen and (max-width: 768px)": {
       fontSize: "1.618em",
     },
@@ -62,7 +60,7 @@ export const styles = {
   },
   heading6: {
     ...commonHeadingStyles,
-    marginTop: config.brand.sizes.verticalPadding,
+    marginTop: "var(--vertical-padding)",
     "@media screen and (max-width: 768px)": {
       fontSize: "1.618em",
     },

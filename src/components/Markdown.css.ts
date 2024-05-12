@@ -1,11 +1,10 @@
-import { config } from "../config.js";
 import { styles as headingStyles } from "./Heading.css.js";
 import { styles as separatorStyles } from "./Separator.css.js";
 
 const pullout = {
-  marginLeft: `calc(${config.brand.sizes.horizontalPadding} * -1)`,
-  marginRight: `calc(${config.brand.sizes.horizontalPadding} * -1)`,
-  "--double-margin": `calc(${config.brand.sizes.horizontalPadding} * 2)`,
+  marginLeft: "calc(var(--horizontal-padding) * -1)",
+  marginRight: "calc(var(--horizontal-padding) * -1)",
+  "--double-margin": `calc(var(--horizontal-padding) * 2)`,
   width: `calc(100% + var(--double-margin))`,
   boxSizing: "border-box",
 };
@@ -68,25 +67,26 @@ const gruvbox = {
 export const styles = {
   markdown: {
     "& p": {
-      marginTop: config.brand.sizes.verticalPadding,
+      marginTop: "var(--vertical-padding)",
     },
     "& blockquote": {
-      marginTop: config.brand.sizes.verticalPadding,
+      marginTop: "var(--vertical-padding)",
       backgroundColor: "var(--bg-color-alternate)",
       color: "var(--fg-color)",
-      padding: `0.01em ${config.brand.sizes.horizontalPadding} ${config.brand.sizes.verticalPadding} ${config.brand.sizes.horizontalPadding}`,
+      padding:
+        "0.01em var(--horizontal-padding) var(--vertical-padding) var(--horizontal-padding)",
       fontSize: "1.1em",
       ...pullout,
     },
     "& .image-wrapper": {
       ...pullout,
-      marginTop: config.brand.sizes.verticalPadding,
+      marginTop: "var(--vertical-padding)",
       backgroundColor: "var(--pure-black)",
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
-      padding: `${config.brand.sizes.verticalPadding} ${config.brand.sizes.horizontalPadding}`,
+      padding: "var(--vertical-padding) var(--horizontal-padding)",
       "& img": {
         display: "block",
         maxWidth: "100%",
@@ -99,10 +99,10 @@ export const styles = {
       },
     },
     "& pre code.hljs": {
-      marginTop: config.brand.sizes.verticalPadding,
+      marginTop: "var(--vertical-padding)",
       display: "block",
       overflowX: "auto",
-      padding: `${config.brand.sizes.verticalPadding} ${config.brand.sizes.horizontalPadding}`,
+      padding: "var(--vertical-padding) var(--horizontal-padding)",
       ...pullout,
     },
     "& code.hljs": {
@@ -113,7 +113,7 @@ export const styles = {
       textDecoration: "underline",
     },
     "& ul": {
-      marginTop: config.brand.sizes.verticalPadding,
+      marginTop: "var(--vertical-padding)",
       marginLeft: "25px",
       "& li": {
         marginTop: "0.75rem",
@@ -127,7 +127,7 @@ export const styles = {
       },
     },
     "& ol": {
-      marginTop: config.brand.sizes.verticalPadding,
+      marginTop: "var(--vertical-padding)",
       marginLeft: "25px",
       "& li": {
         marginTop: "0.75rem",
@@ -141,11 +141,11 @@ export const styles = {
       },
     },
     "& h1": {
-      marginTop: config.brand.sizes.verticalPadding,
+      marginTop: "var(--vertical-padding)",
       ...headingStyles.heading1,
     },
     "& h2": {
-      marginTop: config.brand.sizes.verticalPadding,
+      marginTop: "var(--vertical-padding)",
       ...headingStyles.heading2,
     },
     "& h3": {
@@ -165,7 +165,7 @@ export const styles = {
       margin: "2em auto",
     },
     "& iframe": {
-      marginTop: config.brand.sizes.verticalPadding,
+      marginTop: "var(--vertical-padding)",
       // Force width/height to flex
       aspectRatio: "16 / 9",
       height: "100%",
@@ -173,7 +173,7 @@ export const styles = {
     },
     "& video": {
       ...pullout,
-      marginTop: config.brand.sizes.verticalPadding,
+      marginTop: "var(--vertical-padding)",
     },
     ...gruvbox,
   },

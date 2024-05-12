@@ -1,9 +1,7 @@
-import { config } from "../config.js";
-
 export const styles = {
   technologies: {
     clear: "both",
-    marginTop: config.brand.sizes.verticalPadding,
+    marginTop: "var(--vertical-padding)",
   },
   compact: {
     marginTop: 0,
