@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Ben Coveney's personal site",
   "devDependencies": {
-    "@bencoveney/utils": "^1.1.0",
+    "@bencoveney/utils": "3.0.0",
     "@jsdevtools/rehype-url-inspector": "^2.0.2",
     "@remark-embedder/transformer-oembed": "^3.0.0",
     "@types/node": "^20.12.2",
