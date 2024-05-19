@@ -27,10 +27,10 @@ If you've previously used C#, you'll be familiar with the suite of extension met
 The same is not true in JavaScript. The core set of functionality is growing, but there are still plenty of gaps. There are a quite a few functions [available on arrays](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array#instance_methods), but if you want to find a maximum, you'll need to figure that out yourself.
 
 ```JavaScript
+// Lets look at 3 different methods for finding the biggest number.
 const inputArray = [1, 2, 3, 100];
 
-// One possible solution. What happens though if there's
-// nothing in the array?
+// One possible solution.
 const maxA = inputArray.reduce(
   (a, b) => Math.max(a, b),
   inputArray[0]
@@ -40,13 +40,11 @@ const maxA = inputArray.reduce(
 // the default sort behaviour converts everything to a string.
 const maxB = inputArray.sort().reverse()[0];
 
-// This is probably what I want. Notice how it:
-// - Handles the empty array case.
+// This is probably what I want. It:
+// - Explicitly handles the empty array case.
 // - Doesn't create any work for the garbage collector.
-let maxC;
-if (inputArray.length === 0) {
-  maxC undefined;
-} else {
+let maxC = undefined;
+if (inputArray.length > 0) {
   maxC = inputArray[0];
   for (let i = 1; i < inputArray.length; i++) {
     maxC = Math.max(maxC, inputArray[i]);
