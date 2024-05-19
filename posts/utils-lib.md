@@ -20,7 +20,7 @@ If you've come to JavaScript from another language, one thing you might find lac
 
 ## Finding a Maximum
 
-Take, for example, finding the maximum value in an array of numbers.
+Lets look at finding the maximum value in an array of numbers as an example.
 
 If you've previously used C#, you'll be familiar with the suite of extension methods available on [IEnumerable\<T\>](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1?view=net-8.0#extension-methods) and [IList\<T\>](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ilist-1?view=net-8.0#extension-methods). You can call `.Max()` on anything and get exactly what you'd expect, without needing to give it any extra thought.
 
