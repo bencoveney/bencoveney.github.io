@@ -4,9 +4,16 @@
     <title>Ben Coveney</title>
     <link>https://bencoveney.com/</link>
     <description>Ben Coveney's personal website</description>
-    <lastBuildDate>Sat, 18 May 2024 14:18:47 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 19 May 2024 14:41:51 GMT</lastBuildDate>
     <atom:link href="http://bencoveney.com/feed.xml" rel="self" type="application/rss+xml" />
     <language>en-gb</language>
+    <item>
+      <title>Utility Libraries</title>
+      <link>https://bencoveney.com/posts/utils-lib.html</link>
+      <guid>https://bencoveney.com/posts/utils-lib.html</guid>
+      <description>Create your own standard library of reusable functions</description>
+      <pubDate>Sun, 19 May 2024 00:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>Generating a Colour Palette</title>
       <link>https://bencoveney.com/posts/colour-palette.html</link>
