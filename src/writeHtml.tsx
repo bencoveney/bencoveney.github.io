@@ -17,6 +17,7 @@ async function buildSite() {
   await writeHomePage(outputDir, posts);
   await writePostPages(outputDir, posts);
   await writeRssFeed(outputDir, posts);
+  await writeSitemap(outputDir, posts);
 }
 
 const startTime = Date.now();
@@ -65,6 +66,10 @@ async function writePostPages(outputDir: string, posts: PostsDetails) {
   );
 }
 
+function getCanonical(key: string) {
+  return config.hostname + `posts/${key}.html`;
+}
+
 async function writePostPage(
   outputDir: string,
   posts: PostsDetails,
@@ -82,13 +87,39 @@ async function writePostPage(
       title={`${post.title} - ${config.sitename}`}
       description={post.summary}
       image={post.preview}
-      canonical={config.hostname + `posts/${key}.html`}
+      canonical={getCanonical(key)}
       registry={registry}
     >
       {page}
     </Page>,
     path.resolve(outputDir, `posts/${key}.html`)
   );
+}
+
+async function writeSitemap(outputDir: string, posts: PostsDetails) {
+  const lastMod = new Date().toUTCString();
+  const message = `
+    <?xml version="1.0" encoding="UTF-8"?>
+    <urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+      <url>
+        <loc>https://bencoveney.com/</loc>
+        <lastmod>${lastMod}</lastmod>
+        <priority>1.00</priority>
+      </url>${Object.entries(posts).map(
+        ([key]) => `
+      <url>
+        <loc>${getCanonical(key)}</loc>
+        <lastmod>${lastMod}</lastmod>
+        <priority>0.80</priority>
+      </url>`
+      )}
+    </urlset>`;
+  const filePath = path.resolve(outputDir, `sitemap.xml`);
+  await fs.promises.writeFile(filePath, message);
+  console.log(`Wrote ${filePath}`);
 }
 
 async function writeDocumentToFile(
