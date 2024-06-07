@@ -48,7 +48,7 @@ async function writeHomePage(outputDir: string, posts: PostsDetails) {
       title={config.sitename}
       description="Ben Coveney's personal website"
       image={posts["about"].preview}
-      canonical={config.hostname + "index.html"}
+      canonical={config.hostname}
       registry={registry}
     >
       {page}
