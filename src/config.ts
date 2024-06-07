@@ -62,12 +62,6 @@ export const config = {
   ] as { name: string; href: string; icon: string }[],
   sitename: "Ben Coveney's Blog",
   hostname: "https://bencoveney.com/",
-  brand: {
-    sizes: {
-      verticalPadding: "var(--vertical-padding)",
-      horizontalPadding: "var(--horizontal-padding)",
-    },
-  },
 };
 
 export type Config = typeof config;

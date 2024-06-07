@@ -18,17 +18,19 @@ export const styles = {
   link: {
     display: "flex",
     alignItems: "center",
+    padding: "10px var(--horizontal-padding)",
+    "&:hover": {
+      backgroundColor: "var(--background-color-light)",
+    },
   },
   name: {
     ...commonHeadingStyles,
     fontSize: "1.618em",
-    padding: "10px var(--horizontal-padding)",
     display: "flex",
     alignItems: "center",
   },
   home: {
     textAlign: "right",
-    padding: "10px var(--horizontal-padding)",
     display: "flex",
     alignItems: "stretch",
   },

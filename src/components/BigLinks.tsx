@@ -8,22 +8,20 @@ const { useCss } = createCssHook(styles);
 export function BigLinks() {
   const { classes } = useCss();
   return (
-    <ul className={classes.links}>
+    <div className={classes.links}>
       {config.links.map((link, index) => (
         <BigLink key={index} {...link} />
       ))}
-    </ul>
+    </div>
   );
 }
 
 function BigLink({ name, href, icon }: Config["links"][0]) {
   const { classes } = useCss();
   return (
-    <li className={classes.link}>
-      <a href={href} className={classes.button}>
-        <i className={`mdi ${icon} mdi-24px ${classes.icon}`}></i>
-        <span className={classes.name}>{name}</span>
-      </a>
-    </li>
+    <a href={href} className={classes.button}>
+      <i className={`mdi ${icon} mdi-24px ${classes.icon}`}></i>
+      <span className={classes.name}>{name}</span>
+    </a>
   );
 }

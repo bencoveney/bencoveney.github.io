@@ -26,13 +26,15 @@ export function PostPage({
       <GlobalStyles />
       <Wrapper>
         <Header />
-        <Content>
+        <div className={classes.title}>
           <Heading1>{post.title}</Heading1>
           {post.published && (
             <span className={classes.published}>
               Published {post.published}
             </span>
           )}
+        </div>
+        <Content>
           <Markdown>{post.element}</Markdown>
           <LinkSet {...post} />
           <Categories categories={post.categories} />

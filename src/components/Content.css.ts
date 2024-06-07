@@ -8,11 +8,4 @@ export const styles = {
     maxWidth: "800px",
     padding: "var(--vertical-padding) var(--horizontal-padding)",
   },
-  compact: {
-    padding: "10px var(--horizontal-padding)",
-    margin: `0 auto`,
-  },
-  bottomBorder: {
-    borderBottom: "3px solid var(--color-blue-400)",
-  },
 };

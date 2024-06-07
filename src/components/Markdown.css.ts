@@ -177,5 +177,9 @@ export const styles = {
       marginTop: "var(--vertical-padding)",
     },
     ...gruvbox,
+
+    "& > :first-child": {
+      marginTop: 0,
+    },
   },
 };
