@@ -97,7 +97,7 @@ async function writePostPage(
 }
 
 async function writeSitemap(outputDir: string, posts: PostsDetails) {
-  const lastMod = new Date().toUTCString();
+  const lastMod = new Date().toISOString();
   const message = `
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset
