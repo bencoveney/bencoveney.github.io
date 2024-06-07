@@ -109,14 +109,16 @@ async function writeSitemap(outputDir: string, posts: PostsDetails) {
     <loc>https://bencoveney.com/</loc>
     <lastmod>${lastMod}</lastmod>
     <priority>1.00</priority>
-  </url>${Object.entries(posts).map(
-    ([key]) => `
+  </url>${Object.entries(posts)
+    .map(
+      ([key]) => `
   <url>
     <loc>${getCanonical(key)}</loc>
     <lastmod>${lastMod}</lastmod>
     <priority>0.80</priority>
   </url>`
-  )}
+    )
+    .join("")}
 </urlset>`;
   const filePath = path.resolve(outputDir, `sitemap.xml`);
   await fs.promises.writeFile(filePath, message.trim());
