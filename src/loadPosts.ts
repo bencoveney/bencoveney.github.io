@@ -31,6 +31,7 @@ export type PostsDetails = {
 export async function loadPosts(outputDir: string): Promise<PostsDetails> {
   return {
     about: await loadPost("./posts/about.md", outputDir),
+    rm4scc: await loadPost("./posts/rm4scc.md", outputDir),
     "utils-lib": await loadPost("./posts/utils-lib.md", outputDir),
     "colour-palette": await loadPost("./posts/colour-palette.md", outputDir),
     "rudiment-wiki": await loadPost("./posts/rudiment-wiki.md", outputDir),

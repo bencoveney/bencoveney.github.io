@@ -1,6 +1,6 @@
 export const styles = {
   published: {
-    marginTop: "1rem",
+    marginBottom: "1rem",
     fontStyle: "italic",
     textAlign: "center",
     width: "100%",
