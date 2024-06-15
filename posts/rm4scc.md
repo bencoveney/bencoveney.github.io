@@ -87,8 +87,6 @@ There's a couple of options for animating SVGs:
 
 I opted for SMIL because it seemed useful to have the animation embedded directly in the output without requiring additional CSS blocks. SMIL is widely supported by browsers and may also [render a bit more smoothly](https://css-tricks.com/how-i-made-a-generator-for-svg-loaders-with-sass-and-smil-options/#aa-smil-vs-css-sass) than CSS animations.
 
-[./rm4scc-animation.mov](./rm4scc-animation.mov)
-
 Here's the markup from one animated rectangle in a complete animation:
 
 ```xml
@@ -106,7 +104,9 @@ Here's the markup from one animated rectangle in a complete animation:
 </rect>
 ```
 
-You can declare the `<animate>` element as a child of the element you want to animate, and the `attributeName` attribute specifies the attribute of the parent to be animated. The `values` and `keyTimes` attributes are declaring keyframes, which are effectively timed values that the SVG will transition between. To make the animation pulse across the barcode I offset the `begin` times based on the position.
+You can declare the `<animate>` element as a child of the node you want to animate, and the `attributeName` attribute specifies the attribute of the parent to be animated. The `values` and `keyTimes` attributes are declaring keyframes, which are timed values that the SVG will transition between. To make the animation pulse across the barcode I just offset the `begin` times based on the position.
+
+[./rm4scc-animation.mov](./rm4scc-animation.mov)
 
 I was able to get a reasonable result with some very basic position/scale adjustments and time offsets. It turns out SMIL is a bit painful to work with, and for any complex animations (like [easing movement in/out](https://css-tricks.com/guide-svg-animations-smil/#aa-controlling-animation-pace-with-custom-easing-calcmode-and-keysplines)) you can end up with some quite verbose syntax.
 
