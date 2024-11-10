@@ -4,9 +4,16 @@
     <title>Ben Coveney</title>
     <link>https://bencoveney.com/</link>
     <description>Ben Coveney's personal website</description>
-    <lastBuildDate>Sat, 15 Jun 2024 12:05:10 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 10 Nov 2024 21:00:45 GMT</lastBuildDate>
     <atom:link href="http://bencoveney.com/feed.xml" rel="self" type="application/rss+xml" />
     <language>en-gb</language>
+    <item>
+      <title>Learning Assembly</title>
+      <link>https://bencoveney.com/posts/assembly.html</link>
+      <guid>https://bencoveney.com/posts/assembly.html</guid>
+      <description>Getting to grips with low level programming</description>
+      <pubDate>Wed, 06 Nov 2024 00:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>Animating RM4SCC Barcodes</title>
       <link>https://bencoveney.com/posts/rm4scc.html</link>
