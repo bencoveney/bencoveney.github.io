@@ -31,6 +31,7 @@ export type PostsDetails = {
 export async function loadPosts(outputDir: string): Promise<PostsDetails> {
   return {
     about: await loadPost("./posts/about.md", outputDir),
+    allocator: await loadPost("./posts/allocator.md", outputDir),
     assembly: await loadPost("./posts/assembly.md", outputDir),
     rm4scc: await loadPost("./posts/rm4scc.md", outputDir),
     "utils-lib": await loadPost("./posts/utils-lib.md", outputDir),

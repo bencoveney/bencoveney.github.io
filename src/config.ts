@@ -33,6 +33,7 @@ export const config = {
     me: { name: "About Me", icon: "mdi-human", color: "red" },
     react: { name: "React", icon: "mdi-react", color: "red" },
     music: { name: "Music", icon: "mdi-music", color: "red" },
+    assembly: { name: "Assembly", icon: "mdi-chip", color: "red" },
     writing: { name: "Writing", icon: "mdi-lead-pencil", color: "green" },
     project: { name: "Project", icon: "mdi-cube", color: "green" },
   } as {

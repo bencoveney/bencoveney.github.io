@@ -7,6 +7,7 @@ import { unified } from "unified";
 import rehypeReact from "rehype-react";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
+import hljs_x86_asm_att from "highlightjs-x86asmatt";
 import rehypeHighlight from "rehype-highlight";
 import rehypeVideo from "rehype-video";
 import { inspectUrls } from "@jsdevtools/rehype-url-inspector";
@@ -14,6 +15,7 @@ import { styles } from "./Markdown.css.js";
 import { includeAsset } from "../includeAsset.js";
 import { PostDetails } from "../loadPosts.js";
 import { createCssHook } from "../contexts/CssContext.js";
+import { common } from "lowlight";
 
 export async function markdownToReact(
   outputDir: string,
@@ -38,7 +40,12 @@ export async function markdownToReact(
       ],
     })
     .use(remarkRehype)
-    .use(rehypeHighlight)
+    .use(rehypeHighlight, {
+      languages: {
+        ...common,
+        gas: hljs_x86_asm_att.default,
+      },
+    })
     .use(rehypeVideo, { details: false })
     .use(inspectUrls, {
       inspectEach({ node }) {

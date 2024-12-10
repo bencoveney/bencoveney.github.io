@@ -3,8 +3,10 @@ title: "Learning Assembly"
 summary: "Getting to grips with low level programming"
 published: "Nov 06, 2024"
 preview: "./assembly-stack.png"
+github: https://github.com/bencoveney/learning-assembly
 categories:
   - project
+  - assembly
   - prog-lang
 ---
 
@@ -129,7 +131,7 @@ The former (stack allocation) is probably the most reliable, but involves more m
 
 Leaving values in registers is appealing on the surface because it involves fewer instructions, but I found it means you have to keep a much larger mental model of which values are in which register at which time, and which may be clobbered by function calls. I'm sure this method will be much more error-prone in the long run, unless you can have a compiler track the register use for you.
 
-## Where to Go Next
+## Where to go Next
 
 At this point I feed relatively confident reading and understanding Assembly, I have written a couple of thousand lines of code and have debugged a handful of broken samples.
 
