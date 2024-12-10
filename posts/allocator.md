@@ -402,7 +402,3 @@ Some of this was down to the way I was writing Assembly though: By trying to wri
 - I was trying to use clever control flow and jumps, to route execution around my code without the overhead of calling functions. This might have saved an instruction or two, but I am not certain it really saved much time, and using more functions would've helped me keep logic broken up in clean reusable chunks.
 
 This project has helped me get better at writing Assembly, but it has also been a great jumping-off point for learning about memory management and the tradeoffs involved. I can't be sure that Assembly programming will keep my focus in the immediate future, but having my own allocator is a great building block to leverage in future projects .
-
-## Stuff to do before finishing
-
-- Check notes for anything I've missed
