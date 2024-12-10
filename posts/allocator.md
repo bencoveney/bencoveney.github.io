@@ -32,7 +32,7 @@ Working with memory in an inefficient way can make or break the performance of y
 
 By the end of my [last post](./assembly.html) on Assembly programming, I had written a very rudimentary memory allocator. I wanted to get a bit better at programming in Assembly, but also to develop my allocator further into something which meets a reasonable minimum bar for functionality and efficiency.
 
-In this post I'll describe a bit about the allocator I came up with, how it interfaces with the operating system, and where I can take it next.
+In this post I'll describe a bit about the allocator I came up with, how it interfaces with the operating system, and where I can take it next. There are some code samples littered throughout the post, but you can find the full source code [here](https://github.com/bencoveney/learning-assembly/blob/main/projects/allocator/allocator.s).
 
 ## Where Does Memory Come From?
 
@@ -61,7 +61,7 @@ The operating system will load programs into memory using a similar layout each 
 - Above this is the heap, which will grow upwards. The top of the heap is known as the "program break", and the `BRK` syscall will move it up and down. Typically the heap is used for storing data which is larger, or needs to be retained for a longer period of time while the program is running.
 - At the top of memory is the stack, which grows downwards. Typically the stack is where shorter-lived values are stored, like variables which are local to functions.
 
-!! TODO: Memory layout diagram
+![Memory Layout](./allocator-memory-layout.png "The typical memory layout for a program while it is running.")
 
 As a result, the heap and stack grow towards each other. If they ever meet then your program has run out of memory, and likely won't be able to continue running.
 
@@ -83,9 +83,9 @@ allocate(sizeInBytes): memoryAddress
 deallocate(memoryAddress): void
 ```
 
-`allocate` will allocate a block of memory of _at least_ the given size, and return a pointer to the start of the block.
+`allocate` will allocate a block of memory of _at least_ the given size, and return the address of the start of the block.
 
-You program is then free to use that block of memory however you see fit. In the event you no longer need the block of memory you can return it to the allocator, by calling `deallocate` and passing the same pointer. Once a block of memory has been deallocated, it can be reused by the allocator to satisy another allocation request.
+You program is then free to use that block of memory however you see fit. In the event you no longer need the block of memory you can return it to the allocator, by calling `deallocate` and passing the same address. Once a block of memory has been deallocated, it can be reused by the allocator to satisy another allocation request.
 
 This recycling of memory is critical to prevent "Memory Leaks", where programs gradually consume more memory over time until all the systems resources have been consumed.
 
@@ -103,6 +103,30 @@ Before we can allocate space on the heap, we need to know where it is. Address s
 
 This only needs to be done once. Once we have found the starting address of the heap, we can keep a note of it, and skip this step the next time around.
 
+```gas
+# Initializes the heap.
+# Param %rdi: The amount to allocate.
+# Return %rax: The address of the allocation.
+initialise:
+.equ LOCAL_TARGET_SIZE, -8
+.equ LOCAL_DESIRED_HEAP_SIZE, -16
+  enter $16, $0
+
+  movq %rdi, LOCAL_TARGET_SIZE(%rbp)
+
+  # Call brk to work out where the heap begins.
+  movq $0, %rdi
+  call brk
+  movq %rax, startOfHeap
+
+  movq LOCAL_TARGET_SIZE(%rbp), %rdi
+  movq %rax, %rsi
+  call expandHeapFrom
+
+  leave
+  ret
+```
+
 ### 2: Padding the Size
 
 We allow an arbitrary number of bytes to be requested in to the `allocate()` function, but this is a bit of a lie. Computers prefer memory addresses to be "aligned" to certain boundaries, and will be able to operate more efficiently when that is the case.
@@ -114,6 +138,22 @@ There's a tradeoff here. If the user asks for 1 byte, we will need to reserve at
 - Often the user will already be allocating memory in 8-byte intervals, because that will be the most common denomination of data being worked with on a 64-bit CPU.
 - This wasted space is more pronounced when allocations are small, but typically small allocations can be done on the stack rather than the heap.
 
+```gas
+# Determines how much memory we need to make an allocation of N bytes when the
+# header and alignment are factored in.
+# Param %rdi: The desired number of bytes.
+# Return %rax: The value to store in the header.
+getAllocationSize:
+  enter $0, $0
+  addq $HEADER_SIZE, %rdi
+  addq $FOOTER_SIZE, %rdi
+  movq $0x8, %rsi
+  call roundUp
+  # %rax will already have the result.
+  leave
+  ret
+```
+
 ### 3: Finding a Home for the Block
 
 At this point we know how much space we need to allocate for the block, and we know where the heap is. The next problem is to figure out where, within the heap, the allocation can be done.
@@ -124,7 +164,7 @@ For different types of memory allocator, this is where the algorithm will vary t
 
 For my allocator, I chose to structure the heap as a linked list. In practice this means there is a small header alongside each allocation which tracks whether the block is allocated, and the size of the block. By adding the size to the address of the current block, we can find out where the next block begins.
 
-![Linked List Allocator Layout](./allocator_linked_list.png "An example memory layout, with 3 blocks arranged as a linked list.")
+![Linked List Allocator Layout](./allocator-linked-list.png "An example memory layout, with 3 blocks arranged as a linked list.")
 
 This gives us enough information to walk through the heap and look at the blocks stored there, by going through these steps:
 
@@ -146,9 +186,9 @@ This means that the smallest 3 bits (2^3 = 8) will effectively be unused, and co
 - Bit 1 & 2: Unused.
 - Bit 3 to 63: The size of the block.
 
-!! TODO: Block header diagram
+![Header layout](./allocator-header-layout.png "Layout of the header - not to scale.")
 
-To separate those two pieces of data when we inspect the header, we can use the `andq` assembly instruction which performs a logical AND operation and acts as a mask.
+To separate those two pieces of data when we inspect the header, we can use the `andq` Assembly instruction which performs a logical AND operation and acts as a mask.
 
 ```gas
 # Reads the size of the block of memory, based on the header.
@@ -196,6 +236,38 @@ Taking all this into consideration, the amount of memory we request from the ope
 
 Before we move on to the next section, one thing to note is we _always_ need to expand the heap for the very first allocation, because there won't be any space reserved yet. In that case we can jump straight from step 1 to step 4, but the logic for requesting some extra margin will remain the same.
 
+```gas
+# Expands the heap from a specified point to accomodate an allocation.
+# Param %rdi: The amount to allocate.
+# Param %rsi: The location to expand from
+# Return %rax: The address of the allocation.
+expandHeapFrom:
+.equ LOCAL_TARGET_SIZE, -8
+.equ LOCAL_GROW_FROM, -16
+.equ LOCAL_DESIRED_HEAP_END, -24
+  enter $32, $0
+
+  movq %rdi, LOCAL_TARGET_SIZE(%rbp)
+  movq %rsi, LOCAL_GROW_FROM(%rbp)
+
+  # Calculate the new end of the heap.
+  movq LOCAL_GROW_FROM(%rbp), %rdi
+  addq LOCAL_TARGET_SIZE(%rbp), %rdi
+  add $MARGIN, %rdi
+  movq $PROGRAM_BREAK_ALIGNMENT, %rsi
+  call roundUp
+  movq %rax, LOCAL_DESIRED_HEAP_END(%rbp)
+
+  # Grow the heap.
+  movq LOCAL_DESIRED_HEAP_END(%rbp), %rdi
+  call brk
+
+  movq LOCAL_DESIRED_HEAP_END(%rbp), %rax
+  movq %rax, endOfHeap
+
+  // ...continued in the next section
+```
+
 ### 5: Splitting Blocks
 
 When we are finding a block which could be used for an allocation, we are unlikely to always find one which is the perfect size. This is definitely the case when the heap expands, because we will be creating a block which we know for a fact is larger than what we needed to allocate.
@@ -206,7 +278,7 @@ One option would be to say that using this block would be wasteful, and try to f
 
 The approach I take in my allocator is to instead split the larger block into pieces, so that we only use the part of it that we need, and leave the rest available for another allocation. The benefit of this approach is that we can always use the first
 
-!! TODO: Memory block splitting.
+![Splitting up large blocks](./allocator-block-splitting.png "Splitting up a block, so that we make full use of the available space.")
 
 When splitting blocks, there is one thing to take into consideration: A block can only be split if it can fit all of the following:
 
@@ -215,11 +287,35 @@ When splitting blocks, there is one thing to take into consideration: A block ca
 - The header for the remaining free block.
 - The content of the free block, which would be the minimum size your allocator allows (8 bytes in my case).
 
-!! TODO: Memory block splitting again.
+![Space isn't large enough to perform a split](./allocator-redundant-splitting.png "Splitting doesn't always make sense, sometimes we can accept a little wastage.")
 
 If a block doesn't meet these criteria to be split then it isn't the end of the world, because it means the block was roughly the right size anyway, and a little extra space being lost here won't hurt.
 
-### 6: What gets returned
+```gas
+  // ...continued from the previous section
+
+  # Write the allocated block.
+  movq LOCAL_TARGET_SIZE(%rbp), %rdi
+  movq $0x1, %rsi
+  movq LOCAL_GROW_FROM(%rbp), %rdx
+  call writeBlock
+
+  # Write the remainder.
+  movq endOfHeap, %rdi
+  subq LOCAL_GROW_FROM(%rbp), %rdi
+  subq LOCAL_TARGET_SIZE(%rbp), %rdi
+  movq $0x0, %rsi
+  movq endOfHeap, %rdx
+  subq %rdi, %rdx
+  call writeBlock
+
+  # Return the allocated address.
+  movq LOCAL_GROW_FROM(%rbp), %rax
+  addq $HEADER_SIZE, %rax
+
+  leave
+  ret
+```
 
 ## Deallocation
 
@@ -231,13 +327,13 @@ Surely there's no other problems we need to consider?
 
 Unfortunately there's one other problem we need to consider.
 
-You might've noticed above that we have a process for splitting larger chunks of memory up into smaller chunks. If we only had this, then you can imagine that gradually the heap would get split into smaller and smaller chunks. Useful large blocks within the heap would become spread out over time making our memory use less efficient, and we would need to expand the heap much more often in order to create new larger blocks.
+You might've noticed above that we have a process for splitting larger blocks of memory up into smaller ones. If we only had this, then you can imagine that gradually the heap would get split into smaller and smaller blocks. Useful large blocks within the heap would become infrequent and spread out over time, making our memory use less efficient, and we would need to expand the heap much more often in order to create new larger blocks.
 
-!! TODO: Heap Fragmentation
+![A fragmented heap](./allocator-fragmented-heap.png "The new block cannot fit in any of the existing blocks - they are all to small.")
 
 To balance out this out, we can try to combine empty blocks together to counteract the splitting process. This is unlikely to give us 100% memory efficiency, we will still probably have gaps in the heap, but it should improve things enough to prevent the inefficiency becoming a serious problem.
 
-!! TODO: Heap Fragmentation again
+![A defragmented heap](./allocator-defragmented-heap.png "With the free blocks merged together, there is now space to fit the new block")
 
 To perform the merging of empty blocks, there's actually only 2 scenarios we need to consider:
 
@@ -246,15 +342,15 @@ To perform the merging of empty blocks, there's actually only 2 scenarios we nee
 
 By following those two rules, we can ensure we never end up with 2 neighbouring blocks of available memory. One would be freed after the other, and at that point they would've been merged together.
 
-!! TODO: Block merging
+![Merging free blocks](./allocator-free-block-merging.png "Merging free blocks to create larger spaces.")
 
 As an alternative solution to this problem, you might be wondering why we can't periodically rearrange the heap, to squish all the used blocks together and leave a large free region at the end of the heap.
 
 The main reason this isn't possible is because users of the memory can do whatever they want with it, including keeping pointers into it from other parts of the program. If we moved blocks around then we run the risk of invalidating those pointers, and leaving them pointing somewhere the program didn't expect.
 
-!! TODO: Rearranging blocks invalidating pointers.
+![Rearranging allocated blocks](./allocator-linked-list.png 'How rearranging (or "defragmenting") memory can cause problems.')
 
-### Pointers to Blocks
+### Blocks, Interlinked
 
 Alongside each block of memory we are storing a header which contains the size of the block, and allows us to treat the heap as a linked list of blocks which we can traverse from start to end in a forward direction.
 
@@ -268,7 +364,7 @@ The option I implemented in my allocator was to instead add more links to the he
 
 Similar to the header, all we need to be able to know to work back to a previous block is how large it is. This 8 byte size value is stored in a footer at the end of the block, so that we can find it by looking just behind the header for the block in question.
 
-!! TODO: Doubly linked list
+![Doubly Linked List Allocator Layout](./allocator-doubly-linked-list.png "The same linked list, now with links going in both directions.")
 
 The drawback to this approach is that we have doubled the overhead we need per-allocation from 8 bytes up to 16 bytes. We are trading off a bit of space efficiency for a gain in speed efficiency, and modern machines have plenty of space so this tradeoff is probably acceptable, but it is worth bearing in mind.
 
@@ -278,8 +374,11 @@ That just about wraps up the functionality I have implemented. If you're interes
 
 For now, I am considering my allocator "good enough". With any project, by the time you reach the end you will have picked up plenty of knowledge about all the things you could have done better, if you were to do it again. In my case, that list looks something like this:
 
-- My assembly code is optimised for my ability to read it, rather than performance. There's probably plenty of places where I could optimise away some instructions or data movement, but it might make it a bit harder to work with.
+- My Assembly code is optimised for my ability to read it, rather than performance. There's probably plenty of places where I could optimise away some instructions or data movement, but it might make it a bit harder to work with.
 - My allocator never shrinks the heap by returning memory to the operating system. This could be done if a large enough region at the end of the heap becomes free, but for now it will only ever grow.
+- I could add some extra checks and error handling, in case users pass invalid values to the API functions, like a request to allocate 0 bytes of data or free a block which isn't on the heap.
+- Other allocators will have more functions in their API, like ones which will ensure the blocks are empty (i.e. filled with zero values) before they are handed over.
+- Searching for free blocks involves walking through the entire heap. It would be great to be able to find free blocks more efficiently.
 - There are some use-cases like multithreading which my implementation has ignored entirely.
 
 Throughout this post I've also pointed to a range of tradeoffs, like the choice to store a footer alongside each block, which can speed up deallocation at the cost of some extra memory-use per allocation. In fact, the entire doubly-linked-list design of the allocator is a tradeoff, and there are alternative heap structures you can use which will make better, more informed tradeoffs.
@@ -297,21 +396,13 @@ By the end of my [previous post](./assembly.html) I had learnt some Assembly lan
 
 Some of this is inherent to Assembly itself: It doesn't help you much, so you often have to keep a big model in your head for how the program works.
 
-Some of this was down to the way I was writing assembly though: By trying to write a very optimal set of instructions you miss out on some techniques which can help keep the mental model down to a manageable size. To give some concrete examples:
+Some of this was down to the way I was writing Assembly though: By trying to write a very optimal set of instructions you miss out on some techniques which can help keep the mental model down to a manageable size. To give some concrete examples:
 
 - I was trying to move data around as little as possible. This meant I had to try and picture which registers contained specific values at specific times. Life is easier if you are a bit more eager to allocate local variables on the stack, because then you get clearly named values and don't have to worry about when they might get clobbered.
 - I was trying to use clever control flow and jumps, to route execution around my code without the overhead of calling functions. This might have saved an instruction or two, but I am not certain it really saved much time, and using more functions would've helped me keep logic broken up in clean reusable chunks.
 
-This project has helped me get better at writing assembly, but it has also been a great jumping-off point for learning about memory management and the tradeoffs involved. I can't be sure that Assembly programming will keep my focus in the immediate future, but having my own allocator is a great building block to leverage in future projects .
+This project has helped me get better at writing Assembly, but it has also been a great jumping-off point for learning about memory management and the tradeoffs involved. I can't be sure that Assembly programming will keep my focus in the immediate future, but having my own allocator is a great building block to leverage in future projects .
 
 ## Stuff to do before finishing
 
-- Fix terminology
-  - Block, Chunk, Region, page
-  - Ram, memory
-  - processor, CPU
 - Check notes for anything I've missed
-- Opportunities for:
-  - Source code
-  - Diagrams
-- Talk about memory being uninitialized?
