@@ -10,9 +10,7 @@ categories:
   - prog-lang
 ---
 
-Computers operate on data. Programs recieve input, transform it in some way, and produce an output. As part of these processes, computers will often (or almost always) need to some space to store data, for example as a place to hold an intermediate result.
-
-Typically programmers do not need to think about how this happens. Allocating memory (or reserving space to store data) is such a common operation that effectively all programming languages or environments have this capability built in.
+While programs are running, they need to store the data they are working on in memory. Often programmers do not need to think about how this happens; Allocating memory (reserving space to store data) is such a common operation that almost all programming languages or environments have this capability built in.
 
 In low-level languages like C, all the programmer needs to do to allocate some memory is call the function `malloc(amountInBytes)`, passing the amount of memory they would like to reserve.
 
@@ -34,24 +32,22 @@ By the end of my [last post](./assembly.html) on Assembly programming, I had wri
 
 In this post I'll describe a bit about the allocator I came up with, how it interfaces with the operating system, and where I can take it next. There are some code samples littered throughout the post, but you can find the full source code [here](https://github.com/bencoveney/learning-assembly/blob/main/projects/allocator/allocator.s).
 
-## Where Does Memory Come From?
+## Getting Memory from the Operating System
 
-Inside your computer there are components which are the physical stores of memory. I'm being reasonably vague here because probably there are likely loads of different components in many different forms which serve as memory. The ones relevant to this post are the RAM (Random Access Memory) chips.
-
-![Ram Sticks](./allocator-ram.png "Sticks of RAM, like you might have seen in your own machines.")
-
-When a computer starts, one of the jobs of the operating system is to manage and interface with that memory. As an example, the operating system may be responsible for:
+When a computer starts, one of the jobs of the operating system is to manage memory the memory available on sticks of RAM, which involves tasks like:
 
 - Taking stock of all the physical memory available and breaking it up into "pages", so that it can work with larger chunks of memory rather than individual addresses.
-- Moving programs and data in to, and out of, the physical memory while they are being used.
+- Moving programs and data into, and out of, the physical memory while they are being used.
 - Providing additional memory to programs when they request it.
 - Reclaiming memory from programs once they have finished running.
 - Maintaining a [page table](https://en.wikipedia.org/wiki/Page_table) to map from "virtual" memory addresses (used by your programs) to physical memory addresses (linked to the hardware).
 
+![Ram Sticks](./allocator-ram.png "Sticks of RAM, like you might have seen in your own machines.")
+
 The operating system I was targeting for my allocator was 64-bit Linux. Linux exposes a few different ways for programs to work with memory as "syscalls" (system calls), which are like functions the program can make a request to. Some example syscalls for memory management are:
 
 - The `BRK` syscall asks the operating system to move the "program break", effectively growing or shrinking the heap. This is the method I used to implement my allocator, so it will be explained in more detail later on.
-- The `MMAP` syscall asks the operating system to hand over entire pages of memory at a time to your program. This is a more modern API with a lot more bells and whistles, which will be beyond the scope of this post.
+- The `MMAP` syscall asks the operating system to hand over entire pages of memory at a time. This is a more modern API with a lot more bells and whistles, which will be beyond the scope of this post.
 
 ## The Heap
 
@@ -69,7 +65,7 @@ Memory allocators are typically managing content of the heap, allocating memory 
 
 In practice, my memory allocator interfaces with the heap in 2 different ways:
 
-Firstly, the location of the program break cannot be known ahead of time. The operating system can (and will) vary the location where programs are loaded into memory each time they are executed. This [address space layout randomization](https://en.wikipedia.org/wiki/Address_space_layout_randomization) gives security benefits but as a result we need to call the `BRK` syscall up-front, before we can make any allocations, so that know where to expand it from.
+Firstly, the location of the program break cannot be known ahead of time. The operating system can (and will) vary the location where programs are loaded into memory each time they are executed. This [address space layout randomization](https://en.wikipedia.org/wiki/Address_space_layout_randomization) gives security benefits but as a result we need to call the `BRK` syscall up-front, before we can make any allocations, so that we know where to expand it from.
 
 Secondly, when the allocator determines that we do not have any space available to fit a memory allocation, we will expand the heap by calling the `BRK` syscall with a new desired location for the program break. This new location will be offset from the program break's initial location, hence why we needed to look it up initially.
 
@@ -85,13 +81,13 @@ deallocate(memoryAddress): void
 
 `allocate` will allocate a block of memory of _at least_ the given size, and return the address of the start of the block.
 
-You program is then free to use that block of memory however you see fit. In the event you no longer need the block of memory you can return it to the allocator, by calling `deallocate` and passing the same address. Once a block of memory has been deallocated, it can be reused by the allocator to satisy another allocation request.
+Your program is then free to use that block of memory however you see fit. In the event you no longer need the block of memory you can return it to the allocator, by calling `deallocate` and passing the same address. Once a block of memory has been deallocated, it can be reused by the allocator to satisfy another allocation request.
 
-This recycling of memory is critical to prevent "Memory Leaks", where programs gradually consume more memory over time until all the systems resources have been consumed.
+This recycling of memory is critical to prevent "Memory Leaks", where programs gradually consume more memory over time until all the system's resources have been consumed.
 
-Recycling memory comes with a caveat though: `allocate` can potentially return memory which is already contains data used by a previous allocation. In many cases this won't cause problems, because the first thing you'll do after allocating memory is free it, but it is worth bearing in mind.
+Recycling memory comes with a caveat though: `allocate` can potentially return memory which already contains data used by a previous allocation. In many cases this won't cause problems, because the first thing you'll do after allocating memory is free it, but it is worth bearing in mind.
 
-If you've done any programming in C these might functions look familiar, they are normally named `malloc` and `free`.
+If you've done any programming in C these functions might look familiar, they are normally named `malloc` and `free`.
 
 ## Making an Allocation
 
@@ -129,7 +125,7 @@ initialise:
 
 ### 2: Padding the Size
 
-We allow an arbitrary number of bytes to be requested in to the `allocate()` function, but this is a bit of a lie. Computers prefer memory addresses to be "aligned" to certain boundaries, and will be able to operate more efficiently when that is the case.
+We allow an arbitrary number of bytes to be requested into the `allocate()` function, but this is a bit of a lie. Computers prefer memory addresses to be "aligned" to certain boundaries, and will be able to operate more efficiently when that is the case.
 
 There are 8 bits to a byte, and my allocator targets 64 bit CPUs, so my memory addresses should stay aligned to 8-byte boundaries. One easy way to stay aligned is to make sure every block we allocate on the heap is rounded up to be a multiple of 8 bytes in size.
 
@@ -216,7 +212,7 @@ readAllocatedFromHeader:
 
 ### 4: Expanding the Heap
 
-We now have everything we need to walk through the heap and find a block which can fit an allocation, but theres an extra scenario to consider: What happens if we walk all the way through the heap, inspecting each block, but cannot find one which is both free and can fit the allocation? The only solution in this case is to expand the heap.
+We now have everything we need to walk through the heap and find a block which can fit an allocation, but there's an extra scenario to consider: What happens if we walk all the way through the heap, inspecting each block, but cannot find one which is both free and can fit the allocation? The only solution in this case is to expand the heap.
 
 Fortunately this is not too tricky, all we need to do is:
 
@@ -230,14 +226,14 @@ I've used some slightly fuzzy language there for how much we would want to expan
 
 - We need to add a bit of extra space for the header (8 bytes).
 - Triggering syscalls has some overhead associated with it, so it is best if we can avoid doing it for most allocations. We can request some extra margin (I used 1024 bytes) and hope that it might be able to satisfy a future memory allocation without us needing to run the syscall again.
-- The operating system will be managing memory in larger pages behind the scenes anyway, so we may as well round up to request entire pages (4096 bytes) at a time, because they will be reserved for our program either way.
+- The operating system will be managing memory in larger pages behind the scenes anyway, so we may as well round up to request entire pages at a time (often 4096 bytes, but it can vary), because they will be reserved for our program either way.
 
 Taking all this into consideration, the amount of memory we request from the operating system could be a fair bit more than the amount we were asked to allocate, but a modern 64 bit system will take this in its stride.
 
 Before we move on to the next section, one thing to note is we _always_ need to expand the heap for the very first allocation, because there won't be any space reserved yet. In that case we can jump straight from step 1 to step 4, but the logic for requesting some extra margin will remain the same.
 
 ```gas
-# Expands the heap from a specified point to accomodate an allocation.
+# Expands the heap from a specified point to accommodate an allocation.
 # Param %rdi: The amount to allocate.
 # Param %rsi: The location to expand from
 # Return %rax: The address of the allocation.
@@ -329,15 +325,15 @@ Unfortunately there's one other problem we need to consider.
 
 You might've noticed above that we have a process for splitting larger blocks of memory up into smaller ones. If we only had this, then you can imagine that gradually the heap would get split into smaller and smaller blocks. Useful large blocks within the heap would become infrequent and spread out over time, making our memory use less efficient, and we would need to expand the heap much more often in order to create new larger blocks.
 
-![A fragmented heap](./allocator-fragmented-heap.png "The new block cannot fit in any of the existing blocks - they are all to small.")
+![A fragmented heap](./allocator-fragmented-heap.png "The new block cannot fit in any of the existing blocks - they are all too small.")
 
-To balance out this out, we can try to combine empty blocks together to counteract the splitting process. This is unlikely to give us 100% memory efficiency, we will still probably have gaps in the heap, but it should improve things enough to prevent the inefficiency becoming a serious problem.
+To balance this out, we can try to combine empty blocks together to counteract the splitting process. This is unlikely to give us 100% memory efficiency, we will still probably have gaps in the heap, but it should improve things enough to prevent the inefficiency becoming a serious problem.
 
 ![A defragmented heap](./allocator-defragmented-heap.png "With the free blocks merged together, there is now space to fit the new block")
 
 To perform the merging of empty blocks, there's actually only 2 scenarios we need to consider:
 
-- When we mark a block as free, look at the preceeding block, and if it is also free then they can be merged together.
+- When we mark a block as free, look at the preceding block, and if it is also free then they can be merged together.
 - When we mark a block as free, _also_ look at the subsequent block, and if it is also free then they can be merged together.
 
 By following those two rules, we can ensure we never end up with 2 neighbouring blocks of available memory. One would be freed after the other, and at that point they would've been merged together.
@@ -356,7 +352,7 @@ Alongside each block of memory we are storing a header which contains the size o
 
 There is something this doesn't allow though, which is to easily get ahold of the block just before a given one. Unfortunately this is exactly what we needed to do in the section above:
 
-> _When we mark a block as free, look at the preceeding block, and if it is also free then they can be merged together._
+> _When we mark a block as free, look at the preceding block, and if it is also free then they can be merged together._
 
 One option for solving this would be to walk through the heap all the way from the start in order to find the block just-prior to the one we are interested in. This could be quick when the heap is small but would become inefficient as it grows.
 
@@ -392,7 +388,7 @@ If you were undertaking this project for real, with stakes higher than "fun hobb
 
 ## Wrapping Up
 
-By the end of my [previous post](./assembly.html) I had learnt some Assembly language, written a very rudimentary memory allocator, and was thinking I might move on to a different hobby topic for a while. Writing Assembly enjoyable but also quite taxing, it required a lot of concentration.
+By the end of my [previous post](./assembly.html) I had learnt some Assembly language, written a very rudimentary memory allocator, and was thinking I might move on to a different hobby topic for a while. Writing Assembly was enjoyable but also quite taxing, it required a lot of concentration.
 
 Some of this is inherent to Assembly itself: It doesn't help you much, so you often have to keep a big model in your head for how the program works.
 
@@ -401,4 +397,4 @@ Some of this was down to the way I was writing Assembly though: By trying to wri
 - I was trying to move data around as little as possible. This meant I had to try and picture which registers contained specific values at specific times. Life is easier if you are a bit more eager to allocate local variables on the stack, because then you get clearly named values and don't have to worry about when they might get clobbered.
 - I was trying to use clever control flow and jumps, to route execution around my code without the overhead of calling functions. This might have saved an instruction or two, but I am not certain it really saved much time, and using more functions would've helped me keep logic broken up in clean reusable chunks.
 
-This project has helped me get better at writing Assembly, but it has also been a great jumping-off point for learning about memory management and the tradeoffs involved. I can't be sure that Assembly programming will keep my focus in the immediate future, but having my own allocator is a great building block to leverage in future projects .
+This project has helped me get better at writing Assembly, but it has also been a great jumping-off point for learning about memory management and the tradeoffs involved. I can't be sure that Assembly programming will keep my focus in the immediate future, but having my own allocator is a great building block to leverage in future projects.

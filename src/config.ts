@@ -19,7 +19,7 @@ export const config = {
     canvas: { name: "HTML5 Canvas", icon: "mdi-brush", color: "red" },
     js: { name: "JavaScript", icon: "mdi-language-javascript", color: "red" },
     "prog-lang": {
-      name: "Programming Langs",
+      name: "Programming Languages",
       icon: "mdi-desktop-classic",
       color: "red",
     },
