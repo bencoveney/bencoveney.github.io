@@ -4,9 +4,16 @@
     <title>Ben Coveney</title>
     <link>https://bencoveney.com/</link>
     <description>Ben Coveney's personal website</description>
-    <lastBuildDate>Sun, 10 Nov 2024 21:00:45 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 15 Dec 2024 22:13:52 GMT</lastBuildDate>
     <atom:link href="http://bencoveney.com/feed.xml" rel="self" type="application/rss+xml" />
     <language>en-gb</language>
+    <item>
+      <title>Implementing Malloc</title>
+      <link>https://bencoveney.com/posts/allocator.html</link>
+      <guid>https://bencoveney.com/posts/allocator.html</guid>
+      <description>Writing a memory allocator in Assembly</description>
+      <pubDate>Sat, 23 Nov 2024 00:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>Learning Assembly</title>
       <link>https://bencoveney.com/posts/assembly.html</link>

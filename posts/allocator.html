@@ -1,0 +1,292 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Implementing Malloc - Ben Coveney&#x27;s Blog</title><meta name="description" content="Writing a memory allocator in Assembly"/><meta name="author" content="Ben Coveney"/><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/><link rel="manifest" href="/site.webmanifest"/><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#10141a"/><meta name="msapplication-TileColor" content="#10141a"/><meta name="theme-color" content="#10141a"/><link rel="canonical" href="https://bencoveney.com/posts/allocator.html"/><link href="https://cdn.materialdesignicons.com/2.2.43/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css"/><link rel="alternate" type="application/atom+xml" title="Ben Coveney&#x27;s Blog" href="/feed.xml"/><meta property="og:title" content="Implementing Malloc - Ben Coveney&#x27;s Blog"/><meta property="og:type" content="article"/><meta property="og:image" content="/posts/allocator-ram.png"/><meta property="og:url" content="https://bencoveney.com/posts/allocator.html"/><meta name="twitter:card" content="summary_large_image"/><meta property="og:description" content="Writing a memory allocator in Assembly"/><meta property="og:site_name" content="Ben Coveney&#x27;s Blog"/><style>.published-0-0-39{margin-bottom:1rem;font-style:italic;text-align:center;width:100%;display:inline-block;color:var(--foreground-color-medium);}.title-0-0-40{padding:var(--vertical-padding) var(--horizontal-padding);margin:0 auto var(--vertical-padding) auto;max-width:800px;}:root{--font-family-sans-serif:-apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;--font-family-serif:Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, serif;--font-family-mono:Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;--font-family-body:var(--font-family-sans-serif);--font-family-heading:var(--font-family-serif);--font-family-code:var(--font-family-mono);--color-black:rgb(0, 0, 0);--color-white:rgb(255, 255, 255);--color-blue-50:rgb(1, 7, 19);--color-blue-100:rgb(5, 20, 40);--color-blue-200:rgb(15, 43, 77);--color-blue-300:rgb(27, 67, 115);--color-blue-400:rgb(42, 93, 155);--color-blue-500:rgb(61, 120, 194);--color-blue-600:rgb(91, 149, 223);--color-blue-700:rgb(132, 178, 238);--color-blue-800:rgb(175, 205, 245);--color-blue-900:rgb(216, 231, 250);--color-blue-950:rgb(236, 243, 253);--color-violet-50:rgb(6, 4, 24);--color-violet-100:rgb(18, 13, 48);--color-violet-200:rgb(40, 31, 91);--color-violet-300:rgb(62, 50, 133);--color-violet-400:rgb(86, 72, 176);--color-violet-500:rgb(112, 100, 210);--color-violet-600:rgb(139, 133, 229);--color-violet-700:rgb(168, 166, 239);--color-violet-800:rgb(197, 197, 245);--color-violet-900:rgb(226, 227, 250);--color-violet-950:rgb(241, 241, 253);--color-sky-50:rgb(1, 9, 13);--color-sky-100:rgb(3, 23, 30);--color-sky-200:rgb(12, 47, 60);--color-sky-300:rgb(23, 73, 91);--color-sky-400:rgb(35, 101, 124);--color-sky-500:rgb(48, 130, 158);--color-sky-600:rgb(66, 160, 193);--color-sky-700:rgb(94, 189, 224);--color-sky-800:rgb(144, 214, 242);--color-sky-900:rgb(202, 236, 250);--color-sky-950:rgb(229, 245, 252);--color-night-50:rgb(5, 7, 11);--color-night-100:rgb(16, 20, 26);--color-night-200:rgb(36, 44, 54);--color-night-300:rgb(56, 67, 82);--color-night-400:rgb(79, 93, 111);--color-night-500:rgb(104, 121, 141);--color-night-600:rgb(132, 149, 170);--color-night-700:rgb(162, 177, 195);--color-night-800:rgb(193, 204, 217);--color-night-900:rgb(224, 230, 237);--color-night-950:rgb(240, 242, 246);--background-color-medium:var(--color-night-100);--background-color-light:var(--color-night-200);--bg-color:var(--color-night-50);--bg-color-alternate:var(--color-night-100);--foreground-color-dark:var(--color-night-500);--foreground-color-medium:var(--color-night-700);--fg-color:var(--color-night-950);--foreground-color-link:var(--fg-color);--highlight-color:var(--color-sky-500);--highlight-color-2:var(--color-violet-500);--horizontal-padding:3rem;--vertical-padding:1.5rem;}@media (color-gamut: p3) {:root{--color-blue-50:color(display-p3 0.0094 0.0272 0.0723);--color-blue-100:color(display-p3 0.0306 0.0770 0.1528);--color-blue-200:color(display-p3 0.0877 0.1664 0.2930);--color-blue-300:color(display-p3 0.1478 0.2586 0.4370);--color-blue-400:color(display-p3 0.2151 0.3583 0.5887);--color-blue-500:color(display-p3 0.2961 0.4654 0.7375);--color-blue-600:color(display-p3 0.4084 0.5790 0.8515);--color-blue-700:color(display-p3 0.5547 0.6933 0.9118);--color-blue-800:color(display-p3 0.7087 0.8016 0.9462);--color-blue-900:color(display-p3 0.8572 0.9030 0.9736);--color-blue-950:color(display-p3 0.9290 0.9518 0.9867);--color-violet-50:color(display-p3 0.0228 0.0158 0.0903);--color-violet-100:color(display-p3 0.0678 0.0503 0.1820);--color-violet-200:color(display-p3 0.1509 0.1219 0.3415);--color-violet-300:color(display-p3 0.2368 0.1972 0.5033);--color-violet-400:color(display-p3 0.3297 0.2838 0.6655);--color-violet-500:color(display-p3 0.4310 0.3930 0.7952);--color-violet-600:color(display-p3 0.5413 0.5208 0.8722);--color-violet-700:color(display-p3 0.6573 0.6505 0.9155);--color-violet-800:color(display-p3 0.7740 0.7736 0.9464);--color-violet-900:color(display-p3 0.8881 0.8893 0.9735);--color-violet-950:color(display-p3 0.9441 0.9450 0.9867);--color-night-50:color(display-p3 0.0214 0.0282 0.0410);--color-night-100:color(display-p3 0.0645 0.0790 0.1016);--color-night-200:color(display-p3 0.1456 0.1697 0.2072);--color-night-300:color(display-p3 0.2297 0.2632 0.3153);--color-night-400:color(display-p3 0.3213 0.3638 0.4298);--color-night-500:color(display-p3 0.4213 0.4706 0.5471);--color-night-600:color(display-p3 0.5299 0.5807 0.6592);--color-night-700:color(display-p3 0.6461 0.6905 0.7590);--color-night-800:color(display-p3 0.7654 0.7974 0.8465);--color-night-900:color(display-p3 0.8836 0.9000 0.9253);--color-night-950:color(display-p3 0.9418 0.9501 0.9628);}}@media screen and (max-width: 768px) {:root{--horizontal-padding:1.5rem;}}*{margin:0;padding:0;list-style-type:none;text-decoration:none;line-height:150%;}html, body{width:100%;min-height:100%;font-family:var(--font-family-body);color:var(--fg-color);background-color:var(--bg-color);}a:link, a:visited, a:active, a:hover{color:var(--foreground-color-link);}.wrapper-0-0-1{width:100%;min-height:100%;box-sizing:border-box;display:flex;flex-direction:column;}.container-0-0-2{position:sticky;top:0;z-index:10;background-color:var(--background-color-medium);margin:0 auto var(--vertical-padding) auto;box-sizing:border-box;width:100%;max-width:800px;display:flex;justify-content:space-between;align-items:stretch;border-bottom:3px solid var(--color-blue-400);}.link-0-0-3{display:flex;align-items:center;padding:10px var(--horizontal-padding);}.link-0-0-3:hover{background-color:var(--background-color-light);}.name-0-0-4{font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;font-size:1.618em;display:flex;align-items:center;}.home-0-0-5{text-align:right;display:flex;align-items:stretch;}.icon-0-0-6{color:var(--foreground-color-dark);position:relative;top:2px;margin-left:0.5rem;}.heading1-0-0-29{font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;display:block;text-align:center;}@media screen and (max-width: 768px) {.heading1-0-0-29{font-size:2.618em;}}@media screen and (min-width: 769px) {.heading1-0-0-29{font-size:3em;}}.heading2-0-0-30{font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;display:block;text-align:center;}@media screen and (max-width: 768px) {.heading2-0-0-30{font-size:1.618em;}}@media screen and (min-width: 769px) {.heading2-0-0-30{font-size:2.618em;}}.heading3-0-0-31{font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;margin-top:var(--vertical-padding);}@media screen and (max-width: 768px) {.heading3-0-0-31{font-size:1.618em;}}@media screen and (min-width: 769px) {.heading3-0-0-31{font-size:1.618em;}}.heading4-0-0-32{font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;margin-top:var(--vertical-padding);}@media screen and (max-width: 768px) {.heading4-0-0-32{font-size:1.618em;}}@media screen and (min-width: 769px) {.heading4-0-0-32{font-size:1.3em;}}.heading5-0-0-33{font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;margin-top:var(--vertical-padding);}@media screen and (max-width: 768px) {.heading5-0-0-33{font-size:1.618em;}}@media screen and (min-width: 769px) {.heading5-0-0-33{font-size:1.3em;}}.heading6-0-0-34{font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;margin-top:var(--vertical-padding);}@media screen and (max-width: 768px) {.heading6-0-0-34{font-size:1.618em;}}@media screen and (min-width: 769px) {.heading6-0-0-34{font-size:1.3em;}}.content-0-0-38{background-color:var(--background-color-medium);flex:0 0 auto;margin:0 auto var(--vertical-padding) auto;box-sizing:border-box;width:100%;max-width:800px;padding:var(--vertical-padding) var(--horizontal-padding);}.markdown-0-0-28{--foreground-color-link:var(--color-blue-700);}.markdown-0-0-28 p{margin-top:var(--vertical-padding);}.markdown-0-0-28 blockquote{margin-top:var(--vertical-padding);background-color:var(--bg-color-alternate);color:var(--fg-color);padding:0.01em var(--horizontal-padding) var(--vertical-padding) var(--horizontal-padding);font-size:1.1em;margin-left:calc(var(--horizontal-padding) * -1);margin-right:calc(var(--horizontal-padding) * -1);--double-margin:calc(var(--horizontal-padding) * 2);width:calc(100% + var(--double-margin));box-sizing:border-box;}.markdown-0-0-28 .image-wrapper{margin-left:calc(var(--horizontal-padding) * -1);margin-right:calc(var(--horizontal-padding) * -1);--double-margin:calc(var(--horizontal-padding) * 2);width:calc(100% + var(--double-margin));box-sizing:border-box;margin-top:var(--vertical-padding);background-color:var(--color-black);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:var(--vertical-padding) var(--horizontal-padding);}.markdown-0-0-28 pre code.hljs{margin-top:var(--vertical-padding);display:block;overflow-x:auto;padding:var(--vertical-padding) var(--horizontal-padding);margin-left:calc(var(--horizontal-padding) * -1);margin-right:calc(var(--horizontal-padding) * -1);--double-margin:calc(var(--horizontal-padding) * 2);width:calc(100% + var(--double-margin));box-sizing:border-box;}.markdown-0-0-28 code.hljs{font-family:var(--font-family-code);padding:3px 5px;}.markdown-0-0-28 a:link, .markdown-0-0-28 a:hover, .markdown-0-0-28 a:visited, .markdown-0-0-28 a:active{text-decoration:underline;}.markdown-0-0-28 ul{margin-top:var(--vertical-padding);margin-left:25px;}.markdown-0-0-28 ol{margin-top:var(--vertical-padding);margin-left:25px;}.markdown-0-0-28 h1{margin-top:var(--vertical-padding);font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;display:block;text-align:center;}.markdown-0-0-28 h2{margin-top:calc(var(--vertical-padding) * 2);font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;display:block;text-align:center;}.markdown-0-0-28 h3{font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;margin-top:var(--vertical-padding);}.markdown-0-0-28 h4{font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;margin-top:var(--vertical-padding);}.markdown-0-0-28 h5{font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;margin-top:var(--vertical-padding);}.markdown-0-0-28 h6{font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;margin-top:var(--vertical-padding);}.markdown-0-0-28 hr{max-width:50%;display:block;text-align:center;margin:2em auto;}.markdown-0-0-28 iframe{margin-top:var(--vertical-padding);aspect-ratio:16 / 9;height:100%;margin-left:calc(var(--horizontal-padding) * -1);margin-right:calc(var(--horizontal-padding) * -1);--double-margin:calc(var(--horizontal-padding) * 2);width:calc(100% + var(--double-margin));box-sizing:border-box;}.markdown-0-0-28 video{margin-left:calc(var(--horizontal-padding) * -1);margin-right:calc(var(--horizontal-padding) * -1);--double-margin:calc(var(--horizontal-padding) * 2);width:calc(100% + var(--double-margin));box-sizing:border-box;margin-top:var(--vertical-padding);}.markdown-0-0-28 .hljs{color:#d5c4a1;background:#282828;}.markdown-0-0-28 .hljs ::selection, .markdown-0-0-28 .hljs::selection{background-color:#504945;color:#d5c4a1;}.markdown-0-0-28 .hljs-comment{color:#665c54;}.markdown-0-0-28 .hljs-tag{color:#bdae93;}.markdown-0-0-28 .hljs-operator, .markdown-0-0-28 .hljs-punctuation, .markdown-0-0-28 .hljs-subst{color:#d5c4a1;}.markdown-0-0-28 .hljs-operator{opacity:0.7;}.markdown-0-0-28 .hljs-bullet, .markdown-0-0-28 .hljs-deletion, .markdown-0-0-28 .hljs-name, .markdown-0-0-28 .hljs-selector-tag, .markdown-0-0-28 .hljs-template-variable, .markdown-0-0-28 .hljs-variable{color:#fb4934;}.markdown-0-0-28 .hljs-attr, .markdown-0-0-28 .hljs-link, .markdown-0-0-28 .hljs-literal, .markdown-0-0-28 .hljs-number, .markdown-0-0-28 .hljs-symbol, .markdown-0-0-28 .hljs-variable.constant_{color:#fe8019;}.markdown-0-0-28 .hljs-class .hljs-title, .markdown-0-0-28 .hljs-title, .markdown-0-0-28 .hljs-title.class_{color:#fabd2f;}.markdown-0-0-28 .hljs-strong{font-weight:700;color:#fabd2f;}.markdown-0-0-28 .hljs-addition, .markdown-0-0-28 .hljs-code, .markdown-0-0-28 .hljs-string, .markdown-0-0-28 .hljs-title.class_.inherited__{color:#b8bb26;}.markdown-0-0-28 .hljs-built_in, .markdown-0-0-28 .hljs-doctag, .markdown-0-0-28 .hljs-keyword.hljs-atrule, .markdown-0-0-28 .hljs-quote, .markdown-0-0-28 .hljs-regexp{color:#8ec07c;}.markdown-0-0-28 .hljs-attribute, .markdown-0-0-28 .hljs-function .hljs-title, .markdown-0-0-28 .hljs-section, .markdown-0-0-28 .hljs-title.function_, .markdown-0-0-28 .ruby .hljs-property{color:#83a598;}.markdown-0-0-28 .diff .hljs-meta, .markdown-0-0-28 .hljs-keyword, .markdown-0-0-28 .hljs-template-tag, .markdown-0-0-28 .hljs-type{color:#d3869b;}.markdown-0-0-28 .hljs-emphasis{color:#d3869b;font-style:italic;}.markdown-0-0-28 .hljs-meta, .markdown-0-0-28 .hljs-meta .hljs-keyword, .markdown-0-0-28 .hljs-meta .hljs-string{color:#d65d0e;}.markdown-0-0-28 .hljs-meta .hljs-keyword, .markdown-0-0-28 .hljs-meta-keyword{font-weight:700;}.markdown-0-0-28 > :first-child{margin-top:0;}@media screen and (max-width: 768px) {.markdown-0-0-28 h6{font-size:1.618em;}}@media screen and (min-width: 769px) {.markdown-0-0-28 h6{font-size:1.3em;}}@media screen and (max-width: 768px) {.markdown-0-0-28 h5{font-size:1.618em;}}@media screen and (min-width: 769px) {.markdown-0-0-28 h5{font-size:1.3em;}}@media screen and (max-width: 768px) {.markdown-0-0-28 h4{font-size:1.618em;}}@media screen and (min-width: 769px) {.markdown-0-0-28 h4{font-size:1.3em;}}@media screen and (max-width: 768px) {.markdown-0-0-28 h3{font-size:1.618em;}}@media screen and (min-width: 769px) {.markdown-0-0-28 h3{font-size:1.618em;}}@media screen and (max-width: 768px) {.markdown-0-0-28 h2{font-size:1.618em;}}@media screen and (min-width: 769px) {.markdown-0-0-28 h2{font-size:2.618em;}}@media screen and (max-width: 768px) {.markdown-0-0-28 h1{font-size:2.618em;}}@media screen and (min-width: 769px) {.markdown-0-0-28 h1{font-size:3em;}}.markdown-0-0-28 ol li{margin-top:0.75rem;list-style-type:decimal;}.markdown-0-0-28 ol ol{margin-top:0;}.markdown-0-0-28 ol li::marker{color:var(--foreground-color-medium);}.markdown-0-0-28 ul li{margin-top:0.75rem;list-style-type:disc;}.markdown-0-0-28 ul ul{margin-top:0;}.markdown-0-0-28 ul li::marker{color:var(--foreground-color-dark);}.markdown-0-0-28 .image-wrapper img{display:block;max-width:100%;max-height:50vh;}.markdown-0-0-28 .image-wrapper .image-title{margin-top:0.5rem;color:var(--fg-color);text-align:center;}.linkSet-0-0-35{margin-top:var(--vertical-padding);}.link-0-0-36{margin-right:5px;--foreground-color-link:var(--color-blue-700);}.icon-0-0-37{color:var(--fg-color);}.technologies-0-0-11{clear:both;margin-top:var(--vertical-padding);}.compact-0-0-12{margin-top:0;}.technology-0-0-13{float:left;border-radius:5px;font-size:0.707em;margin:5px;display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;}.tagRed-0-0-14{background-color:var(--highlight-color);}.tagGreen-0-0-15{background-color:var(--highlight-color-2);}.icon-0-0-16{color:var(--fg-color);margin:0 5px;}.tag-0-0-17{background-color:var(--bg-color-alternate);padding:5px;border-radius:5px;}</style></head><body><div class="wrapper-0-0-1"><div class="container-0-0-2"><header class="name-0-0-4"><a href="/" class="link-0-0-3">Ben Coveney</a></header><nav class="home-0-0-5"><a href="/" class="link-0-0-3"><div>Home</div><i class="mdi mdi-home mdi-18px icon-0-0-6"></i></a></nav></div><div class="title-0-0-40"><h1 class="heading1-0-0-29">Implementing Malloc</h1><span class="published-0-0-39">Published <!-- -->Nov 23, 2024</span></div><div class="content-0-0-38"><div class="markdown-0-0-28"><p>While programs are running, they need to store the data they are working on in memory. Often programmers do not need to think about how this happens; Allocating memory (reserving space to store data) is such a common operation that almost all programming languages or environments have this capability built in.</p>
+<p>In low-level languages like C, all the programmer needs to do to allocate some memory is call the function <code>malloc(amountInBytes)</code>, passing the amount of memory they would like to reserve.</p>
+<pre><code class="hljs language-C"><span class="hljs-comment">// Allocating memory for an array of 1000 ints in C:</span>
+<span class="hljs-type">int</span> *myArray = (<span class="hljs-type">int</span>*)<span class="hljs-built_in">malloc</span>(<span class="hljs-number">1000</span> * <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">int</span>));
+</code></pre>
+<p>In higher-level languages like JavaScript and C#, the programmer may not be exposed to memory management at all. The runtime for these languages may silently allocate memory behind the scenes when the programmer uses constructs like the <code>new</code> keyword, but this detail is never really exposed to the programmer.</p>
+<pre><code class="hljs language-JavaScript"><span class="hljs-comment">// Creating an array of 1000 ints in JavaScript:</span>
+<span class="hljs-keyword">const</span> myArray = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Array</span>(<span class="hljs-number">1000</span>);
+</code></pre>
+<p>Working with memory in an inefficient way can make or break the performance of your programs. Despite the best effort of programming languages to smooth over the details, neglecting how memory is being allocated can cause poor performance or result in system resources being hogged.</p>
+<p>By the end of my <a href="./assembly.html" target="_blank">last post</a> on Assembly programming, I had written a very rudimentary memory allocator. I wanted to get a bit better at programming in Assembly, but also to develop my allocator further into something which meets a reasonable minimum bar for functionality and efficiency.</p>
+<p>In this post I&#x27;ll describe a bit about the allocator I came up with, how it interfaces with the operating system, and where I can take it next. There are some code samples littered throughout the post, but you can find the full source code <a href="https://github.com/bencoveney/learning-assembly/blob/main/projects/allocator/allocator.s" target="_blank">here</a>.</p>
+<h2>Getting Memory from the Operating System</h2>
+<p>When a computer starts, one of the jobs of the operating system is to manage memory the memory available on sticks of RAM, which involves tasks like:</p>
+<ul>
+<li>Taking stock of all the physical memory available and breaking it up into &quot;pages&quot;, so that it can work with larger chunks of memory rather than individual addresses.</li>
+<li>Moving programs and data into, and out of, the physical memory while they are being used.</li>
+<li>Providing additional memory to programs when they request it.</li>
+<li>Reclaiming memory from programs once they have finished running.</li>
+<li>Maintaining a <a href="https://en.wikipedia.org/wiki/Page_table" target="_blank">page table</a> to map from &quot;virtual&quot; memory addresses (used by your programs) to physical memory addresses (linked to the hardware).</li>
+</ul>
+<p><figure class="image-wrapper"><a href="/posts/allocator-ram.png" target="_blank"><img src="/posts/allocator-ram.png" alt="Ram Sticks" title="Sticks of RAM, like you might have seen in your own machines."/></a><figcaption class="image-title">Sticks of RAM, like you might have seen in your own machines.</figcaption></figure></p>
+<p>The operating system I was targeting for my allocator was 64-bit Linux. Linux exposes a few different ways for programs to work with memory as &quot;syscalls&quot; (system calls), which are like functions the program can make a request to. Some example syscalls for memory management are:</p>
+<ul>
+<li>The <code>BRK</code> syscall asks the operating system to move the &quot;program break&quot;, effectively growing or shrinking the heap. This is the method I used to implement my allocator, so it will be explained in more detail later on.</li>
+<li>The <code>MMAP</code> syscall asks the operating system to hand over entire pages of memory at a time. This is a more modern API with a lot more bells and whistles, which will be beyond the scope of this post.</li>
+</ul>
+<h2>The Heap</h2>
+<p>The operating system will load programs into memory using a similar layout each time:</p>
+<ul>
+<li>Static and/or fixed data will be loaded at the bottom of memory (with the lowest memory addresses). This could be things like executable code, text strings, constant values, or assets which will be used while the program is executing.</li>
+<li>Above this is the heap, which will grow upwards. The top of the heap is known as the &quot;program break&quot;, and the <code>BRK</code> syscall will move it up and down. Typically the heap is used for storing data which is larger, or needs to be retained for a longer period of time while the program is running.</li>
+<li>At the top of memory is the stack, which grows downwards. Typically the stack is where shorter-lived values are stored, like variables which are local to functions.</li>
+</ul>
+<p><figure class="image-wrapper"><a href="/posts/allocator-memory-layout.png" target="_blank"><img src="/posts/allocator-memory-layout.png" alt="Memory Layout" title="The typical memory layout for a program while it is running."/></a><figcaption class="image-title">The typical memory layout for a program while it is running.</figcaption></figure></p>
+<p>As a result, the heap and stack grow towards each other. If they ever meet then your program has run out of memory, and likely won&#x27;t be able to continue running.</p>
+<p>Memory allocators are typically managing content of the heap, allocating memory within it, and growing or shrinking it as-and-when required.</p>
+<p>In practice, my memory allocator interfaces with the heap in 2 different ways:</p>
+<p>Firstly, the location of the program break cannot be known ahead of time. The operating system can (and will) vary the location where programs are loaded into memory each time they are executed. This <a href="https://en.wikipedia.org/wiki/Address_space_layout_randomization" target="_blank">address space layout randomization</a> gives security benefits but as a result we need to call the <code>BRK</code> syscall up-front, before we can make any allocations, so that we know where to expand it from.</p>
+<p>Secondly, when the allocator determines that we do not have any space available to fit a memory allocation, we will expand the heap by calling the <code>BRK</code> syscall with a new desired location for the program break. This new location will be offset from the program break&#x27;s initial location, hence why we needed to look it up initially.</p>
+<h2>The Allocator API</h2>
+<p>Now that we&#x27;ve laid out the allocator&#x27;s responsibilities, we can have a look at the API it exposes, which is conveniently just 2 functions.</p>
+<pre><code class="hljs language-txt">allocate(sizeInBytes): memoryAddress
+
+deallocate(memoryAddress): void
+</code></pre>
+<p><code>allocate</code> will allocate a block of memory of <em>at least</em> the given size, and return the address of the start of the block.</p>
+<p>Your program is then free to use that block of memory however you see fit. In the event you no longer need the block of memory you can return it to the allocator, by calling <code>deallocate</code> and passing the same address. Once a block of memory has been deallocated, it can be reused by the allocator to satisfy another allocation request.</p>
+<p>This recycling of memory is critical to prevent &quot;Memory Leaks&quot;, where programs gradually consume more memory over time until all the system&#x27;s resources have been consumed.</p>
+<p>Recycling memory comes with a caveat though: <code>allocate</code> can potentially return memory which already contains data used by a previous allocation. In many cases this won&#x27;t cause problems, because the first thing you&#x27;ll do after allocating memory is free it, but it is worth bearing in mind.</p>
+<p>If you&#x27;ve done any programming in C these functions might look familiar, they are normally named <code>malloc</code> and <code>free</code>.</p>
+<h2>Making an Allocation</h2>
+<p>So what actually happens when we call <code>allocate</code>? This is probably best explained by running through an allocation, and seeing all the parts moving.</p>
+<h3>1: Initializing the Heap</h3>
+<p>Before we can allocate space on the heap, we need to know where it is. Address space layout randomization means we can&#x27;t know where it is ahead of time, so we will need to call the <code>BRK</code> syscall to find out the address.</p>
+<p>This only needs to be done once. Once we have found the starting address of the heap, we can keep a note of it, and skip this step the next time around.</p>
+<pre><code class="hljs language-gas"><span class="hljs-comment"># Initializes the heap.</span>
+<span class="hljs-comment"># Param %rdi: The amount to allocate.</span>
+<span class="hljs-comment"># Return %rax: The address of the allocation.</span>
+<span class="hljs-string">initialise:</span>
+<span class="hljs-built_in">.equ</span> LOCAL_TARGET_SIZE,<span class="hljs-name"> -8</span>
+<span class="hljs-built_in">.equ</span> LOCAL_DESIRED_HEAP_SIZE,<span class="hljs-name"> -16</span>
+  <span class="hljs-keyword">enter</span> <span class="hljs-name">$16</span>, <span class="hljs-name">$0</span>
+
+  <span class="hljs-keyword">movq</span> <span class="hljs-title">%rdi</span>, LOCAL_TARGET_SIZE(<span class="hljs-title">%rbp</span>)
+
+  <span class="hljs-comment"># Call brk to work out where the heap begins.</span>
+  <span class="hljs-keyword">movq</span> <span class="hljs-name">$0</span>, <span class="hljs-title">%rdi</span>
+  <span class="hljs-keyword">call</span> brk
+  <span class="hljs-keyword">movq</span> <span class="hljs-title">%rax</span>, startOfHeap
+
+  <span class="hljs-keyword">movq</span> LOCAL_TARGET_SIZE(<span class="hljs-title">%rbp</span>), <span class="hljs-title">%rdi</span>
+  <span class="hljs-keyword">movq</span> <span class="hljs-title">%rax</span>, <span class="hljs-title">%rsi</span>
+  <span class="hljs-keyword">call</span> expandHeapFrom
+
+  <span class="hljs-keyword">leave</span>
+  <span class="hljs-keyword">ret</span>
+</code></pre>
+<h3>2: Padding the Size</h3>
+<p>We allow an arbitrary number of bytes to be requested into the <code>allocate()</code> function, but this is a bit of a lie. Computers prefer memory addresses to be &quot;aligned&quot; to certain boundaries, and will be able to operate more efficiently when that is the case.</p>
+<p>There are 8 bits to a byte, and my allocator targets 64 bit CPUs, so my memory addresses should stay aligned to 8-byte boundaries. One easy way to stay aligned is to make sure every block we allocate on the heap is rounded up to be a multiple of 8 bytes in size.</p>
+<p>There&#x27;s a tradeoff here. If the user asks for 1 byte, we will need to reserve at least 8, which might seem inefficient. There are some mitigating factors though:</p>
+<ul>
+<li>Often the user will already be allocating memory in 8-byte intervals, because that will be the most common denomination of data being worked with on a 64-bit CPU.</li>
+<li>This wasted space is more pronounced when allocations are small, but typically small allocations can be done on the stack rather than the heap.</li>
+</ul>
+<pre><code class="hljs language-gas"><span class="hljs-comment"># Determines how much memory we need to make an allocation of N bytes when the</span>
+<span class="hljs-comment"># header and alignment are factored in.</span>
+<span class="hljs-comment"># Param %rdi: The desired number of bytes.</span>
+<span class="hljs-comment"># Return %rax: The value to store in the header.</span>
+<span class="hljs-string">getAllocationSize:</span>
+  <span class="hljs-keyword">enter</span> <span class="hljs-name">$0</span>, <span class="hljs-name">$0</span>
+  <span class="hljs-keyword">addq</span> $HEADER_SIZE, <span class="hljs-title">%rdi</span>
+  <span class="hljs-keyword">addq</span> $FOOTER_SIZE, <span class="hljs-title">%rdi</span>
+  <span class="hljs-keyword">movq</span> <span class="hljs-name">$0x8</span>, <span class="hljs-title">%rsi</span>
+  <span class="hljs-keyword">call</span> roundUp
+  <span class="hljs-comment"># %rax will already have the result.</span>
+  <span class="hljs-keyword">leave</span>
+  <span class="hljs-keyword">ret</span>
+</code></pre>
+<h3>3: Finding a Home for the Block</h3>
+<p>At this point we know how much space we need to allocate for the block, and we know where the heap is. The next problem is to figure out where, within the heap, the allocation can be done.</p>
+<p>To make good decisions here we will need to give the heap some structure, so that we can inspect it and work out which parts of it are empty and which are full.</p>
+<p>For different types of memory allocator, this is where the algorithm will vary the most. Different strategies for structuring the heap will have different characteristics, like the time taken to find an empty spot, or the amount of extra data stored per allocation.</p>
+<p>For my allocator, I chose to structure the heap as a linked list. In practice this means there is a small header alongside each allocation which tracks whether the block is allocated, and the size of the block. By adding the size to the address of the current block, we can find out where the next block begins.</p>
+<p><figure class="image-wrapper"><a href="/posts/allocator-linked-list.png" target="_blank"><img src="/posts/allocator-linked-list.png" alt="Linked List Allocator Layout" title="An example memory layout, with 3 blocks arranged as a linked list."/></a><figcaption class="image-title">An example memory layout, with 3 blocks arranged as a linked list.</figcaption></figure></p>
+<p>This gives us enough information to walk through the heap and look at the blocks stored there, by going through these steps:</p>
+<ol>
+<li>Use the memory address of the start of the heap as the jumping off point.</li>
+<li>Read the header to find how big the block is.</li>
+<li>Add that size to the current memory address to get the address of the next block. This is like following one of the arrows from one block to the next.</li>
+<li>Check if we have reached the end of the heap.</li>
+<li>If we haven&#x27;t, then we can return to step 2 and repeat the process for the next block.</li>
+</ol>
+<p>One problem you might notice is that we don&#x27;t yet have a way to tell if each block is allocated or free. To solve that we will need to introduce a new allocated flag to the header too, signifying whether the block is free or in use.</p>
+<p>When we are considering adding more data to the header, there is a caveat: Each piece of data we store will take up space for every single allocation we do. It is in our best interest to try to keep the header as small as possible. So is there any way we can squeeze a bit more data into the space we are already using?</p>
+<p>At the moment, the header consists of a 64-bit (8 byte) size value. In 64 bits we can store any possible integer value in size from 0 up to 2^64. In reality we will not be using that many possible values, because we only allow sizes which are a multiple of 8.</p>
+<p>This means that the smallest 3 bits (2^3 = 8) will effectively be unused, and could be used to store a flag indicating whether the block is free or in use. As a result, the 64 bits in the header are used as follows:</p>
+<ul>
+<li>Bit 0: Whether the block is free or in use.</li>
+<li>Bit 1 &amp; 2: Unused.</li>
+<li>Bit 3 to 63: The size of the block.</li>
+</ul>
+<p><figure class="image-wrapper"><a href="/posts/allocator-header-layout.png" target="_blank"><img src="/posts/allocator-header-layout.png" alt="Header layout" title="Layout of the header - not to scale."/></a><figcaption class="image-title">Layout of the header - not to scale.</figcaption></figure></p>
+<p>To separate those two pieces of data when we inspect the header, we can use the <code>andq</code> Assembly instruction which performs a logical AND operation and acts as a mask.</p>
+<pre><code class="hljs language-gas"><span class="hljs-comment"># Reads the size of the block of memory, based on the header.</span>
+<span class="hljs-comment"># Param %rdi: The value stored in the header.</span>
+<span class="hljs-comment"># Return %rax: Whether the block is allocated.</span>
+<span class="hljs-string">readSizeFromFooter:</span>
+  <span class="hljs-keyword">enter</span> <span class="hljs-name">$0</span>, <span class="hljs-name">$0</span>
+  <span class="hljs-keyword">movq</span> <span class="hljs-title">%rdi</span>, <span class="hljs-title">%rax</span>
+  <span class="hljs-comment"># Mask everything except the bottom 3 bits</span>
+  <span class="hljs-keyword">andq</span> <span class="hljs-name">$0xfffffffffffffff8</span>,<span class="hljs-title">%rax</span>
+  <span class="hljs-keyword">leave</span>
+  <span class="hljs-keyword">ret</span>
+
+<span class="hljs-comment"># Reads whether the block of memory is allocated.</span>
+<span class="hljs-comment"># Param %rdi: The value stored in the header.</span>
+<span class="hljs-comment"># Return %rax: The size of the block.</span>
+<span class="hljs-string">readAllocatedFromHeader:</span>
+  <span class="hljs-keyword">enter</span> <span class="hljs-name">$0</span>, <span class="hljs-name">$0</span>
+  <span class="hljs-keyword">movq</span> <span class="hljs-title">%rdi</span>, <span class="hljs-title">%rax</span>
+  <span class="hljs-comment"># The smallest bit has the allocated flag</span>
+  <span class="hljs-keyword">andq</span> <span class="hljs-name">$0x1</span>, <span class="hljs-title">%rax</span>
+  <span class="hljs-keyword">leave</span>
+  <span class="hljs-keyword">ret</span>
+</code></pre>
+<h3>4: Expanding the Heap</h3>
+<p>We now have everything we need to walk through the heap and find a block which can fit an allocation, but there&#x27;s an extra scenario to consider: What happens if we walk all the way through the heap, inspecting each block, but cannot find one which is both free and can fit the allocation? The only solution in this case is to expand the heap.</p>
+<p>Fortunately this is not too tricky, all we need to do is:</p>
+<ul>
+<li>Take the previous address for the end of the heap.</li>
+<li>Increase it by at least the amount we want to allocate, to find the new desired end of the heap.</li>
+<li>Send a request to the operating system, asking it to move the &quot;program break&quot; (using the BRK syscall described earlier).</li>
+<li>Create a block in the newly allocated region (including the header).</li>
+<li>Use that new block for the requested allocation.</li>
+</ul>
+<p>I&#x27;ve used some slightly fuzzy language there for how much we would want to expand the heap by: &quot;Increase it by at least the amount we want to allocate&quot;. We actually probably want to expand the heap by more than what we need to accommodate the allocation, for a few reasons:</p>
+<ul>
+<li>We need to add a bit of extra space for the header (8 bytes).</li>
+<li>Triggering syscalls has some overhead associated with it, so it is best if we can avoid doing it for most allocations. We can request some extra margin (I used 1024 bytes) and hope that it might be able to satisfy a future memory allocation without us needing to run the syscall again.</li>
+<li>The operating system will be managing memory in larger pages behind the scenes anyway, so we may as well round up to request entire pages at a time (often 4096 bytes, but it can vary), because they will be reserved for our program either way.</li>
+</ul>
+<p>Taking all this into consideration, the amount of memory we request from the operating system could be a fair bit more than the amount we were asked to allocate, but a modern 64 bit system will take this in its stride.</p>
+<p>Before we move on to the next section, one thing to note is we <em>always</em> need to expand the heap for the very first allocation, because there won&#x27;t be any space reserved yet. In that case we can jump straight from step 1 to step 4, but the logic for requesting some extra margin will remain the same.</p>
+<pre><code class="hljs language-gas"><span class="hljs-comment"># Expands the heap from a specified point to accommodate an allocation.</span>
+<span class="hljs-comment"># Param %rdi: The amount to allocate.</span>
+<span class="hljs-comment"># Param %rsi: The location to expand from</span>
+<span class="hljs-comment"># Return %rax: The address of the allocation.</span>
+<span class="hljs-string">expandHeapFrom:</span>
+<span class="hljs-built_in">.equ</span> LOCAL_TARGET_SIZE,<span class="hljs-name"> -8</span>
+<span class="hljs-built_in">.equ</span> LOCAL_GROW_FROM,<span class="hljs-name"> -16</span>
+<span class="hljs-built_in">.equ</span> LOCAL_DESIRED_HEAP_END,<span class="hljs-name"> -24</span>
+  <span class="hljs-keyword">enter</span> <span class="hljs-name">$32</span>, <span class="hljs-name">$0</span>
+
+  <span class="hljs-keyword">movq</span> <span class="hljs-title">%rdi</span>, LOCAL_TARGET_SIZE(<span class="hljs-title">%rbp</span>)
+  <span class="hljs-keyword">movq</span> <span class="hljs-title">%rsi</span>, LOCAL_GROW_FROM(<span class="hljs-title">%rbp</span>)
+
+  <span class="hljs-comment"># Calculate the new end of the heap.</span>
+  <span class="hljs-keyword">movq</span> LOCAL_GROW_FROM(<span class="hljs-title">%rbp</span>), <span class="hljs-title">%rdi</span>
+  <span class="hljs-keyword">addq</span> LOCAL_TARGET_SIZE(<span class="hljs-title">%rbp</span>), <span class="hljs-title">%rdi</span>
+  <span class="hljs-keyword">add</span> $MARGIN, <span class="hljs-title">%rdi</span>
+  <span class="hljs-keyword">movq</span> $PROGRAM_BREAK_ALIGNMENT, <span class="hljs-title">%rsi</span>
+  <span class="hljs-keyword">call</span> roundUp
+  <span class="hljs-keyword">movq</span> <span class="hljs-title">%rax</span>, LOCAL_DESIRED_HEAP_END(<span class="hljs-title">%rbp</span>)
+
+  <span class="hljs-comment"># Grow the heap.</span>
+  <span class="hljs-keyword">movq</span> LOCAL_DESIRED_HEAP_END(<span class="hljs-title">%rbp</span>), <span class="hljs-title">%rdi</span>
+  <span class="hljs-keyword">call</span> brk
+
+  <span class="hljs-keyword">movq</span> LOCAL_DESIRED_HEAP_END(<span class="hljs-title">%rbp</span>), <span class="hljs-title">%rax</span>
+  <span class="hljs-keyword">movq</span> <span class="hljs-title">%rax</span>, endOfHeap
+
+  // ..<span class="hljs-built_in">.continued</span> <span class="hljs-keyword">in</span> the next section
+</code></pre>
+<h3>5: Splitting Blocks</h3>
+<p>When we are finding a block which could be used for an allocation, we are unlikely to always find one which is the perfect size. This is definitely the case when the heap expands, because we will be creating a block which we know for a fact is larger than what we needed to allocate.</p>
+<p>If the program asks to allocate 16 bytes, and we begin walking through the heap and find a candidate block which is 1024 bytes big, what should we do?</p>
+<p>One option would be to say that using this block would be wasteful, and try to find a better one. This &quot;best-fit&quot; approach could work, but you have no assurance you would find a block of the perfect size, so eventually (depending on how long you decide to search) you may have to settle for something suboptimal anyway.</p>
+<p>The approach I take in my allocator is to instead split the larger block into pieces, so that we only use the part of it that we need, and leave the rest available for another allocation. The benefit of this approach is that we can always use the first</p>
+<p><figure class="image-wrapper"><a href="/posts/allocator-block-splitting.png" target="_blank"><img src="/posts/allocator-block-splitting.png" alt="Splitting up large blocks" title="Splitting up a block, so that we make full use of the available space."/></a><figcaption class="image-title">Splitting up a block, so that we make full use of the available space.</figcaption></figure></p>
+<p>When splitting blocks, there is one thing to take into consideration: A block can only be split if it can fit all of the following:</p>
+<ul>
+<li>The header of the newly allocated block.</li>
+<li>The content of that block (i.e. the size of the allocation).</li>
+<li>The header for the remaining free block.</li>
+<li>The content of the free block, which would be the minimum size your allocator allows (8 bytes in my case).</li>
+</ul>
+<p><figure class="image-wrapper"><a href="/posts/allocator-redundant-splitting.png" target="_blank"><img src="/posts/allocator-redundant-splitting.png" alt="Space isn&#x27;t large enough to perform a split" title="Splitting doesn&#x27;t always make sense, sometimes we can accept a little wastage."/></a><figcaption class="image-title">Splitting doesn&#x27;t always make sense, sometimes we can accept a little wastage.</figcaption></figure></p>
+<p>If a block doesn&#x27;t meet these criteria to be split then it isn&#x27;t the end of the world, because it means the block was roughly the right size anyway, and a little extra space being lost here won&#x27;t hurt.</p>
+<pre><code class="hljs language-gas">  // ..<span class="hljs-built_in">.continued</span> from the previous section
+
+  <span class="hljs-comment"># Write the allocated block.</span>
+  <span class="hljs-keyword">movq</span> LOCAL_TARGET_SIZE(<span class="hljs-title">%rbp</span>), <span class="hljs-title">%rdi</span>
+  <span class="hljs-keyword">movq</span> <span class="hljs-name">$0x1</span>, <span class="hljs-title">%rsi</span>
+  <span class="hljs-keyword">movq</span> LOCAL_GROW_FROM(<span class="hljs-title">%rbp</span>), <span class="hljs-title">%rdx</span>
+  <span class="hljs-keyword">call</span> writeBlock
+
+  <span class="hljs-comment"># Write the remainder.</span>
+  <span class="hljs-keyword">movq</span> endOfHeap, <span class="hljs-title">%rdi</span>
+  <span class="hljs-keyword">subq</span> LOCAL_GROW_FROM(<span class="hljs-title">%rbp</span>), <span class="hljs-title">%rdi</span>
+  <span class="hljs-keyword">subq</span> LOCAL_TARGET_SIZE(<span class="hljs-title">%rbp</span>), <span class="hljs-title">%rdi</span>
+  <span class="hljs-keyword">movq</span> <span class="hljs-name">$0x0</span>, <span class="hljs-title">%rsi</span>
+  <span class="hljs-keyword">movq</span> endOfHeap, <span class="hljs-title">%rdx</span>
+  <span class="hljs-keyword">subq</span> <span class="hljs-title">%rdi</span>, <span class="hljs-title">%rdx</span>
+  <span class="hljs-keyword">call</span> writeBlock
+
+  <span class="hljs-comment"># Return the allocated address.</span>
+  <span class="hljs-keyword">movq</span> LOCAL_GROW_FROM(<span class="hljs-title">%rbp</span>), <span class="hljs-title">%rax</span>
+  <span class="hljs-keyword">addq</span> $HEADER_SIZE, <span class="hljs-title">%rax</span>
+
+  <span class="hljs-keyword">leave</span>
+  <span class="hljs-keyword">ret</span>
+</code></pre>
+<h2>Deallocation</h2>
+<p>Fortunately, the process for freeing memory is a lot more straightforward than allocating it, especially now that we have laid out a lot of the structure of the heap. We can simply mark the block as free by toggling the flag stored in the header. The block can then be considered for future allocations and potentially re-used.</p>
+<p>Surely there&#x27;s no other problems we need to consider?</p>
+<h3>Fragmentation</h3>
+<p>Unfortunately there&#x27;s one other problem we need to consider.</p>
+<p>You might&#x27;ve noticed above that we have a process for splitting larger blocks of memory up into smaller ones. If we only had this, then you can imagine that gradually the heap would get split into smaller and smaller blocks. Useful large blocks within the heap would become infrequent and spread out over time, making our memory use less efficient, and we would need to expand the heap much more often in order to create new larger blocks.</p>
+<p><figure class="image-wrapper"><a href="/posts/allocator-fragmented-heap.png" target="_blank"><img src="/posts/allocator-fragmented-heap.png" alt="A fragmented heap" title="The new block cannot fit in any of the existing blocks - they are all too small."/></a><figcaption class="image-title">The new block cannot fit in any of the existing blocks - they are all too small.</figcaption></figure></p>
+<p>To balance this out, we can try to combine empty blocks together to counteract the splitting process. This is unlikely to give us 100% memory efficiency, we will still probably have gaps in the heap, but it should improve things enough to prevent the inefficiency becoming a serious problem.</p>
+<p><figure class="image-wrapper"><a href="/posts/allocator-defragmented-heap.png" target="_blank"><img src="/posts/allocator-defragmented-heap.png" alt="A defragmented heap" title="With the free blocks merged together, there is now space to fit the new block"/></a><figcaption class="image-title">With the free blocks merged together, there is now space to fit the new block</figcaption></figure></p>
+<p>To perform the merging of empty blocks, there&#x27;s actually only 2 scenarios we need to consider:</p>
+<ul>
+<li>When we mark a block as free, look at the preceding block, and if it is also free then they can be merged together.</li>
+<li>When we mark a block as free, <em>also</em> look at the subsequent block, and if it is also free then they can be merged together.</li>
+</ul>
+<p>By following those two rules, we can ensure we never end up with 2 neighbouring blocks of available memory. One would be freed after the other, and at that point they would&#x27;ve been merged together.</p>
+<p><figure class="image-wrapper"><a href="/posts/allocator-free-block-merging.png" target="_blank"><img src="/posts/allocator-free-block-merging.png" alt="Merging free blocks" title="Merging free blocks to create larger spaces."/></a><figcaption class="image-title">Merging free blocks to create larger spaces.</figcaption></figure></p>
+<p>As an alternative solution to this problem, you might be wondering why we can&#x27;t periodically rearrange the heap, to squish all the used blocks together and leave a large free region at the end of the heap.</p>
+<p>The main reason this isn&#x27;t possible is because users of the memory can do whatever they want with it, including keeping pointers into it from other parts of the program. If we moved blocks around then we run the risk of invalidating those pointers, and leaving them pointing somewhere the program didn&#x27;t expect.</p>
+<p><figure class="image-wrapper"><a href="/posts/allocator-linked-list.png" target="_blank"><img src="/posts/allocator-linked-list.png" alt="Rearranging allocated blocks" title="How rearranging (or &quot;defragmenting&quot;) memory can cause problems."/></a><figcaption class="image-title">How rearranging (or &quot;defragmenting&quot;) memory can cause problems.</figcaption></figure></p>
+<h3>Blocks, Interlinked</h3>
+<p>Alongside each block of memory we are storing a header which contains the size of the block, and allows us to treat the heap as a linked list of blocks which we can traverse from start to end in a forward direction.</p>
+<p>There is something this doesn&#x27;t allow though, which is to easily get ahold of the block just before a given one. Unfortunately this is exactly what we needed to do in the section above:</p>
+<blockquote>
+<p><em>When we mark a block as free, look at the preceding block, and if it is also free then they can be merged together.</em></p>
+</blockquote>
+<p>One option for solving this would be to walk through the heap all the way from the start in order to find the block just-prior to the one we are interested in. This could be quick when the heap is small but would become inefficient as it grows.</p>
+<p>The option I implemented in my allocator was to instead add more links to the heap structure pointing in the other direction, making the list &quot;doubly-linked&quot;.</p>
+<p>Similar to the header, all we need to be able to know to work back to a previous block is how large it is. This 8 byte size value is stored in a footer at the end of the block, so that we can find it by looking just behind the header for the block in question.</p>
+<p><figure class="image-wrapper"><a href="/posts/allocator-doubly-linked-list.png" target="_blank"><img src="/posts/allocator-doubly-linked-list.png" alt="Doubly Linked List Allocator Layout" title="The same linked list, now with links going in both directions."/></a><figcaption class="image-title">The same linked list, now with links going in both directions.</figcaption></figure></p>
+<p>The drawback to this approach is that we have doubled the overhead we need per-allocation from 8 bytes up to 16 bytes. We are trading off a bit of space efficiency for a gain in speed efficiency, and modern machines have plenty of space so this tradeoff is probably acceptable, but it is worth bearing in mind.</p>
+<h2>Shortcomings</h2>
+<p>That just about wraps up the functionality I have implemented. If you&#x27;re interested in seeing the full source code, you can check it out <a href="https://github.com/bencoveney/learning-assembly/blob/main/projects/allocator/allocator.s" target="_blank">here</a>.</p>
+<p>For now, I am considering my allocator &quot;good enough&quot;. With any project, by the time you reach the end you will have picked up plenty of knowledge about all the things you could have done better, if you were to do it again. In my case, that list looks something like this:</p>
+<ul>
+<li>My Assembly code is optimised for my ability to read it, rather than performance. There&#x27;s probably plenty of places where I could optimise away some instructions or data movement, but it might make it a bit harder to work with.</li>
+<li>My allocator never shrinks the heap by returning memory to the operating system. This could be done if a large enough region at the end of the heap becomes free, but for now it will only ever grow.</li>
+<li>I could add some extra checks and error handling, in case users pass invalid values to the API functions, like a request to allocate 0 bytes of data or free a block which isn&#x27;t on the heap.</li>
+<li>Other allocators will have more functions in their API, like ones which will ensure the blocks are empty (i.e. filled with zero values) before they are handed over.</li>
+<li>Searching for free blocks involves walking through the entire heap. It would be great to be able to find free blocks more efficiently.</li>
+<li>There are some use-cases like multithreading which my implementation has ignored entirely.</li>
+</ul>
+<p>Throughout this post I&#x27;ve also pointed to a range of tradeoffs, like the choice to store a footer alongside each block, which can speed up deallocation at the cost of some extra memory-use per allocation. In fact, the entire doubly-linked-list design of the allocator is a tradeoff, and there are alternative heap structures you can use which will make better, more informed tradeoffs.</p>
+<p>If you were undertaking this project for real, with stakes higher than &quot;fun hobby project&quot; then you&#x27;d probably also want to consider those alternative designs, and how they compare against the allocations made by real projects. If this is the kind of thing you are interested in, then there&#x27;s plenty of great write-ups on better-designed allocators out there:</p>
+<ul>
+<li><a href="https://github.com/microsoft/mimalloc" target="_blank">Microsoft&#x27;s Mimalloc</a>, described in <a href="https://www.microsoft.com/en-us/research/uploads/prod/2019/06/mimalloc-tr-v1.pdf" target="_blank">this paper</a>.</li>
+<li><a href="http://hoard.org/" target="_blank">Hoard</a>, described in <a href="https://people.cs.umass.edu/~emery/pubs/berger-asplos2000.pdf" target="_blank">this paper</a>.</li>
+<li><a href="https://github.com/jemalloc/jemalloc/wiki/Background" target="_blank">Jemalloc</a>, an allocator used in Firefox, Redis, FreeBSD and Android.</li>
+<li><a href="https://www.forrestthewoods.com/blog/benchmarking-malloc-with-doom3/" target="_blank">Benchmarking Malloc with Doom 3</a>.</li>
+</ul>
+<h2>Wrapping Up</h2>
+<p>By the end of my <a href="./assembly.html" target="_blank">previous post</a> I had learnt some Assembly language, written a very rudimentary memory allocator, and was thinking I might move on to a different hobby topic for a while. Writing Assembly was enjoyable but also quite taxing, it required a lot of concentration.</p>
+<p>Some of this is inherent to Assembly itself: It doesn&#x27;t help you much, so you often have to keep a big model in your head for how the program works.</p>
+<p>Some of this was down to the way I was writing Assembly though: By trying to write a very optimal set of instructions you miss out on some techniques which can help keep the mental model down to a manageable size. To give some concrete examples:</p>
+<ul>
+<li>I was trying to move data around as little as possible. This meant I had to try and picture which registers contained specific values at specific times. Life is easier if you are a bit more eager to allocate local variables on the stack, because then you get clearly named values and don&#x27;t have to worry about when they might get clobbered.</li>
+<li>I was trying to use clever control flow and jumps, to route execution around my code without the overhead of calling functions. This might have saved an instruction or two, but I am not certain it really saved much time, and using more functions would&#x27;ve helped me keep logic broken up in clean reusable chunks.</li>
+</ul>
+<p>This project has helped me get better at writing Assembly, but it has also been a great jumping-off point for learning about memory management and the tradeoffs involved. I can&#x27;t be sure that Assembly programming will keep my focus in the immediate future, but having my own allocator is a great building block to leverage in future projects.</p></div><div class="linkSet-0-0-35"><a href="https://github.com/bencoveney/learning-assembly/blob/main/projects/allocator/allocator.s" class="link-0-0-36"><i class="mdi mdi-github-circle mdi-18px icon-0-0-37"></i> View on Github</a></div><ul class="technologies-0-0-11"><li class="technology-0-0-13 tagGreen-0-0-15"><i class="icon-0-0-16 mdi mdi-cube mdi-18px"></i><span class="tag-0-0-17">Project</span></li><li class="technology-0-0-13 tagRed-0-0-14"><i class="icon-0-0-16 mdi mdi-chip mdi-18px"></i><span class="tag-0-0-17">Assembly</span></li><li class="technology-0-0-13 tagRed-0-0-14"><i class="icon-0-0-16 mdi mdi-desktop-classic mdi-18px"></i><span class="tag-0-0-17">Programming Languages</span></li></ul></div></div></body></html>

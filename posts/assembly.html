@@ -16,26 +16,26 @@
 }
 </code></pre>
 <p>Next we can take a look at how the same code (compiled using <a href="https://godbolt.org/" target="_blank">Godbolt</a>) would be transformed into Assembly:</p>
-<pre><code class="hljs language-gas">main:
-    push   %rbp
-    mov    %rsp,%rbp
+<pre><code class="hljs language-gas"><span class="hljs-string">main:</span>
+    <span class="hljs-keyword">push</span>   <span class="hljs-title">%rbp</span>
+    <span class="hljs-keyword">mov</span>    <span class="hljs-title">%rsp</span>,<span class="hljs-title">%rbp</span>
 
-    # Store the number 5 in a variable
-    movl   $0x5,-0x4(%rbp)
+    <span class="hljs-comment"># Store the number 5 in a variable</span>
+    <span class="hljs-keyword">movl</span>   <span class="hljs-name">$0x5</span>,-0x4(<span class="hljs-title">%rbp</span>)
 
-    # Store the number 1 in a variable
-    movl   $0x1,-0x8(%rbp)
+    <span class="hljs-comment"># Store the number 1 in a variable</span>
+    <span class="hljs-keyword">movl</span>   <span class="hljs-name">$0x1</span>,-0x8(<span class="hljs-title">%rbp</span>)
 
-    # Add those two variables together
-    mov    -0x4(%rbp),%edx
-    mov    -0x8(%rbp),%eax
-    add    %edx,%eax
-    mov    %eax,-0xc(%rbp)
+    <span class="hljs-comment"># Add those two variables together</span>
+    <span class="hljs-keyword">mov</span>   <span class="hljs-name"> -0x4</span>(<span class="hljs-title">%rbp</span>),<span class="hljs-title">%edx</span>
+    <span class="hljs-keyword">mov</span>   <span class="hljs-name"> -0x8</span>(<span class="hljs-title">%rbp</span>),<span class="hljs-title">%eax</span>
+    <span class="hljs-keyword">add</span>    <span class="hljs-title">%edx</span>,<span class="hljs-title">%eax</span>
+    <span class="hljs-keyword">mov</span>    <span class="hljs-title">%eax</span>,-0xc(<span class="hljs-title">%rbp</span>)
 
-    # Return the result to the caller of the function
-    mov    -0xc(%rbp),%eax
-    pop    %rbp
-    ret
+    <span class="hljs-comment"># Return the result to the caller of the function</span>
+    <span class="hljs-keyword">mov</span>   <span class="hljs-name"> -0xc</span>(<span class="hljs-title">%rbp</span>),<span class="hljs-title">%eax</span>
+    <span class="hljs-keyword">pop</span>    <span class="hljs-title">%rbp</span>
+    <span class="hljs-keyword">ret</span>
 </code></pre>
 <p>There&#x27;s some inefficiency in that example because values are being moved around a bit more than necessary, but it hopefully gives you an appreciation of how small and atomic the operations are that are available in Assembly language. The actual addition happens in a single instruction (<code>add %edx,%eax</code>) but there are a lot of extra steps involved just moving data around.</p>
 <p>These operations are very close to what a processor actually receives and runs in practice. The final step is to &quot;assemble&quot; the Assembly instructions into their numeric equivalents, known as machine code, which is the native language the CPU operates on. The <code>add</code> instruction becomes <code>01 d0</code> (in base 16, or hexidecimal), but in practice it will be sent to the processor as the binary equivalent: <code>000111010000</code>.</p>
@@ -84,7 +84,7 @@
 <p>The former (stack allocation) is probably the most reliable, but involves more manual movement of values to and from the stack. This can be seen earlier as seen in the earlier example converted from C, with the references like <code>-0x8(%rbp)</code>.</p>
 <p><figure class="image-wrapper"><a href="/posts/assembly-stack.png" target="_blank"><img src="/posts/assembly-stack.png" alt="Sample of my notes on storing variables on the stack" title="Sample of my notes on storing variables on the stack."/></a><figcaption class="image-title">Sample of my notes on storing variables on the stack.</figcaption></figure></p>
 <p>Leaving values in registers is appealing on the surface because it involves fewer instructions, but I found it means you have to keep a much larger mental model of which values are in which register at which time, and which may be clobbered by function calls. I&#x27;m sure this method will be much more error-prone in the long run, unless you can have a compiler track the register use for you.</p>
-<h2>Where to Go Next</h2>
+<h2>Where to go Next</h2>
 <p>At this point I feed relatively confident reading and understanding Assembly, I have written a couple of thousand lines of code and have debugged a handful of broken samples.</p>
 <p>I have also tried my hand at writing a memory allocator from scratch myself in Assembly. It can allocate and free blocks of memory by moving the system break, but the feature set beyond that leaves a lot to be desired. On the other hand, it was a useful exercise in terms of problem solving using the tools I&#x27;d learnt from the book.</p>
 <p>I will probably take a little break from Assembly for now, but I have a couple of other ideas for where to take this next when I return:</p>
@@ -93,4 +93,4 @@
 <li>I&#x27;d love to take the next step down towards the CPU, and build something which utilises machine code rather than Assembly. There&#x27;s something appealing about the idea of crafting a binary executable where I have calculated every single byte myself.</li>
 <li>I don&#x27;t have a grand idea for the design of a programming language, but I would like to experiment with creating a simple compiler, to push my knowledge upwards towards higher level languages and explore compiler design.</li>
 <li>My experience with Assembly so far has primarily been with the x86-64 instruction set, but there are some other modern compiler targets like Arm or WASM which would help get a broader view of lower level programming.</li>
-</ul></div><div class="linkSet-0-0-35"></div><ul class="technologies-0-0-11"><li class="technology-0-0-13 tagGreen-0-0-15"><i class="icon-0-0-16 mdi mdi-cube mdi-18px"></i><span class="tag-0-0-17">Project</span></li><li class="technology-0-0-13 tagRed-0-0-14"><i class="icon-0-0-16 mdi mdi-desktop-classic mdi-18px"></i><span class="tag-0-0-17">Programming Langs</span></li></ul></div></div></body></html>
+</ul></div><div class="linkSet-0-0-35"><a href="https://github.com/bencoveney/learning-assembly" class="link-0-0-36"><i class="mdi mdi-github-circle mdi-18px icon-0-0-37"></i> View on Github</a></div><ul class="technologies-0-0-11"><li class="technology-0-0-13 tagGreen-0-0-15"><i class="icon-0-0-16 mdi mdi-cube mdi-18px"></i><span class="tag-0-0-17">Project</span></li><li class="technology-0-0-13 tagRed-0-0-14"><i class="icon-0-0-16 mdi mdi-chip mdi-18px"></i><span class="tag-0-0-17">Assembly</span></li><li class="technology-0-0-13 tagRed-0-0-14"><i class="icon-0-0-16 mdi mdi-desktop-classic mdi-18px"></i><span class="tag-0-0-17">Programming Languages</span></li></ul></div></div></body></html>
