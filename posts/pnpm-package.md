@@ -37,6 +37,8 @@ For example, imagine you want to build a new site for a specific project, or cus
 
 TODO Diagram: Diagram of reusing some of the new structure.
 
+Another way these thoughts have manifested is in the [Micro Frontends](https://micro-frontends.org/) pattern, where one user-facing website or app can be constructed from multiple small front-ends. This pattern leans into [Conway's Law](https://en.wikipedia.org/wiki/Conway's_law) and allows different frontend teams to own a subsection of the website as a whole.
+
 ## Friction and the Pace of Development
 
 As with everything in life, there are tradeoffs. After working within a structure like this for a while, you might start to notice a bit of drag.
@@ -64,6 +66,10 @@ One benefit you might think you'd get when breaking up a codebase into smaller m
 Once a project is mature it might be easier to make good clear decisions about where best to make those divisions, and the tradeoffs can pan out more favourably. When a codebase is in its infancy though, it can be difficult to plan ahead, and the reusable libraries will not be fleshed out, and you can end up paying more cost for this modularity than you get as a benefit.
 
 ### TODO Section: Monorepo from the beginning
+
+I should talk about monorepos.
+
+Maybe this starting section would be better represented as a comparison of options for frontend development.
 
 ## A Monorepo of Packages
 
