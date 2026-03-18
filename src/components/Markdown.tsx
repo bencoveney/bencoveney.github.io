@@ -44,7 +44,7 @@ export async function markdownToReact(
     .use(rehypeHighlight, {
       languages: {
         ...common,
-        gas: hljs_x86_asm_att,
+        gas: hljs_x86_asm_att.default,
         glsl: hljs_glsl
       },
     })
@@ -63,7 +63,7 @@ export async function markdownToReact(
         { tagName: "img", propertyName: "src" },
         { tagName: "video", propertyName: "src" },
       ],
-    })
+    } as Parameters<typeof inspectUrls>[0])
     .use(rehypeReact, {
       createElement,
       Fragment,
