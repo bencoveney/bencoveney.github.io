@@ -181,5 +181,22 @@ export const styles = {
     "& > :first-child": {
       marginTop: 0,
     },
+
+    "& table": {
+      width: "100%",
+      marginTop: "var(--vertical-padding)",
+      borderCollapse: "collapse",
+      borderSpacing: 0,
+
+      "& th": {
+        padding: "0.5rem",
+        fontWeight: "bold",
+        border: "1px solid var(--color-night-300)",
+      },
+      "& td": {
+        padding: "0.5rem",
+        border: "1px solid var(--color-night-300)",
+      },
+    },
   },
 };

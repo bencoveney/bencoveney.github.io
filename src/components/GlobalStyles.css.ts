@@ -351,7 +351,7 @@ export const styles = {
       "--background-color-medium": "var(--color-night-100)",
       "--background-color-light": "var(--color-night-200)",
       "--bg-color": "var(--color-night-50)",
-      "--bg-color-alternate": "var(--color-night-100)",
+      "--bg-color-alternate": "var(--color-night-200)",
 
       "--foreground-color-dark": "var(--color-night-500)",
       "--foreground-color-medium": "var(--color-night-700)",

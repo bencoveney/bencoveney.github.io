@@ -16,6 +16,7 @@ import { includeAsset } from "../includeAsset.js";
 import { PostDetails } from "../loadPosts.js";
 import { createCssHook } from "../contexts/CssContext.js";
 import { common } from "lowlight";
+import hljs_glsl from "highlight.js/lib/languages/glsl";
 
 export async function markdownToReact(
   outputDir: string,
@@ -43,10 +44,11 @@ export async function markdownToReact(
     .use(rehypeHighlight, {
       languages: {
         ...common,
-        gas: hljs_x86_asm_att.default,
+        gas: hljs_x86_asm_att,
+        glsl: hljs_glsl
       },
     })
-    .use(rehypeVideo, { details: false })
+    .use(rehypeVideo, { details: false, test: /\/(.*)(.mp4|.mov|.webm)$/ })
     .use(inspectUrls, {
       inspectEach({ node }) {
         if (node.properties?.src) {
