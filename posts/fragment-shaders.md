@@ -76,10 +76,10 @@ As we progress across the screen, from bottom to top and left to right, the x an
 ## Fragment shader syntax
 
 TODO: Floats
-TODO: Backwards rendering vs forward rendering
 TODO: Twiddling, constructors
 TODO: piecewise operations
 TODO: gl_FragColor
+TODO: debugging
 -->
 
 ## Squares
@@ -373,3 +373,265 @@ The gist is:
 All together, that gives us a more interesting result:
 
 [./fragment-shaders-bg-combined.webm](./fragment-shaders-bg-combined.webm)
+
+## Circling
+
+The goal at the beginning was to generate something we could use as a snazzy background, to enhance whatever we're displaying on top, so lets give it a go. I've added a [picture of us](https://emojiisland.com/products/nerd-with-glasses-emoji-icon), now that we've learnt some stuff about shaders:
+
+[./fragment-shaders-face.png](./fragment-shaders-face.png) <!-- TODO: Check assets and alt text -->
+
+It looks better than it would normally, but it doesn't quite spark joy yet. So how can we push it a bit further? Everything we have developed so far has been structured horizontally or vertically, but what if we started trying to think in terms of a circle?
+
+To enable this, we could do with some new gradients to build on top of. Firstly it would be useful to know how far we are away from the center of the screen. This is actually relatively simple because our uniform `u_resolution` tells us the total size of the screen. If we half the x and y components, we find out where the center would be. We can then use pythagoras to find out the distance between the center and the pixel we're currently working on (via `gl_FragCoord`).
+
+Conventiently we get some help from GLSL here as the built-in `distance()` performs the disance calculation for us, so we don't need to run pythagoras ourselves. Unfortunately, we do need to do a bit of legwork we can't avoid though: Doing a straight distance calculation between the current pixel and the center gives values which are outside our favourite 0 to 1 range. I tuned the gradient so that we have 0 values in the center and 1 values at whichever edge is furthest away.
+
+```glsl
+vec2 center = u_resolution / 2.0;
+float maxSize = max(center.x, center.y);
+float radiusRaw = distance(center, gl_FragCoord.xy);
+float radius = clamp(radiusRaw / maxSize, 0.0, 1.0);
+gl_FragColor = vec4(radius, radius, radius, 1.0);
+```
+
+![Radial gradient fragment shader](./fragment-shaders-gradient-radial.png "The start of something circular.")
+
+There is one other gradient to whip up that I'll need for the later steps: One which goes around the circle - sometimes known as a conic gradient. If that doesn't quite make sense, perhaps this awful diagram will explain a bit what I mean:
+
+![Conic gradient diagram](./fragment-shaders-conic-diagram.png "At each pixel, calculate the green angle.")
+
+The trigonometry built-in we need for this calculation is `atan`, and again we do our little dance to get the values in the nice range from 0 to 1.
+
+```glsl
+vec2 center = u_resolution / 2.0;
+vec2 vectorFromCenter = center - gl_FragCoord.xy;
+float angleFromCenter = atan(vectorFromCenter.y, vectorFromCenter.x);
+float conic = (angleFromCenter + pi) / tau;
+gl_FragColor = vec4(conic, conic, conic, 1.0);
+```
+
+![Conic gradient](./fragment-shaders-conic.png "This gradient has something paper-clippy about it.")
+
+## Sunbeams
+
+So now that we have those circular foundations, let's use them for something. The first thing we did at the start of this post was to make some little boxes, and we did that by taking the full screen gradients and breaking them up into smaller chunks. Let's try something similar around the circle.
+
+```glsl
+float beams = step(0.05, mod(conic, 0.1));
+gl_FragColor = vec4(beams, beams, beams, 1.0);
+```
+
+Instead of the conic gradient rotating all the way around the circle from 0 to 1, we break it up into 10 sections from 0 to 0.1. In each of those sections, we map anything below 0.05 to 0, and everything else gets bumped up to 1. The end result is 10 black and white stripes bursting out from the center.
+
+![Burst](./fragment-shaders-circus.png)
+
+We can mix in the radial graidient too, by multiplying them together.
+
+![Burst](./fragment-shaders-beachball.png)
+
+To make the whole thing spin, we can re-use the `u_minute` uniform to offset the `conic` angles and slide around the circle.
+
+```glsl
+float beams = step(0.05, mod(conic + (u_minute * 2.0), 0.1));
+float burst = beams * (1.0 - radius);
+gl_FragColor = vec4(burst, burst, burst, 1.0);
+```
+
+[./fragment-shaders-burst-spinning.webm](./fragment-shaders-burst-spinning.webm)
+
+When we were working with our sine waves, we added variety by having multiple waves running with different sizes and speeds. We can do the same thing here - multiplying 2 copies together to make the effect evolve over time.
+
+```glsl
+float beamsA = step(0.05, mod(conic + (u_minute * 2.0), 0.1));
+float burstA = beamsA * (1.0 - radius);
+
+float beamsB = step(0.05, mod(conic + (u_minute * 3.0), 0.15));
+float burstB = beamsB * (1.0 - radius);
+
+float bursts = burstA * burstB;
+gl_FragColor = vec4(bursts, bursts, bursts, 1.0);
+```
+
+[./fragment-shaders-burst-evolving.webm](./fragment-shaders-burst-evolving.webm)
+
+I ended up adding two of these to the shader, each with some different settings and tints. This element is looking good, so we can add it to the composition.
+
+## Finishing touches
+
+The last elements use techniques we have already seen, so we can breeze through them quickly.
+
+First I added a subtle gradient from the subject out towards the edge of the screen. This fades in and out over time to give a glowing effect. It doesn't look particularly impressive on its own, but it does tie in nicely to the rest of the elements.
+
+```glsl
+float shadowInner = 0.25;
+float shadowOuter = 0.5;
+float shadowAmount = radius - shadowInner;
+float shadow = 1.0 - clamp(shadowAmount / shadowOuter, 0.0, 1.0);
+float shadowComponent = (sin(u_minute * 100.0) + 1.0) * 0.1;
+vec3 shadowColor = shadow * vec3(shadowComponent, shadowComponent, shadowComponent);
+```
+
+[./fragment-shaders-glow.webm](./fragment-shaders-glow.webm)
+
+Second, we have a pulsing ring. This uses a couple of `step` function calls to mark areas inside and outside a circle. By multiplying those together, we are left with just the places where they overlap, which is a ring. The radius and opacity of this ring can be animated over time, but time is passed through `smoothstep()` so that it looks like the ring is fading away as it gets stretched out.
+
+```glsl
+float ringExpansion = mod(u_minute, 0.04) * 25.0;
+float ringPhase = smoothstep(0.0, 1.0, ringExpansion);
+float ringRadius = ringPhase * 0.8;
+float ringInside = step(ringRadius, radius);
+float ringThickness = 0.01;
+float ringOutside = 1.0 - step(ringRadius + ringThickness, radius);
+float ring = ringInside * ringOutside * (1.0 - ringPhase);
+```
+
+[./fragment-shaders-ring.webm](./fragment-shaders-ring.webm)
+
+## The final result
+
+Tying everything together, here's what I've ended up with:
+
+[./fragment-shaders-result.webm](./fragment-shaders-result.webm)
+
+I've added 2 chunks of text to the page to help assess it against the initial goals:
+- First, an FPS counter showing how quickly we're managing to render each frame.
+- Second, some other miscellaneous bits of text. The content isn't really important, what matters is that we can validate our shader performs well when being composited with other UI elements, rather than only testing it is isolation.
+
+At this point, the main thing left to do is to test against a variety of devices including some old crusty iOS and Android phones.
+
+Even though our rendering pipeline is minimal, there is still some space for optimisation inside the shader:
+- The number of divisions and calls to built-in functions could be reduced, as they could add up to be quite expensive.
+- Many calculations do not _need_ to be done per-pixel, and could be offloaded to run in the vertex shader or CPU. 
+
+Finally, we could always just add more _stuff_. It would be interesting to try adding some particles to the scene, staying within the performance goals originally set. The background becomes less subtle with every addition, but the results are looking good so why stop now.
+
+For anyone following along, here's my complete fragment shader code incorporating everything from the post:
+
+```glsl
+precision mediump float;
+
+uniform float u_minute;
+uniform vec2 u_resolution;
+ 
+void main() {
+  // Utilities -----------------------
+
+  float pi = 3.1415926535897932384626433832795;
+  float tau = pi * 2.0;
+
+  vec2 screenPercentage = gl_FragCoord.xy / u_resolution.xy;
+
+  // 1 at top of screen, 0 at bottom.
+  float topToBottom = screenPercentage.y;
+  // 0 at top of screen, 1 at bottom.
+  float bottomToTop = 1.0 - topToBottom;
+  // 0 at left of screen, 1 at right.
+  float leftToRight = screenPercentage.x;
+
+  float bottomSection = smoothstep(0.2, 1.0, bottomToTop);
+
+  vec2 center = u_resolution / 2.0;
+  float maxSize = max(center.x, center.y);
+  float radiusRaw = distance(center, gl_FragCoord.xy);
+  float radius = clamp(radiusRaw / maxSize, 0.0, 1.0);
+
+  vec2 vectorFromCenter = center - gl_FragCoord.xy;
+  float angleFromCenter = atan(vectorFromCenter.y, vectorFromCenter.x);
+  float conic = (angleFromCenter + pi) / tau; // TODO lerp/invLerp opportunity, here and on other divisions
+
+  // Background gradient -----------------------
+
+  vec3 darkRed = vec3(0.41, 0.0, 0.0);
+  vec3 red = vec3(0.9, 0.0, 0.0);
+  vec3 purple = vec3(0.50, 0, 0.20);
+
+  float stop1 = 0.0;
+  float stop2 = 0.5;
+  float stop3 = 1.0;
+
+  vec3 gradientPartial = mix(darkRed, red, smoothstep(stop1, stop2, bottomToTop));
+  vec3 gradient = mix(gradientPartial, purple, smoothstep(stop2, stop3, bottomToTop));
+
+  // Squares -----------------------
+
+  float squareGap = 10.0;
+  float squareSize = 5.0;
+
+  float scaleX = step(squareGap, mod(gl_FragCoord.x, squareSize + squareGap));
+  float scaleY = step(squareGap, mod(gl_FragCoord.y, squareSize + squareGap));
+  float isSquare = scaleX * scaleY;
+  float bottomSquares = mix(0.0, isSquare, bottomSection);
+
+  // Pulsating -----------------------
+
+  float pulseSineA = sin((leftToRight - (u_minute * 10.0)) * 5.0);
+  float pulseSineB = sin((leftToRight - (u_minute * -3.0)) * 20.0);
+  float verticalPulseRaw = pulseSineA * pulseSineB;
+  float verticalPulseScaled = (verticalPulseRaw + 1.0) * 0.5;
+
+  // Combining background -----------------------
+
+  float bottomVerticalPulse = mix(0.0, verticalPulseScaled, bottomSection);
+  float pulseBottomSquares = bottomSquares * verticalPulseScaled;
+  vec3 combined = gradient + (bottomVerticalPulse * 0.2 * vec3(1.0, 0.5, 0.0)) + (pulseBottomSquares * 0.3);
+
+  // Sunbursts -----------------------
+
+  float burstSpinSpeedA = 2.0;
+  float burstSpinStrengthA = 1.0;
+  float burstSpinRadiusA = 0.8;
+  float beamsA = step(1.0, mod((conic + (u_minute * burstSpinSpeedA)) * 20.0, 2.0));
+  float burstA = clamp(beamsA * (burstSpinRadiusA - radius), 0.0, 1.0);
+  float burstStrengthA = burstA * burstSpinStrengthA;
+
+  float burstSpinSpeedB = 3.0;
+  float burstSpinStrengthB = 1.0;
+  float burstSpinRadiusB = 0.8;
+  float beamsB = step(1.0, mod((conic + (u_minute * burstSpinSpeedB)) * 20.0, 3.0));
+  float burstB = clamp(beamsB * (burstSpinRadiusB - radius), 0.0, 1.0);
+  float burstStrengthB = burstB * burstSpinStrengthB;
+
+  float burstSpinSpeedC = -4.0;
+  float burstSpinStrengthC = 1.0;
+  float burstSpinRadiusC = 0.7;
+  float beamsC = step(1.0, mod((conic + (u_minute * burstSpinSpeedC)) * 20.0, 3.0));
+  float burstC = clamp(beamsC * (burstSpinRadiusC - radius), 0.0, 1.0);
+  float burstStrengthC = burstC * burstSpinStrengthC;
+
+  float burstSpinSpeedD = -3.0;
+  float burstSpinStrengthD = 1.0;
+  float burstSpinRadiusD = 0.7;
+  float beamsD = step(1.0, mod((conic + (u_minute * burstSpinSpeedD)) * 20.0, 5.0));
+  float burstD = clamp(beamsD * (burstSpinRadiusD - radius), 0.0, 1.0);
+  float burstStrengthD = burstD * burstSpinStrengthD;
+
+  float combinedBurstAB = burstStrengthA * burstStrengthB;
+  float combinedBurstCD = burstStrengthC * burstStrengthD;
+
+  vec3 combinedBurstColor = vec3(combinedBurstAB, combinedBurstAB * 0.8, combinedBurstAB) + vec3(combinedBurstCD, combinedBurstCD, combinedBurstCD * 0.8);
+
+  // Glow -----------------------
+
+  float shadowInner = 0.25;
+  float shadowOuter = 0.5;
+  float shadowAmount = radius - shadowInner;
+  float shadow = 1.0 - clamp(shadowAmount / shadowOuter, 0.0, 1.0);
+  float shadowComponent = (sin(u_minute * 100.0) + 1.0) * 0.1;
+  vec3 shadowColor = shadow * vec3(shadowComponent, shadowComponent, shadowComponent);
+
+  // Rim -----------------------
+
+  float ringExpansion = mod(u_minute, 0.04) * 25.0;
+  float ringPhase = smoothstep(0.0, 1.0, ringExpansion);
+  float ringRadius = ringPhase * 0.8;
+  float ringInside = step(ringRadius, radius);
+  float ringThickness = 0.01;
+  float ringOutside = 1.0 - step(ringRadius + ringThickness, radius);
+  float ring = ringInside * ringOutside * (1.0 - ringPhase);
+  
+  // End -----------------------
+
+  vec3 fullBackground = combined + combinedBurstColor + shadowColor + ring;
+  gl_FragColor = vec4(fullBackground, 1.0);
+}
+```
