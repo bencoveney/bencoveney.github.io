@@ -12,7 +12,7 @@ categories:
 
 One way to add some visual flair to a web project is with a full-page animated background. We have the whole browser window to fill, so surely we can come up with something more imaginative than a flat coloured background.
 
-You might have seen these around the web on some of the flashier websites, or in libraries like [Vanta](https://www.vantajs.com/). I made something rudimentary along these lines back in 2017 for an older version of this website.
+You might have seen these around the web on some of the flashier websites, or in libraries like [Vanta](https://www.vantajs.com/). I made something rudimentary along these lines back in 2017 for an older version of my personal blog.
 
 [./fragment-shaders-dots.webm](./fragment-shaders-dots.webm)
 
@@ -27,13 +27,12 @@ Most full page backgrounds will use one of a few different methods:
 - A big video, sometimes played back with compression or low resolution to aid with load times.
 - A `<canvas>` tag, drawn to using either:
   - The web Canvas APIs.
-  - WebGL.
-  - WebGL 2.
+  - WebGL (v1 or v2).
   - WebGPU.
 
-Of these options, WebGL feels like the best option: It has been widely supported for over 10 years now, can perform well on low-powered devices, and is powerful enough to achieve some impressive visual results.
+Of these options, WebGL feels like the sweet spot: It has been widely supported for over 10 years now, can perform well on low-powered devices, and is plenty powerful enough to achieve some impressive visual results.
 
-If we're using WebGL, there is a minimum set of WebGL functionality we would need to opt-in to:
+If we're using WebGL to create something of our own, there is a minimum set of WebGL functionality we would need to opt-in to:
 
 - Enough geometry to fill the screen. Given the screen is a rectangle, and WebGL's primitive shape is a triange, that would mean we need at least 2 triangles.
 - A vertex shader, to process each vertex of those 2 triangles. That could be a simple function which passes through each vertex without any modification.
@@ -43,16 +42,11 @@ If we're using WebGL, there is a minimum set of WebGL functionality we would nee
 >
 > _[WebGL Fundamentals: WebGL Shaders and GLSL](https://webglfundamentals.org/webgl/lessons/webgl-shaders-and-glsl.html)_
 
+![GPU pipeline diagram](./fragment-shaders-pipeline.png "An extremely simplified view for what is happening in your GPU.")
+
 At that point, we can successfully apply a colour to the screen, which is a useful milestone, but not particularly visually interesting. Now we need to work out where best to extend this to make it look beautiful.
 
 There is a risk though, because everything now that we add could potentially slow things down. To keep rendering snappy and smooth, we need to be economical in our rendering - doing as much as possible with as little as possible.
-
-<!--
-TODO: Fit in some stuff about how to make WebGL fast?
-
-- Keep geometry simple
-- Keep the number of GPU calls as low as possible, especially expensive ones like draw calls.
--->
 
 ## `gl_FragCoord`
 
@@ -72,15 +66,36 @@ As we progress across the screen, from bottom to top and left to right, the x an
 
 ![Fragment Shader mapping the XY coordinates to red and green](./fragment-shaders-xy.png "Linking the x and y values to red and green colour components to make a nice gradient.")
 
-<!--
-## Fragment shader syntax
+## Shader programming
 
-TODO: Floats
-TODO: Twiddling, constructors
-TODO: piecewise operations
-TODO: gl_FragColor
-TODO: debugging
--->
+I am by no means an expert at shader programming, but I know enough of the syntax now to be dangerous. These are some of my highlights and lowlights to give you a feeling for it, and maybe make the examples a bit clearer.
+
+In GLSL (the WebGL shader programming language), you work with vectors a lot. Positions are vectors, colours are vectors, vectors are (unsurprisingly) vectors. Fortunately creating vectors is easy because the constructors are super flexible.
+
+```glsl
+// Creating vectors from floats.
+vec2 source = vec2(1.0, 2.0);
+
+// Creating vectors from vectors.
+vec3 destination = vec3(source, 3.0);
+```
+
+Accessing vectors is equally simple, through syntax known as "Swizzles".
+
+```glsl
+vec2 source = vec2(1.0, 2.0);
+
+// The same as vec3(source.y, source.x, source.y)
+vec2 twoOneTwo = source.yxy;
+```
+
+Many of the built-in functions will also happily accept vectors just as readily as they will accept single values. One example we'll see in this post is `mix` which will happily blend between single values or vectors without any complaints.
+
+Any time you see number literals expressed with a decimal point e.g. `5.0`, the decimal point implies this will be a floating point value, and without it we would get an integer. This is not super uncommon in programming languages, but I do find it obtuse when working with shaders. 100% of the number values used in this post are floats, occasionally creating accidental integers is frustrating.
+
+Finally, debugging shader output is not as easy as debugging typical code. Tools exist, but generally shader pipelines and logic running on the CPU are harder to inspect. In practice, the easiest way to see what is happening is to cram values into the output colour channels and render your debug output to the screen. You'll see this throughout the post - the grayscale gradients are similar to the debugging outputs I used when building the shader.
+
+If you're interested to know more, I definitely recommend (WebGL Fundamentals)[https://webglfundamentals.org], and the WebGL2 and WebGPU equivalent websites for more recent variants. But with that out of the way, let's start painting on the `<canvas>`...
 
 ## Squares
 
@@ -145,21 +160,23 @@ void main() {
 }
 ```
 
-It is worth taking a moment to recap the result here. We have only sent 1 rectangle (composed of 2 triangles) to the GPU, the ones which fill the entire screen. However, using nothing but built in functions and maths, we have managed to render a full screen of squares.
+It is worth taking a moment to recap the result here. We have only sent 1 rectangle (composed of 2 triangles) to the GPU, the one which fills the entire screen. However, using nothing but built-in functions and maths, we have managed to render a full screen of squares.
 
-With that said, we will still need to be careful about what goes into this fragment shader. The logic does run for every pixel on the screen - which is inevitably going to be a lot of times. If our fragment shader function becomes expensive, then we could end up spoiling the performance. We should also keep an eye out for opportunities to [offload work to the vertex shader instead](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/WebGL_best_practices#prefer_doing_work_in_the_vertex_shader), which runs much less frequently.
+With that said, we will still need to be careful about what goes into this fragment shader. The logic does run for every pixel on the screen - which is inevitably going to be a lot of times. If our fragment shader function becomes expensive then we could end up spoiling the performance.
 
-<!--
-TODO: Backwards vs forward rendering.
--->
+
+
+This set-up, where structure our rendering logic along the lines of "for each pixel, work out what colour it should be" is known as Backwards Rendering - and a similar flow is used for ray tracing (which is notoriously resource hungry). 
+
+Forwards Rendering and variants like Deferred Rendering are the more common flows for modern 3d graphics applications like games, where the logic is structured as: "here's all my stuff, work out which pixels it occupies". 
 
 ## Gradients
 
-Squares are cool and all, but if we will be using this as a background then how about we add some colour? For the next challenge, lets try to create a gradient which goes from black to red to purple that covers the entire screen vertically from top to bottom.
+Squares are cool and all, but if we will be using this as a background then how about we add some colour? For the next challenge, lets add a gradient which goes from black to red to purple that covers the entire screen vertically from top to bottom.
 
-Covering the entire screen throws a slight spanner in the works at the moment. We have the `gl_FragCoord` built-in which tells us the position of the pixel we are currently working on, but the web browser we are rendering to could be any size. We need a way to work out whether we're at the top, middle, or bottom.
+Covering the screen throws a slight spanner in the works at the moment. We have the `gl_FragCoord` built-in which tells us the position of the pixel we are currently working on, but the web browser we are rendering to could be any size, so we can't hard-code any fixed sizes. We need a way to work out whether we're at the top, middle, or bottom, regardless of how big the screen is.
 
-As far as I know, WebGL doesn't provide a built-in which would help us here. Instead, we will need to provide some supporting data about the total size of the screen ourselves, in the form of a `u_resolution` uniform. By dividing `gl_FragCoord` by `u_resolution` we figure out how far we are along the screen on either axis, as a value from 0 to 1.
+WebGL doesn't provide a built-in which would help us here. Instead, we will need to provide some supporting data about the total size of the screen ourselves, in the form of a `u_resolution` uniform. By dividing `gl_FragCoord` by `u_resolution` we figure out how far we are along the screen on either axis, as a value from 0 to 1.
 
 ```glsl
 precision mediump float;
@@ -196,7 +213,6 @@ There are 2 before-unseen built-ins that will be useful here:
 If we pass our stops and vertical screen position values into the `smoothstep` function, we can go from a linear gradient spanning the entire height of the page, to one which smoothly blends between our stops.
 
 ```glsl
-// ...
 float bottomToTop = 1.0 - topToBottom;
 
 float stop1 = 0.0;
@@ -215,9 +231,6 @@ In this top region we now have values which go from 0 up to 1, and passing them 
 - `mix(green, blue, 0.5)` would return an even mix of `green` and `blue`.
 
 ```glsl
-// ...
-
-// I went for some different colours in the end
 vec3 darkRed = vec3(0.41, 0.0, 0.0);
 vec3 red = vec3(0.9, 0.0, 0.0);
 
@@ -265,28 +278,28 @@ void main() {
 
 ## The power of 0 and 1
 
-Ranges between 0 and 1 have been popping up repeatedly so far, and they will continue to do so as we add to the fragment shader. Values within this range have a few benefits:
+Ranges between 0 and 1 have been popping up repeatedly, and they will continue to do so as we add to the fragment shader. Values within this range have a few benefits:
 
 1. If we create some "helper" values in this range (like our screen position representation), then it is easy to reuse them in different contexts by multiplying them into the desired output range.
 2. There are a lot of functions (`mix`, `smoothstep`, `step`) which work most naturally when operating on values between 0 and 1.
 3. You can safely multiply values together. For inputs between 0 and 1, the output will also fall in the same range. This will come in handy later on, when we begin combining together different parts of the shader.
-4. Any time you have zeroes as part of your range, you can effectively "turn off" parts of the shader, as operations on 0 frequently return 0.
-5. Any time you have values clamped to 0 or 1 (like we saw in the squares) you can think of them as booleans. Multiplying them together functions like a boolean `AND` operation. `1 - X` functions like a boolean `NOT` operation. With `AND` and `NOT` available, you can create every other boolean opeation.
-6. At the end of the function, we pass out values in this range out as output, representing the RGBA colour channels.
+4. Any time you have zeroes in your data you effectively "turn off" parts of the shader, as operations on 0 often return 0.
+5. Any time you have values clamped to 0 or 1 (like we saw with the squares) you can think of them as booleans. Multiplying them together functions as a boolean `AND` operation. `1 - X` functions like a boolean `NOT` operation. With `AND` and `NOT` available, you can create every other boolean opeation.
+6. At the end of the function we pass values in this 0 to 1 range out as output, representing the RGBA colour channels.
 
-Ultimately, using values in this range helps us satisfy the constraints laid out earlier: We can have one function using simple operations which runs quickly for each pixel without branching.
+Ultimately, using values like this helps us satisfy the constraints laid out earlier: We can have one function using simple operations which runs quickly for each pixel without branching.
 
 ## Waves Over Time
 
-Everything we have applied to the screen so far has been quite uniform and static. We can stick a linear gradient over the whole screen, or fill the whole screen with squares. Next I'd like to add some variety, texture and movement.
+Everything we have applied to the screen so far has been quite uniform and static. We can stick a linear gradient over the whole screen, or fill the whole screen with squares. Next lets add some variety, texture and movement.
 
-Trigonometry function are one tool in the GLSL toolbox we can reach for. Simple math functions like `sin()` are periodic and repetitive, but can form the basis of some slightly more interesting patterns. In this example shows `sin(gl_FragCoord.x)`, running across the screen horizontally.
+Trigonometry function are one tool in the GLSL toolbox we can reach for. Simple math functions like `sin()` are periodic and repetitive, but can form the basis of some slightly more interesting patterns.
 
-In the example below, we do some mapping on the inputs and outputs to `sin()`:
+The example below shows `sin(gl_FragCoord.x)`, running across the screen horizontally. The extra logic is we do some mapping on the inputs and outputs:
 - By scaling the input, we can change the period of the sine wave.
 - `sin()` returns values between -1 and 1, so these need to be remapped.
 
-```
+```glsl
 precision mediump float;
 
 void main() {
@@ -378,13 +391,13 @@ All together, that gives us a more interesting result:
 
 The goal at the beginning was to generate something we could use as a snazzy background, to enhance whatever we're displaying on top, so lets give it a go. I've added a [picture of us](https://emojiisland.com/products/nerd-with-glasses-emoji-icon), now that we've learnt some stuff about shaders:
 
-[./fragment-shaders-face.png](./fragment-shaders-face.png) <!-- TODO: Check assets and alt text -->
+![The nerd emoji](./fragment-shaders-face.png "A selfie on a nice background.")
 
 It looks better than it would normally, but it doesn't quite spark joy yet. So how can we push it a bit further? Everything we have developed so far has been structured horizontally or vertically, but what if we started trying to think in terms of a circle?
 
-To enable this, we could do with some new gradients to build on top of. Firstly it would be useful to know how far we are away from the center of the screen. This is actually relatively simple because our uniform `u_resolution` tells us the total size of the screen. If we half the x and y components, we find out where the center would be. We can then use pythagoras to find out the distance between the center and the pixel we're currently working on (via `gl_FragCoord`).
+To enable this, we could do with some new helper gradients to build on top of. First it would be useful to know how far we are away from the center of the screen. This is actually relatively simple because our uniform `u_resolution` tells us the total size of the screen. If we half the x and y components, we find out where the center would be. We can then use pythagoras to find out the distance between the center and the pixel we're currently working on (via `gl_FragCoord`).
 
-Conventiently we get some help from GLSL here as the built-in `distance()` performs the disance calculation for us, so we don't need to run pythagoras ourselves. Unfortunately, we do need to do a bit of legwork we can't avoid though: Doing a straight distance calculation between the current pixel and the center gives values which are outside our favourite 0 to 1 range. I tuned the gradient so that we have 0 values in the center and 1 values at whichever edge is furthest away.
+Conventiently we get some help from GLSL here as the built-in `distance()` performs the disance calculation for us, so we don't need to run pythagoras ourselves. Unfortunately there is a bit of numerical legwork we can't avoid though: Doing a straight distance calculation between the current pixel and the center gives values which are outside our favourite 0 to 1 range. I tuned the output so that we have nice 0 values in the center and 1 values at whichever edge is furthest away.
 
 ```glsl
 vec2 center = u_resolution / 2.0;
@@ -396,7 +409,7 @@ gl_FragColor = vec4(radius, radius, radius, 1.0);
 
 ![Radial gradient fragment shader](./fragment-shaders-gradient-radial.png "The start of something circular.")
 
-There is one other gradient to whip up that I'll need for the later steps: One which goes around the circle - sometimes known as a conic gradient. If that doesn't quite make sense, perhaps this awful diagram will explain a bit what I mean:
+There is another gradient to whip up that I'll need for the later steps: One which goes around the circle - sometimes known as a conic gradient. If that doesn't quite make sense, perhaps this awful diagram will explain a bit what I mean:
 
 ![Conic gradient diagram](./fragment-shaders-conic-diagram.png "At each pixel, calculate the green angle.")
 
@@ -414,7 +427,9 @@ gl_FragColor = vec4(conic, conic, conic, 1.0);
 
 ## Sunbeams
 
-So now that we have those circular foundations, let's use them for something. The first thing we did at the start of this post was to make some little boxes, and we did that by taking the full screen gradients and breaking them up into smaller chunks. Let's try something similar around the circle.
+Now that we have those circular foundations we can use them for something practical.
+
+The first thing we did at the start of this post was to make some little boxes, and we did that by taking the full screen gradients and breaking them up into smaller chunks. Let's try something similar around the circle.
 
 ```glsl
 float beams = step(0.05, mod(conic, 0.1));
@@ -423,11 +438,11 @@ gl_FragColor = vec4(beams, beams, beams, 1.0);
 
 Instead of the conic gradient rotating all the way around the circle from 0 to 1, we break it up into 10 sections from 0 to 0.1. In each of those sections, we map anything below 0.05 to 0, and everything else gets bumped up to 1. The end result is 10 black and white stripes bursting out from the center.
 
-![Burst](./fragment-shaders-circus.png)
+![circus tent effect](./fragment-shaders-circus.png "A circus-tent shader")
 
 We can mix in the radial graidient too, by multiplying them together.
 
-![Burst](./fragment-shaders-beachball.png)
+![Beach-ball effect](./fragment-shaders-beachball.png "A beach-ball shader")
 
 To make the whole thing spin, we can re-use the `u_minute` uniform to offset the `conic` angles and slide around the circle.
 
@@ -439,7 +454,7 @@ gl_FragColor = vec4(burst, burst, burst, 1.0);
 
 [./fragment-shaders-burst-spinning.webm](./fragment-shaders-burst-spinning.webm)
 
-When we were working with our sine waves, we added variety by having multiple waves running with different sizes and speeds. We can do the same thing here - multiplying 2 copies together to make the effect evolve over time.
+When we were working with our sine waves, we added variety by combining multiple waves running with different sizes and speeds. We can do the same thing here - multiplying 2 copies together to make the effect evolve over time.
 
 ```glsl
 float beamsA = step(0.05, mod(conic + (u_minute * 2.0), 0.1));
@@ -454,13 +469,13 @@ gl_FragColor = vec4(bursts, bursts, bursts, 1.0);
 
 [./fragment-shaders-burst-evolving.webm](./fragment-shaders-burst-evolving.webm)
 
-I ended up adding two of these to the shader, each with some different settings and tints. This element is looking good, so we can add it to the composition.
+I ended up adding two of these to the shader, each with some different settings and tints.
 
 ## Finishing touches
 
 The last elements use techniques we have already seen, so we can breeze through them quickly.
 
-First I added a subtle gradient from the subject out towards the edge of the screen. This fades in and out over time to give a glowing effect. It doesn't look particularly impressive on its own, but it does tie in nicely to the rest of the elements.
+I added a subtle gradient from the subject out towards the edge of the screen. This fades in and out over time to give a glowing effect. It doesn't look particularly impressive on its own, but it does tie in nicely to the rest of the elements.
 
 ```glsl
 float shadowInner = 0.25;
@@ -473,7 +488,9 @@ vec3 shadowColor = shadow * vec3(shadowComponent, shadowComponent, shadowCompone
 
 [./fragment-shaders-glow.webm](./fragment-shaders-glow.webm)
 
-Second, we have a pulsing ring. This uses a couple of `step` function calls to mark areas inside and outside a circle. By multiplying those together, we are left with just the places where they overlap, which is a ring. The radius and opacity of this ring can be animated over time, but time is passed through `smoothstep()` so that it looks like the ring is fading away as it gets stretched out.
+I also added in this we have a pulsing ring. This uses a couple of `step` function calls to mark areas inside and outside a circle. By multiplying those together, we are left with just the places where they overlap, which is a ring.
+
+The radius and opacity of this ring can be animated over time, but time is passed through `smoothstep()` so that it looks like the ring is fading away as it gets stretched out.
 
 ```glsl
 float ringExpansion = mod(u_minute, 0.04) * 25.0;
@@ -493,11 +510,13 @@ Tying everything together, here's what I've ended up with:
 
 [./fragment-shaders-result.webm](./fragment-shaders-result.webm)
 
+If you want to load it up and try it out, you can find it online [here](https://bencoveney.com/prototypes/backgrounds.html).
+
 I've added 2 chunks of text to the page to help assess it against the initial goals:
 - First, an FPS counter showing how quickly we're managing to render each frame.
 - Second, some other miscellaneous bits of text. The content isn't really important, what matters is that we can validate our shader performs well when being composited with other UI elements, rather than only testing it is isolation.
 
-At this point, the main thing left to do is to test against a variety of devices including some old crusty iOS and Android phones.
+At this point, the main thing left to do is to test against a variety of devices including some old crusty iOS and Android phones, to validate that it performs as well as I hoped it would.
 
 Even though our rendering pipeline is minimal, there is still some space for optimisation inside the shader:
 - The number of divisions and calls to built-in functions could be reduced, as they could add up to be quite expensive.
@@ -537,7 +556,7 @@ void main() {
 
   vec2 vectorFromCenter = center - gl_FragCoord.xy;
   float angleFromCenter = atan(vectorFromCenter.y, vectorFromCenter.x);
-  float conic = (angleFromCenter + pi) / tau; // TODO lerp/invLerp opportunity, here and on other divisions
+  float conic = (angleFromCenter + pi) / tau;
 
   // Background gradient -----------------------
 
