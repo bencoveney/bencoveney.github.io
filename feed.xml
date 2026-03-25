@@ -4,9 +4,16 @@
     <title>Ben Coveney</title>
     <link>https://bencoveney.com/</link>
     <description>Ben Coveney's personal website</description>
-    <lastBuildDate>Wed, 18 Mar 2026 00:22:01 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 25 Mar 2026 01:15:02 GMT</lastBuildDate>
     <atom:link href="http://bencoveney.com/feed.xml" rel="self" type="application/rss+xml" />
     <language>en-gb</language>
+    <item>
+      <title>Fragment Shader Backgrounds</title>
+      <link>https://bencoveney.com/posts/fragmentShaders.html</link>
+      <guid>https://bencoveney.com/posts/fragmentShaders.html</guid>
+      <description>Animated page backgrounds with some visual flair</description>
+      <pubDate>Fri, 13 Mar 2026 00:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>Implementing Malloc</title>
       <link>https://bencoveney.com/posts/allocator.html</link>

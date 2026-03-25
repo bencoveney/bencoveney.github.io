@@ -1,0 +1,503 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Fragment Shader Backgrounds - Ben Coveney&#x27;s Blog</title><meta name="description" content="Animated page backgrounds with some visual flair"/><meta name="author" content="Ben Coveney"/><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/><link rel="manifest" href="/site.webmanifest"/><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#10141a"/><meta name="msapplication-TileColor" content="#10141a"/><meta name="theme-color" content="#10141a"/><link rel="canonical" href="https://bencoveney.com/posts/fragmentShaders.html"/><link rel="alternate" type="application/atom+xml" title="Ben Coveney&#x27;s Blog" href="/feed.xml"/><meta property="og:title" content="Fragment Shader Backgrounds - Ben Coveney&#x27;s Blog"/><meta property="og:type" content="article"/><meta property="og:image" content="/posts/fragment-shaders-preview.png"/><meta property="og:url" content="https://bencoveney.com/posts/fragmentShaders.html"/><meta name="twitter:card" content="summary_large_image"/><meta property="og:description" content="Animated page backgrounds with some visual flair"/><meta property="og:site_name" content="Ben Coveney&#x27;s Blog"/><link href="https://cdn.materialdesignicons.com/2.2.43/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css"/><style>.published-0-0-39{margin-bottom:1rem;font-style:italic;text-align:center;width:100%;display:inline-block;color:var(--foreground-color-medium);}.title-0-0-40{padding:var(--vertical-padding) var(--horizontal-padding);margin:0 auto var(--vertical-padding) auto;max-width:800px;}:root{--font-family-sans-serif:-apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;--font-family-serif:Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, serif;--font-family-mono:Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;--font-family-body:var(--font-family-sans-serif);--font-family-heading:var(--font-family-serif);--font-family-code:var(--font-family-mono);--color-black:rgb(0, 0, 0);--color-white:rgb(255, 255, 255);--color-blue-50:rgb(1, 7, 19);--color-blue-100:rgb(5, 20, 40);--color-blue-200:rgb(15, 43, 77);--color-blue-300:rgb(27, 67, 115);--color-blue-400:rgb(42, 93, 155);--color-blue-500:rgb(61, 120, 194);--color-blue-600:rgb(91, 149, 223);--color-blue-700:rgb(132, 178, 238);--color-blue-800:rgb(175, 205, 245);--color-blue-900:rgb(216, 231, 250);--color-blue-950:rgb(236, 243, 253);--color-violet-50:rgb(6, 4, 24);--color-violet-100:rgb(18, 13, 48);--color-violet-200:rgb(40, 31, 91);--color-violet-300:rgb(62, 50, 133);--color-violet-400:rgb(86, 72, 176);--color-violet-500:rgb(112, 100, 210);--color-violet-600:rgb(139, 133, 229);--color-violet-700:rgb(168, 166, 239);--color-violet-800:rgb(197, 197, 245);--color-violet-900:rgb(226, 227, 250);--color-violet-950:rgb(241, 241, 253);--color-sky-50:rgb(1, 9, 13);--color-sky-100:rgb(3, 23, 30);--color-sky-200:rgb(12, 47, 60);--color-sky-300:rgb(23, 73, 91);--color-sky-400:rgb(35, 101, 124);--color-sky-500:rgb(48, 130, 158);--color-sky-600:rgb(66, 160, 193);--color-sky-700:rgb(94, 189, 224);--color-sky-800:rgb(144, 214, 242);--color-sky-900:rgb(202, 236, 250);--color-sky-950:rgb(229, 245, 252);--color-night-50:rgb(5, 7, 11);--color-night-100:rgb(16, 20, 26);--color-night-200:rgb(36, 44, 54);--color-night-300:rgb(56, 67, 82);--color-night-400:rgb(79, 93, 111);--color-night-500:rgb(104, 121, 141);--color-night-600:rgb(132, 149, 170);--color-night-700:rgb(162, 177, 195);--color-night-800:rgb(193, 204, 217);--color-night-900:rgb(224, 230, 237);--color-night-950:rgb(240, 242, 246);--background-color-medium:var(--color-night-100);--background-color-light:var(--color-night-200);--bg-color:var(--color-night-50);--bg-color-alternate:var(--color-night-200);--foreground-color-dark:var(--color-night-500);--foreground-color-medium:var(--color-night-700);--fg-color:var(--color-night-950);--foreground-color-link:var(--fg-color);--highlight-color:var(--color-sky-500);--highlight-color-2:var(--color-violet-500);--horizontal-padding:3rem;--vertical-padding:1.5rem;}@media (color-gamut: p3) {:root{--color-blue-50:color(display-p3 0.0094 0.0272 0.0723);--color-blue-100:color(display-p3 0.0306 0.0770 0.1528);--color-blue-200:color(display-p3 0.0877 0.1664 0.2930);--color-blue-300:color(display-p3 0.1478 0.2586 0.4370);--color-blue-400:color(display-p3 0.2151 0.3583 0.5887);--color-blue-500:color(display-p3 0.2961 0.4654 0.7375);--color-blue-600:color(display-p3 0.4084 0.5790 0.8515);--color-blue-700:color(display-p3 0.5547 0.6933 0.9118);--color-blue-800:color(display-p3 0.7087 0.8016 0.9462);--color-blue-900:color(display-p3 0.8572 0.9030 0.9736);--color-blue-950:color(display-p3 0.9290 0.9518 0.9867);--color-violet-50:color(display-p3 0.0228 0.0158 0.0903);--color-violet-100:color(display-p3 0.0678 0.0503 0.1820);--color-violet-200:color(display-p3 0.1509 0.1219 0.3415);--color-violet-300:color(display-p3 0.2368 0.1972 0.5033);--color-violet-400:color(display-p3 0.3297 0.2838 0.6655);--color-violet-500:color(display-p3 0.4310 0.3930 0.7952);--color-violet-600:color(display-p3 0.5413 0.5208 0.8722);--color-violet-700:color(display-p3 0.6573 0.6505 0.9155);--color-violet-800:color(display-p3 0.7740 0.7736 0.9464);--color-violet-900:color(display-p3 0.8881 0.8893 0.9735);--color-violet-950:color(display-p3 0.9441 0.9450 0.9867);--color-night-50:color(display-p3 0.0214 0.0282 0.0410);--color-night-100:color(display-p3 0.0645 0.0790 0.1016);--color-night-200:color(display-p3 0.1456 0.1697 0.2072);--color-night-300:color(display-p3 0.2297 0.2632 0.3153);--color-night-400:color(display-p3 0.3213 0.3638 0.4298);--color-night-500:color(display-p3 0.4213 0.4706 0.5471);--color-night-600:color(display-p3 0.5299 0.5807 0.6592);--color-night-700:color(display-p3 0.6461 0.6905 0.7590);--color-night-800:color(display-p3 0.7654 0.7974 0.8465);--color-night-900:color(display-p3 0.8836 0.9000 0.9253);--color-night-950:color(display-p3 0.9418 0.9501 0.9628);}}@media screen and (max-width: 768px) {:root{--horizontal-padding:1.5rem;}}*{margin:0;padding:0;list-style-type:none;text-decoration:none;line-height:150%;}html, body{width:100%;min-height:100%;font-family:var(--font-family-body);color:var(--fg-color);background-color:var(--bg-color);}a:link, a:visited, a:active, a:hover{color:var(--foreground-color-link);}.wrapper-0-0-1{width:100%;min-height:100%;box-sizing:border-box;display:flex;flex-direction:column;}.container-0-0-2{position:sticky;top:0;z-index:10;background-color:var(--background-color-medium);margin:0 auto var(--vertical-padding) auto;box-sizing:border-box;width:100%;max-width:800px;display:flex;justify-content:space-between;align-items:stretch;border-bottom:3px solid var(--color-blue-400);}.link-0-0-3{display:flex;align-items:center;padding:10px var(--horizontal-padding);}.link-0-0-3:hover{background-color:var(--background-color-light);}.name-0-0-4{font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;font-size:1.618em;display:flex;align-items:center;}.home-0-0-5{text-align:right;display:flex;align-items:stretch;}.icon-0-0-6{color:var(--foreground-color-dark);position:relative;top:2px;margin-left:0.5rem;}.heading1-0-0-29{font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;display:block;text-align:center;}@media screen and (max-width: 768px) {.heading1-0-0-29{font-size:2.618em;}}@media screen and (min-width: 769px) {.heading1-0-0-29{font-size:3em;}}.heading2-0-0-30{font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;display:block;text-align:center;}@media screen and (max-width: 768px) {.heading2-0-0-30{font-size:1.618em;}}@media screen and (min-width: 769px) {.heading2-0-0-30{font-size:2.618em;}}.heading3-0-0-31{font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;margin-top:var(--vertical-padding);}@media screen and (max-width: 768px) {.heading3-0-0-31{font-size:1.618em;}}@media screen and (min-width: 769px) {.heading3-0-0-31{font-size:1.618em;}}.heading4-0-0-32{font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;margin-top:var(--vertical-padding);}@media screen and (max-width: 768px) {.heading4-0-0-32{font-size:1.618em;}}@media screen and (min-width: 769px) {.heading4-0-0-32{font-size:1.3em;}}.heading5-0-0-33{font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;margin-top:var(--vertical-padding);}@media screen and (max-width: 768px) {.heading5-0-0-33{font-size:1.618em;}}@media screen and (min-width: 769px) {.heading5-0-0-33{font-size:1.3em;}}.heading6-0-0-34{font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;margin-top:var(--vertical-padding);}@media screen and (max-width: 768px) {.heading6-0-0-34{font-size:1.618em;}}@media screen and (min-width: 769px) {.heading6-0-0-34{font-size:1.3em;}}.content-0-0-38{background-color:var(--background-color-medium);flex:0 0 auto;margin:0 auto var(--vertical-padding) auto;box-sizing:border-box;width:100%;max-width:800px;padding:var(--vertical-padding) var(--horizontal-padding);}.markdown-0-0-28{--foreground-color-link:var(--color-blue-700);}.markdown-0-0-28 p{margin-top:var(--vertical-padding);}.markdown-0-0-28 blockquote{margin-top:var(--vertical-padding);background-color:var(--bg-color-alternate);color:var(--fg-color);padding:0.01em var(--horizontal-padding) var(--vertical-padding) var(--horizontal-padding);font-size:1.1em;margin-left:calc(var(--horizontal-padding) * -1);margin-right:calc(var(--horizontal-padding) * -1);--double-margin:calc(var(--horizontal-padding) * 2);width:calc(100% + var(--double-margin));box-sizing:border-box;}.markdown-0-0-28 .image-wrapper{margin-left:calc(var(--horizontal-padding) * -1);margin-right:calc(var(--horizontal-padding) * -1);--double-margin:calc(var(--horizontal-padding) * 2);width:calc(100% + var(--double-margin));box-sizing:border-box;margin-top:var(--vertical-padding);background-color:var(--color-black);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:var(--vertical-padding) var(--horizontal-padding);}.markdown-0-0-28 pre code.hljs{margin-top:var(--vertical-padding);display:block;overflow-x:auto;padding:var(--vertical-padding) var(--horizontal-padding);margin-left:calc(var(--horizontal-padding) * -1);margin-right:calc(var(--horizontal-padding) * -1);--double-margin:calc(var(--horizontal-padding) * 2);width:calc(100% + var(--double-margin));box-sizing:border-box;}.markdown-0-0-28 code.hljs{font-family:var(--font-family-code);padding:3px 5px;}.markdown-0-0-28 a:link, .markdown-0-0-28 a:hover, .markdown-0-0-28 a:visited, .markdown-0-0-28 a:active{text-decoration:underline;}.markdown-0-0-28 ul{margin-top:var(--vertical-padding);margin-left:25px;}.markdown-0-0-28 ol{margin-top:var(--vertical-padding);margin-left:25px;}.markdown-0-0-28 h1{margin-top:var(--vertical-padding);font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;display:block;text-align:center;}.markdown-0-0-28 h2{margin-top:calc(var(--vertical-padding) * 2);font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;display:block;text-align:center;}.markdown-0-0-28 h3{font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;margin-top:var(--vertical-padding);}.markdown-0-0-28 h4{font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;margin-top:var(--vertical-padding);}.markdown-0-0-28 h5{font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;margin-top:var(--vertical-padding);}.markdown-0-0-28 h6{font-family:var(--font-family-heading);font-weight:100;position:relative;line-height:120%;margin-top:var(--vertical-padding);}.markdown-0-0-28 hr{max-width:50%;display:block;text-align:center;margin:2em auto;}.markdown-0-0-28 iframe{margin-top:var(--vertical-padding);aspect-ratio:16 / 9;height:100%;margin-left:calc(var(--horizontal-padding) * -1);margin-right:calc(var(--horizontal-padding) * -1);--double-margin:calc(var(--horizontal-padding) * 2);width:calc(100% + var(--double-margin));box-sizing:border-box;}.markdown-0-0-28 video{margin-left:calc(var(--horizontal-padding) * -1);margin-right:calc(var(--horizontal-padding) * -1);--double-margin:calc(var(--horizontal-padding) * 2);width:calc(100% + var(--double-margin));box-sizing:border-box;margin-top:var(--vertical-padding);}.markdown-0-0-28 .hljs{color:#d5c4a1;background:#282828;}.markdown-0-0-28 .hljs ::selection, .markdown-0-0-28 .hljs::selection{background-color:#504945;color:#d5c4a1;}.markdown-0-0-28 .hljs-comment{color:#665c54;}.markdown-0-0-28 .hljs-tag{color:#bdae93;}.markdown-0-0-28 .hljs-operator, .markdown-0-0-28 .hljs-punctuation, .markdown-0-0-28 .hljs-subst{color:#d5c4a1;}.markdown-0-0-28 .hljs-operator{opacity:0.7;}.markdown-0-0-28 .hljs-bullet, .markdown-0-0-28 .hljs-deletion, .markdown-0-0-28 .hljs-name, .markdown-0-0-28 .hljs-selector-tag, .markdown-0-0-28 .hljs-template-variable, .markdown-0-0-28 .hljs-variable{color:#fb4934;}.markdown-0-0-28 .hljs-attr, .markdown-0-0-28 .hljs-link, .markdown-0-0-28 .hljs-literal, .markdown-0-0-28 .hljs-number, .markdown-0-0-28 .hljs-symbol, .markdown-0-0-28 .hljs-variable.constant_{color:#fe8019;}.markdown-0-0-28 .hljs-class .hljs-title, .markdown-0-0-28 .hljs-title, .markdown-0-0-28 .hljs-title.class_{color:#fabd2f;}.markdown-0-0-28 .hljs-strong{font-weight:700;color:#fabd2f;}.markdown-0-0-28 .hljs-addition, .markdown-0-0-28 .hljs-code, .markdown-0-0-28 .hljs-string, .markdown-0-0-28 .hljs-title.class_.inherited__{color:#b8bb26;}.markdown-0-0-28 .hljs-built_in, .markdown-0-0-28 .hljs-doctag, .markdown-0-0-28 .hljs-keyword.hljs-atrule, .markdown-0-0-28 .hljs-quote, .markdown-0-0-28 .hljs-regexp{color:#8ec07c;}.markdown-0-0-28 .hljs-attribute, .markdown-0-0-28 .hljs-function .hljs-title, .markdown-0-0-28 .hljs-section, .markdown-0-0-28 .hljs-title.function_, .markdown-0-0-28 .ruby .hljs-property{color:#83a598;}.markdown-0-0-28 .diff .hljs-meta, .markdown-0-0-28 .hljs-keyword, .markdown-0-0-28 .hljs-template-tag, .markdown-0-0-28 .hljs-type{color:#d3869b;}.markdown-0-0-28 .hljs-emphasis{color:#d3869b;font-style:italic;}.markdown-0-0-28 .hljs-meta, .markdown-0-0-28 .hljs-meta .hljs-keyword, .markdown-0-0-28 .hljs-meta .hljs-string{color:#d65d0e;}.markdown-0-0-28 .hljs-meta .hljs-keyword, .markdown-0-0-28 .hljs-meta-keyword{font-weight:700;}.markdown-0-0-28 > :first-child{margin-top:0;}.markdown-0-0-28 table{width:100%;margin-top:var(--vertical-padding);border-collapse:collapse;border-spacing:0;}.markdown-0-0-28 table th{padding:0.5rem;font-weight:bold;border:1px solid var(--color-night-300);}.markdown-0-0-28 table td{padding:0.5rem;border:1px solid var(--color-night-300);}@media screen and (max-width: 768px) {.markdown-0-0-28 h6{font-size:1.618em;}}@media screen and (min-width: 769px) {.markdown-0-0-28 h6{font-size:1.3em;}}@media screen and (max-width: 768px) {.markdown-0-0-28 h5{font-size:1.618em;}}@media screen and (min-width: 769px) {.markdown-0-0-28 h5{font-size:1.3em;}}@media screen and (max-width: 768px) {.markdown-0-0-28 h4{font-size:1.618em;}}@media screen and (min-width: 769px) {.markdown-0-0-28 h4{font-size:1.3em;}}@media screen and (max-width: 768px) {.markdown-0-0-28 h3{font-size:1.618em;}}@media screen and (min-width: 769px) {.markdown-0-0-28 h3{font-size:1.618em;}}@media screen and (max-width: 768px) {.markdown-0-0-28 h2{font-size:1.618em;}}@media screen and (min-width: 769px) {.markdown-0-0-28 h2{font-size:2.618em;}}@media screen and (max-width: 768px) {.markdown-0-0-28 h1{font-size:2.618em;}}@media screen and (min-width: 769px) {.markdown-0-0-28 h1{font-size:3em;}}.markdown-0-0-28 ol li{margin-top:0.75rem;list-style-type:decimal;}.markdown-0-0-28 ol ol{margin-top:0;}.markdown-0-0-28 ol li::marker{color:var(--foreground-color-medium);}.markdown-0-0-28 ul li{margin-top:0.75rem;list-style-type:disc;}.markdown-0-0-28 ul ul{margin-top:0;}.markdown-0-0-28 ul li::marker{color:var(--foreground-color-dark);}.markdown-0-0-28 .image-wrapper img{display:block;max-width:100%;max-height:50vh;}.markdown-0-0-28 .image-wrapper .image-title{margin-top:0.5rem;color:var(--fg-color);text-align:center;}.linkSet-0-0-35{margin-top:var(--vertical-padding);}.link-0-0-36{margin-right:5px;--foreground-color-link:var(--color-blue-700);}.icon-0-0-37{color:var(--fg-color);}.technologies-0-0-11{clear:both;margin-top:var(--vertical-padding);}.compact-0-0-12{margin-top:0;}.technology-0-0-13{float:left;border-radius:5px;font-size:0.707em;margin:5px;display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;}.tagRed-0-0-14{background-color:var(--highlight-color);}.tagGreen-0-0-15{background-color:var(--highlight-color-2);}.icon-0-0-16{color:var(--fg-color);margin:0 5px;}.tag-0-0-17{background-color:var(--bg-color-alternate);padding:5px;border-radius:5px;}</style></head><body><link rel="preload" as="image" href="/posts/fragment-shaders-pipeline.png"/><link rel="preload" as="image" href="/posts/fragment-shaders-xy.png"/><link rel="preload" as="image" href="/posts/fragment-shaders-squares.png"/><link rel="preload" as="image" href="/posts/fragment-shaders-step.png"/><link rel="preload" as="image" href="/posts/fragment-shaders-percentage.png"/><link rel="preload" as="image" href="/posts/fragment-shaders-interpolation.png"/><link rel="preload" as="image" href="/posts/fragment-shaders-gradient-smoothstep.png"/><link rel="preload" as="image" href="/posts/fragment-shaders-gradient-mix.png"/><link rel="preload" as="image" href="/posts/fragment-shaders-gradient-complete.png"/><link rel="preload" as="image" href="/posts/fragment-shaders-sin-basic.png"/><link rel="preload" as="image" href="/posts/fragment-shaders-sin-multi-graph.png"/><link rel="preload" as="image" href="/posts/fragment-shaders-sin-multi.png"/><link rel="preload" as="image" href="/posts/fragment-shaders-face.png"/><link rel="preload" as="image" href="/posts/fragment-shaders-gradient-radial.png"/><link rel="preload" as="image" href="/posts/fragment-shaders-conic-diagram.png"/><link rel="preload" as="image" href="/posts/fragment-shaders-conic.png"/><link rel="preload" as="image" href="/posts/fragment-shaders-circus.png"/><link rel="preload" as="image" href="/posts/fragment-shaders-beachball.png"/><div class="wrapper-0-0-1"><div class="container-0-0-2"><header class="name-0-0-4"><a href="/" class="link-0-0-3">Ben Coveney</a></header><nav class="home-0-0-5"><a href="/" class="link-0-0-3"><div>Home</div><i class="mdi mdi-home mdi-18px icon-0-0-6"></i></a></nav></div><div class="title-0-0-40"><h1 class="heading1-0-0-29">Fragment Shader Backgrounds</h1><span class="published-0-0-39">Published <!-- -->Mar 13, 2026</span></div><div class="content-0-0-38"><div class="markdown-0-0-28"><p>One way to add some visual flair to a web project is with a full-page animated background. We have the whole browser window to fill, so surely we can come up with something more imaginative than a flat coloured background.</p>
+<p>You might have seen these around the web on some of the flashier websites, or in libraries like <a href="https://www.vantajs.com/" target="_blank">Vanta</a>. I made something rudimentary along these lines back in 2017 for an older version of my personal blog.</p>
+<video muted="" controls="" style="max-height:640px" src="/posts/fragment-shaders-dots.webm"></video>
+<p>The project, imaginatively called <a href="https://github.com/bencoveney/dots" target="_blank">dots</a>, was relatively simple: I drew some circles on a full page <code>&lt;canvas&gt;</code>, animated them around the screen, and gave each dot a connection to the three closest dots. I made some effort to make sure the dots and lines would wrap from one edge of the screen to the opposite side, but in the end it still looks a bit underwhelming.</p>
+<p>There are a couple of common problems projects like this encounter. Firstly, the more exciting you make your background, the more distracting it is from whatever you display on top of it. Secondly, if the performance of these backgrounds is not carefully managed, they can seriously slow down the browser and make the website feel choppy and broken instead of sleek and advanced. My dots project suffered from both of these issues.</p>
+<h2>Planning for performance</h2>
+<p>Most full page backgrounds will use one of a few different methods:</p>
+<ul>
+<li>A big video, sometimes played back with compression or low resolution to aid with load times.</li>
+<li>A <code>&lt;canvas&gt;</code> tag, drawn to using either:<!-- -->
+<ul>
+<li>The web Canvas APIs.</li>
+<li>WebGL (v1 or v2).</li>
+<li>WebGPU.</li>
+</ul>
+</li>
+</ul>
+<p>Of these options, WebGL feels like the sweet spot: It has been widely supported for over 10 years now, can perform well on low-powered devices, and is plenty powerful enough to achieve some impressive visual results.</p>
+<p>If we&#x27;re using WebGL to create something of our own, there is a minimum set of WebGL functionality we would need to opt-in to:</p>
+<ul>
+<li>Enough geometry to fill the screen. Given the screen is a rectangle, and WebGL&#x27;s primitive shape is a triange, that would mean we need at least 2 triangles.</li>
+<li>A vertex shader, to process each vertex of those 2 triangles. That could be a simple function which passes through each vertex without any modification.</li>
+<li>A fragment shader, to calculate the per-pixel colours for each of those triangles. The baseline implementation here could just return a solid colour.</li>
+</ul>
+<blockquote>
+<p>WebGL requires 2 shaders every time you draw something. A vertex shader and a fragment shader. Each shader is a function.</p>
+<p><em><a href="https://webglfundamentals.org/webgl/lessons/webgl-shaders-and-glsl.html" target="_blank">WebGL Fundamentals: WebGL Shaders and GLSL</a></em></p>
+</blockquote>
+<p><figure class="image-wrapper"><a href="/posts/fragment-shaders-pipeline.png" target="_blank"><img src="/posts/fragment-shaders-pipeline.png" alt="GPU pipeline diagram" title="An extremely simplified view for what is happening in your GPU."/></a><figcaption class="image-title">An extremely simplified view for what is happening in your GPU.</figcaption></figure></p>
+<p>At that point, we can successfully apply a colour to the screen, which is a useful milestone, but not particularly visually interesting. Now we need to work out where best to extend this to make it look beautiful.</p>
+<p>There is a risk though, because everything now that we add could potentially slow things down. To keep rendering snappy and smooth, we need to be economical in our rendering - doing as much as possible with as little as possible.</p>
+<h2><code>gl_FragCoord</code></h2>
+<blockquote>
+<p>A Fragment Shader&#x27;s job is to provide a color for the current pixel being rasterized.</p>
+<p><em><a href="https://webglfundamentals.org/webgl/lessons/webgl-shaders-and-glsl.html" target="_blank">WebGL Fundamentals: WebGL Shaders and GLSL</a></em></p>
+</blockquote>
+<p>With the minimal set up, the fragment shader already gives us a chance to decide what colour to display for every pixel on the screen. Typically in a fragment shader you&#x27;d be looking up values from textures or calculating lighting and shadows.</p>
+<p>Inside the fragment shader we get a variable available to us for free: <code>gl_FragCoord</code></p>
+<blockquote>
+<p>Available only in the fragment language, gl_FragCoord is an input variable that contains the window relative coordinate (x, y, z, 1/w) values for the fragment.</p>
+<p><em><a href="https://registry.khronos.org/OpenGL-Refpages/gl4/html/gl_FragCoord.xhtml" target="_blank">gl_FragCoord - OpenGL 4 Reference Pages</a></em></p>
+</blockquote>
+<p>As we progress across the screen, from bottom to top and left to right, the x and y components of <code>gl_FragCoord</code> will increase respectively. Manipulating these values will form the basis of everything we do inside this fragment shader.</p>
+<p><figure class="image-wrapper"><a href="/posts/fragment-shaders-xy.png" target="_blank"><img src="/posts/fragment-shaders-xy.png" alt="Fragment Shader mapping the XY coordinates to red and green" title="Linking the x and y values to red and green colour components to make a nice gradient."/></a><figcaption class="image-title">Linking the x and y values to red and green colour components to make a nice gradient.</figcaption></figure></p>
+<h2>Shader programming</h2>
+<p>I am by no means an expert at shader programming, but I know enough of the syntax now to be dangerous. These are some of my highlights and lowlights to give you a feeling for it, and maybe make the examples a bit clearer.</p>
+<p>In GLSL (the WebGL shader programming language), you work with vectors a lot. Positions are vectors, colours are vectors, vectors are (unsurprisingly) vectors. Fortunately creating vectors is easy because the constructors are super flexible.</p>
+<pre><code class="hljs language-glsl"><span class="hljs-comment">// Creating vectors from floats.</span>
+<span class="hljs-type">vec2</span> source = <span class="hljs-type">vec2</span>(<span class="hljs-number">1.0</span>, <span class="hljs-number">2.0</span>);
+
+<span class="hljs-comment">// Creating vectors from vectors.</span>
+<span class="hljs-type">vec3</span> destination = <span class="hljs-type">vec3</span>(source, <span class="hljs-number">3.0</span>);
+</code></pre>
+<p>Accessing vectors is equally simple, through syntax known as &quot;Swizzles&quot;.</p>
+<pre><code class="hljs language-glsl"><span class="hljs-type">vec2</span> source = <span class="hljs-type">vec2</span>(<span class="hljs-number">1.0</span>, <span class="hljs-number">2.0</span>);
+
+<span class="hljs-comment">// The same as vec3(source.y, source.x, source.y)</span>
+<span class="hljs-type">vec2</span> twoOneTwo = source.yxy;
+</code></pre>
+<p>Many of the built-in functions will also happily accept vectors just as readily as they will accept single values. One example we&#x27;ll see in this post is <code>mix</code> which will happily blend between single values or vectors without any complaints.</p>
+<p>Any time you see number literals expressed with a decimal point e.g. <code>5.0</code>, the decimal point implies this will be a floating point value, and without it we would get an integer. This is not super uncommon in programming languages, but I do find it obtuse when working with shaders. 100% of the number values used in this post are floats, occasionally creating accidental integers is frustrating.</p>
+<p>Finally, debugging shader output is not as easy as debugging typical code. Tools exist, but generally shader pipelines and logic running on the CPU are harder to inspect. In practice, the easiest way to see what is happening is to cram values into the output colour channels and render your debug output to the screen. You&#x27;ll see this throughout the post - the grayscale gradients are similar to the debugging outputs I used when building the shader.</p>
+<p>If you&#x27;re interested to know more, I definitely recommend (WebGL Fundamentals)[<a href="https://webglfundamentals.org" target="_blank">https://webglfundamentals.org</a>],<!-- --> and the WebGL2 and WebGPU equivalent websites for more recent variants. But with that out of the way, let&#x27;s start painting on the <code>&lt;canvas&gt;</code>...</p>
+<h2>Squares</h2>
+<p>Given some XY values as input, if we wanted to draw some little boxes on the screen, a basic fragment shader implementation might look something like this:</p>
+<pre><code class="hljs language-glsl"><span class="hljs-keyword">precision</span> <span class="hljs-keyword">mediump</span> <span class="hljs-type">float</span>;
+
+<span class="hljs-type">void</span> main() {
+  <span class="hljs-type">float</span> squareGap = <span class="hljs-number">10.0</span>;
+  <span class="hljs-type">float</span> squareSize = <span class="hljs-number">5.0</span>;
+
+  <span class="hljs-type">float</span> wrappedXPosition = <span class="hljs-built_in">mod</span>(<span class="hljs-built_in">gl_FragCoord</span>.x, squareSize + squareGap);
+  <span class="hljs-type">float</span> wrappedYPosition = <span class="hljs-built_in">mod</span>(<span class="hljs-built_in">gl_FragCoord</span>.y, squareSize + squareGap);
+
+  <span class="hljs-keyword">if</span> (wrappedXPosition &lt;= squareSize &amp;&amp; wrappedYPosition &lt;= squareSize) {
+    <span class="hljs-built_in">gl_FragColor</span> = <span class="hljs-type">vec4</span>(<span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>);
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-built_in">gl_FragColor</span> = <span class="hljs-type">vec4</span>(<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>);
+  }
+}
+</code></pre>
+<p>You can see in the simple example we are already using a built-in function: <code>mod(x, y)</code> which computes <code>x modulo y</code>, similar to the <code>x % y</code> operator in most programming langugaes. Effectively, instead of one continuous range of values crossing the screen, this gives us some smaller repeating values which wrap around, and allow us to repeat our square multiple times.</p>
+<p><figure class="image-wrapper"><a href="/posts/fragment-shaders-squares.png" target="_blank"><img src="/posts/fragment-shaders-squares.png" alt="Drawing some squares" title="The squares created by running the function at each X,Y position"/></a><figcaption class="image-title">The squares created by running the function at each X,Y position</figcaption></figure></p>
+<p>The GPU which handles our shader function will work a bit differently to a typical CPU. GPUs are built process data in a massively parallel way - instead of a handful of high powered cores you can instead expect thousands of much smaller cores.</p>
+<p>One thing these GPU cores don&#x27;t handle particularly well is brancing and conditionals. If we can find a way to express this logic without the if/else branch, and instead only use maths and GLSL built-ins then our code will perform much better.</p>
+<p>Fortunately, there is another built-in function which can help us draw these squares without using an if/else: <code>step(edge, x)</code>.</p>
+<blockquote>
+<p>step generates a step function by comparing <em>x</em> to <em>edge</em>.</p>
+<p><em><a href="https://registry.khronos.org/OpenGL-Refpages/gl4/html/step.xhtml" target="_blank">step - OpenGL 4 Reference Pages</a></em></p>
+</blockquote>
+<p><figure class="image-wrapper"><a href="/posts/fragment-shaders-step.png" target="_blank"><img src="/posts/fragment-shaders-step.png" alt="Step funtion example" title="The range of values returned by step(0.5, x)."/></a><figcaption class="image-title">The range of values returned by step(0.5, x).</figcaption></figure></p>
+<p>Using a combination of <code>step()</code> and <code>mod()</code>, we can create a series along each axis which switches between <code>1</code> and <code>0</code>. By multiplying those values together, we achieve the same result as before, while avoiding any expensive if/else conditions.</p>
+<pre><code class="hljs language-glsl"><span class="hljs-keyword">precision</span> <span class="hljs-keyword">mediump</span> <span class="hljs-type">float</span>;
+
+<span class="hljs-type">void</span> main() {
+  <span class="hljs-type">float</span> squareGap = <span class="hljs-number">10.0</span>;
+  <span class="hljs-type">float</span> squareSize = <span class="hljs-number">5.0</span>;
+
+  <span class="hljs-type">float</span> repeatSize = squareSize + squareGap;
+
+  <span class="hljs-comment">// For each mod(15) pixels:</span>
+  <span class="hljs-comment">// - Proceed 10 pixels at a value of 0.</span>
+  <span class="hljs-comment">// - Then step up to a value of 1 for the remaining 5 pixels.</span>
+  <span class="hljs-type">float</span> scaleX = <span class="hljs-built_in">step</span>(squareGap, <span class="hljs-built_in">mod</span>(<span class="hljs-built_in">gl_FragCoord</span>.x, repeatSize));
+  <span class="hljs-type">float</span> scaleY = <span class="hljs-built_in">step</span>(squareGap, <span class="hljs-built_in">mod</span>(<span class="hljs-built_in">gl_FragCoord</span>.y, repeatSize));
+
+  <span class="hljs-comment">// Multiply the X and Y values together, only leaving values</span>
+  <span class="hljs-comment">// of 1 where both X and Y functions are 1.</span>
+  <span class="hljs-type">float</span> isSquare = scaleX * scaleY;
+
+  <span class="hljs-built_in">gl_FragColor</span> = <span class="hljs-type">vec4</span>(isSquare, isSquare, isSquare, <span class="hljs-number">1.0</span>);
+}
+</code></pre>
+<p>It is worth taking a moment to recap the result here. We have only sent 1 rectangle (composed of 2 triangles) to the GPU, the one which fills the entire screen. However, using nothing but built-in functions and maths, we have managed to render a full screen of squares.</p>
+<p>With that said, we will still need to be careful about what goes into this fragment shader. The logic does run for every pixel on the screen - which is inevitably going to be a lot of times. If our fragment shader function becomes expensive then we could end up spoiling the performance.</p>
+<p>This set-up, where structure our rendering logic along the lines of &quot;for each pixel, work out what colour it should be&quot; is known as Backwards Rendering - and a similar flow is used for ray tracing (which is notoriously resource hungry).</p>
+<p>Forwards Rendering and variants like Deferred Rendering are the more common flows for modern 3d graphics applications like games, where the logic is structured as: &quot;here&#x27;s all my stuff, work out which pixels it occupies&quot;.</p>
+<h2>Gradients</h2>
+<p>Squares are cool and all, but if we will be using this as a background then how about we add some colour? For the next challenge, lets add a gradient which goes from black to red to purple that covers the entire screen vertically from top to bottom.</p>
+<p>Covering the screen throws a slight spanner in the works at the moment. We have the <code>gl_FragCoord</code> built-in which tells us the position of the pixel we are currently working on, but the web browser we are rendering to could be any size, so we can&#x27;t hard-code any fixed sizes. We need a way to work out whether we&#x27;re at the top, middle, or bottom, regardless of how big the screen is.</p>
+<p>WebGL doesn&#x27;t provide a built-in which would help us here. Instead, we will need to provide some supporting data about the total size of the screen ourselves, in the form of a <code>u_resolution</code> uniform. By dividing <code>gl_FragCoord</code> by <code>u_resolution</code> we figure out how far we are along the screen on either axis, as a value from 0 to 1.</p>
+<pre><code class="hljs language-glsl"><span class="hljs-keyword">precision</span> <span class="hljs-keyword">mediump</span> <span class="hljs-type">float</span>;
+
+<span class="hljs-keyword">uniform</span> <span class="hljs-type">vec2</span> u_resolution;
+ 
+<span class="hljs-type">void</span> main() {
+  <span class="hljs-type">vec2</span> screenPercentage = <span class="hljs-built_in">gl_FragCoord</span>.xy / u_resolution.xy;
+
+  <span class="hljs-type">float</span> topToBottom = screenPercentage.y;
+
+  <span class="hljs-built_in">gl_FragColor</span> = <span class="hljs-type">vec4</span>(topToBottom, topToBottom, topToBottom, <span class="hljs-number">1.0</span>);
+}
+</code></pre>
+<p><figure class="image-wrapper"><a href="/posts/fragment-shaders-percentage.png" target="_blank"><img src="/posts/fragment-shaders-percentage.png" alt="Vertical screen position representation" title="The vertical screen position, ranging from 0 (black) to 1 (white)"/></a><figcaption class="image-title">The vertical screen position, ranging from 0 (black) to 1 (white)</figcaption></figure></p>
+<p>The gradient will be laid out something like this:</p>
+<table><thead><tr><th>Distance along gradient</th><th>What is rendered</th></tr></thead><tbody><tr><td>0%</td><td>Only Colour A.</td></tr><tr><td>0% to 50%</td><td>Blending from Colour A to Colour B.</td></tr><tr><td>50%</td><td>Only Colour B.</td></tr><tr><td>50% to 100%</td><td>Blending from Colour B to Colour C.</td></tr><tr><td>100%</td><td>Only Colour C.</td></tr></tbody></table>
+<p>There are 2 before-unseen built-ins that will be useful here:</p>
+<ul>
+<li><a href="https://registry.khronos.org/OpenGL-Refpages/gl4/html/mix.xhtml" target="_blank"><code>mix(x, y, a)</code></a> performs linear interpolation.</li>
+<li><a href="https://registry.khronos.org/OpenGL-Refpages/gl4/html/smoothstep.xhtml" target="_blank"><code>smoothstep(edgeA, edgeB, amount)</code></a> performs hermite interpolation.</li>
+</ul>
+<p><figure class="image-wrapper"><a href="/posts/fragment-shaders-interpolation.png" target="_blank"><img src="/posts/fragment-shaders-interpolation.png" alt="Linear and Hermite interpolation" title="Linear interpolation (blue) and hermite interpolation (green) between 0 and 1"/></a><figcaption class="image-title">Linear interpolation (blue) and hermite interpolation (green) between 0 and 1</figcaption></figure></p>
+<p>If we pass our stops and vertical screen position values into the <code>smoothstep</code> function, we can go from a linear gradient spanning the entire height of the page, to one which smoothly blends between our stops.</p>
+<pre><code class="hljs language-glsl"><span class="hljs-type">float</span> bottomToTop = <span class="hljs-number">1.0</span> - topToBottom;
+
+<span class="hljs-type">float</span> stop1 = <span class="hljs-number">0.0</span>;
+<span class="hljs-type">float</span> stop2 = <span class="hljs-number">0.5</span>;
+
+<span class="hljs-type">float</span> stepped = <span class="hljs-built_in">smoothstep</span>(stop1, stop2, bottomToTop)
+
+<span class="hljs-built_in">gl_FragColor</span> = <span class="hljs-type">vec4</span>(stepped, stepped, stepped, <span class="hljs-number">1.0</span>);
+</code></pre>
+<p><figure class="image-wrapper"><a href="/posts/fragment-shaders-gradient-smoothstep.png" target="_blank"><img src="/posts/fragment-shaders-gradient-smoothstep.png" alt="Smoothly interpolating at the top of the screen" title="Smoothly blending between our first two stops"/></a><figcaption class="image-title">Smoothly blending between our first two stops</figcaption></figure></p>
+<p>In this top region we now have values which go from 0 up to 1, and passing them to <code>mix</code> will let us blend between the two colours. For example:</p>
+<ul>
+<li><code>mix(green, blue, 0)</code> would return <code>green</code>.</li>
+<li><code>mix(green, blue, 1)</code> would return <code>blue</code>.</li>
+<li><code>mix(green, blue, 0.5)</code> would return an even mix of <code>green</code> and <code>blue</code>.</li>
+</ul>
+<pre><code class="hljs language-glsl"><span class="hljs-type">vec3</span> darkRed = <span class="hljs-type">vec3</span>(<span class="hljs-number">0.41</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>);
+<span class="hljs-type">vec3</span> red = <span class="hljs-type">vec3</span>(<span class="hljs-number">0.9</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>);
+
+<span class="hljs-type">float</span> stop1 = <span class="hljs-number">0.0</span>;
+<span class="hljs-type">float</span> stop2 = <span class="hljs-number">0.5</span>;
+
+<span class="hljs-type">vec3</span> gradientTop = <span class="hljs-built_in">mix</span>(darkRed, red, <span class="hljs-built_in">smoothstep</span>(stop1, stop2, bottomToTop));
+
+<span class="hljs-built_in">gl_FragColor</span> = <span class="hljs-type">vec4</span>(gradientTop, <span class="hljs-number">1.0</span>);
+</code></pre>
+<p><figure class="image-wrapper"><a href="/posts/fragment-shaders-gradient-mix.png" target="_blank"><img src="/posts/fragment-shaders-gradient-mix.png" alt="Mapping numeric values to colours" title="Mix has mapped the values (from 0 to 1) to a smooth blend between our first two colours"/></a><figcaption class="image-title">Mix has mapped the values (from 0 to 1) to a smooth blend between our first two colours</figcaption></figure></p>
+<p>Now that we have figured out the first part of the gradient, we can simply repeat the process for the bottom half. One thing to look out for here is that we create the top section of the gradient first (involving the first two colours), and then pass that gradient as an input to the bottom section of the gradient.</p>
+<pre><code class="hljs language-glsl"><span class="hljs-comment">// The complete gradient shader:</span>
+
+<span class="hljs-keyword">precision</span> <span class="hljs-keyword">mediump</span> <span class="hljs-type">float</span>;
+
+<span class="hljs-keyword">uniform</span> <span class="hljs-type">vec2</span> u_resolution;
+ 
+<span class="hljs-type">void</span> main() {
+  <span class="hljs-type">vec2</span> screenPercentage = <span class="hljs-built_in">gl_FragCoord</span>.xy / u_resolution.xy;
+
+  <span class="hljs-type">float</span> topToBottom = screenPercentage.y;
+  <span class="hljs-type">float</span> bottomToTop = <span class="hljs-number">1.0</span> - topToBottom;
+
+  <span class="hljs-type">vec3</span> darkRed = <span class="hljs-type">vec3</span>(<span class="hljs-number">0.41</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>);
+  <span class="hljs-type">vec3</span> red = <span class="hljs-type">vec3</span>(<span class="hljs-number">0.9</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>);
+  <span class="hljs-type">vec3</span> purple = <span class="hljs-type">vec3</span>(<span class="hljs-number">0.50</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.20</span>);
+
+  <span class="hljs-type">float</span> stop1 = <span class="hljs-number">0.0</span>;
+  <span class="hljs-type">float</span> stop2 = <span class="hljs-number">0.5</span>;
+  <span class="hljs-type">float</span> stop3 = <span class="hljs-number">1.0</span>;
+
+  <span class="hljs-type">vec3</span> gradientPartial = <span class="hljs-built_in">mix</span>(darkRed, red, <span class="hljs-built_in">smoothstep</span>(stop1, stop2, bottomToTop));
+  <span class="hljs-type">vec3</span> gradient = <span class="hljs-built_in">mix</span>(gradientPartial, purple, <span class="hljs-built_in">smoothstep</span>(stop2, stop3, bottomToTop));
+
+  <span class="hljs-built_in">gl_FragColor</span> = <span class="hljs-type">vec4</span>(gradient, <span class="hljs-number">1.0</span>);
+}
+</code></pre>
+<p><figure class="image-wrapper"><a href="/posts/fragment-shaders-gradient-complete.png" target="_blank"><img src="/posts/fragment-shaders-gradient-complete.png" alt="The complete gradient" title="Glorious smooth blending between 3 colour stops"/></a><figcaption class="image-title">Glorious smooth blending between 3 colour stops</figcaption></figure></p>
+<h2>The power of 0 and 1</h2>
+<p>Ranges between 0 and 1 have been popping up repeatedly, and they will continue to do so as we add to the fragment shader. Values within this range have a few benefits:</p>
+<ol>
+<li>If we create some &quot;helper&quot; values in this range (like our screen position representation), then it is easy to reuse them in different contexts by multiplying them into the desired output range.</li>
+<li>There are a lot of functions (<code>mix</code>, <code>smoothstep</code>, <code>step</code>) which work most naturally when operating on values between 0 and 1.</li>
+<li>You can safely multiply values together. For inputs between 0 and 1, the output will also fall in the same range. This will come in handy later on, when we begin combining together different parts of the shader.</li>
+<li>Any time you have zeroes in your data you effectively &quot;turn off&quot; parts of the shader, as operations on 0 often return 0.</li>
+<li>Any time you have values clamped to 0 or 1 (like we saw with the squares) you can think of them as booleans. Multiplying them together functions as a boolean <code>AND</code> operation. <code>1 - X</code> functions like a boolean <code>NOT</code> operation. With <code>AND</code> and <code>NOT</code> available, you can create every other boolean opeation.</li>
+<li>At the end of the function we pass values in this 0 to 1 range out as output, representing the RGBA colour channels.</li>
+</ol>
+<p>Ultimately, using values like this helps us satisfy the constraints laid out earlier: We can have one function using simple operations which runs quickly for each pixel without branching.</p>
+<h2>Waves Over Time</h2>
+<p>Everything we have applied to the screen so far has been quite uniform and static. We can stick a linear gradient over the whole screen, or fill the whole screen with squares. Next lets add some variety, texture and movement.</p>
+<p>Trigonometry function are one tool in the GLSL toolbox we can reach for. Simple math functions like <code>sin()</code> are periodic and repetitive, but can form the basis of some slightly more interesting patterns.</p>
+<p>The example below shows <code>sin(gl_FragCoord.x)</code>, running across the screen horizontally. The extra logic is we do some mapping on the inputs and outputs:</p>
+<ul>
+<li>By scaling the input, we can change the period of the sine wave.</li>
+<li><code>sin()</code> returns values between -1 and 1, so these need to be remapped.</li>
+</ul>
+<pre><code class="hljs language-glsl"><span class="hljs-keyword">precision</span> <span class="hljs-keyword">mediump</span> <span class="hljs-type">float</span>;
+
+<span class="hljs-type">void</span> main() {
+  <span class="hljs-type">float</span> value = <span class="hljs-built_in">sin</span>(<span class="hljs-built_in">gl_FragCoord</span>.x * <span class="hljs-number">0.1</span>);
+  <span class="hljs-type">float</span> scaledValue = (value + <span class="hljs-number">1.0</span>) * <span class="hljs-number">0.5</span>;
+  <span class="hljs-built_in">gl_FragColor</span> = <span class="hljs-type">vec4</span>(scaledValue, scaledValue, scaledValue, <span class="hljs-number">1.0</span>);
+}
+</code></pre>
+<p><figure class="image-wrapper"><a href="/posts/fragment-shaders-sin-basic.png" target="_blank"><img src="/posts/fragment-shaders-sin-basic.png" alt="A basic sine wave" title="A basic sine wave"/></a><figcaption class="image-title">A basic sine wave</figcaption></figure></p>
+<p>A single sine wave isn&#x27;t much to look at on its own, but we can solve that by adding... more sine waves. By scaling one by another, we get a more interesting pattern.</p>
+<p><figure class="image-wrapper"><a href="/posts/fragment-shaders-sin-multi-graph.png" target="_blank"><img src="/posts/fragment-shaders-sin-multi-graph.png" alt="Multiple sine waves graphed" title="The ratio between the sine wave periods can be tuned to create different patterns."/></a><figcaption class="image-title">The ratio between the sine wave periods can be tuned to create different patterns.</figcaption></figure></p>
+<pre><code>precision mediump float;
+
+void main() {
+  float valueA = sin(gl_FragCoord.x * 0.07);
+  float valueB = sin(gl_FragCoord.x * 0.05);
+  float combined = valueA * valueB;
+  float scaledValue = (combined + 1.0) * 0.5;
+  gl_FragColor = vec4(scaledValue, scaledValue, scaledValue, 1.0);
+}
+</code></pre>
+<p><figure class="image-wrapper"><a href="/posts/fragment-shaders-sin-multi.png" target="_blank"><img src="/posts/fragment-shaders-sin-multi.png" alt="Multiple sine waves rendered" title="Slowly getting more interesting."/></a><figcaption class="image-title">Slowly getting more interesting.</figcaption></figure></p>
+<p>Now lets add some movement. I chose to do this by adding another uniform input to the shader: a <code>u_minute</code> floating point value which increases from 0 to 1 over the course of a minute. Using this to adjust the input to <code>sin()</code> creates an effect where the waves are sliding across the screen.</p>
+<video muted="" controls="" style="max-height:640px" src="/posts/fragment-shaders-sin-animated.webm"></video>
+<p>By adjusting the speed, period and direction of these sine waves, you can create an effect which looks like smooth rhythmic pulsing rather than the repetitive plain building blocks.</p>
+<pre><code class="hljs language-glsl"><span class="hljs-keyword">precision</span> <span class="hljs-keyword">mediump</span> <span class="hljs-type">float</span>;
+
+<span class="hljs-keyword">uniform</span> <span class="hljs-type">float</span> u_minute;
+<span class="hljs-keyword">uniform</span> <span class="hljs-type">vec2</span> u_resolution;
+ 
+<span class="hljs-type">void</span> main() {
+  <span class="hljs-type">vec2</span> screenPercentage = <span class="hljs-built_in">gl_FragCoord</span>.xy / u_resolution.xy;
+
+  <span class="hljs-type">float</span> leftToRight = screenPercentage.x;
+
+  <span class="hljs-type">float</span> pulseSineA = <span class="hljs-built_in">sin</span>((leftToRight - (u_minute * <span class="hljs-number">10.0</span>)) * <span class="hljs-number">5.0</span>);
+  <span class="hljs-type">float</span> pulseSineB = <span class="hljs-built_in">sin</span>((leftToRight - (u_minute * <span class="hljs-number">-3.0</span>)) * <span class="hljs-number">20.0</span>);
+  <span class="hljs-type">float</span> verticalPulseRaw = pulseSineA * pulseSineB;
+  <span class="hljs-type">float</span> verticalPulseScaled = (verticalPulseRaw + <span class="hljs-number">1.0</span>) * <span class="hljs-number">0.5</span>;
+  <span class="hljs-built_in">gl_FragColor</span> = <span class="hljs-type">vec4</span>(verticalPulseScaled, verticalPulseScaled, verticalPulseScaled, <span class="hljs-number">1.0</span>);
+}
+</code></pre>
+<p>Note that I&#x27;ve introduced another helper to support the calculation here, scaling <code>gl_FragCoord</code> to the range 0 to 1 to make the calculations a bit easier to work with.</p>
+<video muted="" controls="" style="max-height:640px" src="/posts/fragment-shaders-sin-tuned.webm"></video>
+<h2>Combining the different parts</h2>
+<p>So far we have created a few different elements:</p>
+<ul>
+<li>A screen full of squares.</li>
+<li>A linear gradient.</li>
+<li>Some pulsating waves.</li>
+</ul>
+<p>There&#x27;s enough here now that we can combine it into something cohesive. This is the code I ended up with:</p>
+<pre><code class="hljs language-glsl"><span class="hljs-type">float</span> bottomSection = <span class="hljs-built_in">smoothstep</span>(<span class="hljs-number">0.2</span>, <span class="hljs-number">1.0</span>, bottomToTop);
+
+<span class="hljs-type">float</span> bottomVerticalPulse = <span class="hljs-built_in">mix</span>(<span class="hljs-number">0.0</span>, verticalPulseScaled, bottomSection);
+
+<span class="hljs-type">float</span> bottomSquares = <span class="hljs-built_in">mix</span>(<span class="hljs-number">0.0</span>, isSquare, bottomSection);
+<span class="hljs-type">float</span> pulseBottomSquares = bottomSquares * verticalPulseScaled;
+
+<span class="hljs-type">vec3</span> combined = gradient + (bottomVerticalPulse * <span class="hljs-number">0.2</span> * <span class="hljs-type">vec3</span>(<span class="hljs-number">1.0</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.0</span>)) + (pulseBottomSquares * <span class="hljs-number">0.3</span>);
+</code></pre>
+<p>The gist is:</p>
+<ul>
+<li>The background sits behind everything.</li>
+<li>The pulsing sines are strongest at the bottom of the screen, fading out towards the top. This is supported by <code>bottomSection</code>, which is effectively another vertical gradient.</li>
+<li>Those fading sines add a bit of colour, but they also impact the visibility of the squares.</li>
+</ul>
+<p>All together, that gives us a more interesting result:</p>
+<video muted="" controls="" style="max-height:640px" src="/posts/fragment-shaders-bg-combined.webm"></video>
+<h2>Circling</h2>
+<p>The goal at the beginning was to generate something we could use as a snazzy background, to enhance whatever we&#x27;re displaying on top, so lets give it a go. I&#x27;ve added a <a href="https://emojiisland.com/products/nerd-with-glasses-emoji-icon" target="_blank">picture of us</a>, now that we&#x27;ve learnt some stuff about shaders:</p>
+<p><figure class="image-wrapper"><a href="/posts/fragment-shaders-face.png" target="_blank"><img src="/posts/fragment-shaders-face.png" alt="The nerd emoji" title="A selfie on a nice background."/></a><figcaption class="image-title">A selfie on a nice background.</figcaption></figure></p>
+<p>It looks better than it would normally, but it doesn&#x27;t quite spark joy yet. So how can we push it a bit further? Everything we have developed so far has been structured horizontally or vertically, but what if we started trying to think in terms of a circle?</p>
+<p>To enable this, we could do with some new helper gradients to build on top of. First it would be useful to know how far we are away from the center of the screen. This is actually relatively simple because our uniform <code>u_resolution</code> tells us the total size of the screen. If we half the x and y components, we find out where the center would be. We can then use pythagoras to find out the distance between the center and the pixel we&#x27;re currently working on (via <code>gl_FragCoord</code>).</p>
+<p>Conventiently we get some help from GLSL here as the built-in <code>distance()</code> performs the disance calculation for us, so we don&#x27;t need to run pythagoras ourselves. Unfortunately there is a bit of numerical legwork we can&#x27;t avoid though: Doing a straight distance calculation between the current pixel and the center gives values which are outside our favourite 0 to 1 range. I tuned the output so that we have nice 0 values in the center and 1 values at whichever edge is furthest away.</p>
+<pre><code class="hljs language-glsl"><span class="hljs-type">vec2</span> center = u_resolution / <span class="hljs-number">2.0</span>;
+<span class="hljs-type">float</span> maxSize = <span class="hljs-built_in">max</span>(center.x, center.y);
+<span class="hljs-type">float</span> radiusRaw = <span class="hljs-built_in">distance</span>(center, <span class="hljs-built_in">gl_FragCoord</span>.xy);
+<span class="hljs-type">float</span> radius = <span class="hljs-built_in">clamp</span>(radiusRaw / maxSize, <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>);
+<span class="hljs-built_in">gl_FragColor</span> = <span class="hljs-type">vec4</span>(radius, radius, radius, <span class="hljs-number">1.0</span>);
+</code></pre>
+<p><figure class="image-wrapper"><a href="/posts/fragment-shaders-gradient-radial.png" target="_blank"><img src="/posts/fragment-shaders-gradient-radial.png" alt="Radial gradient fragment shader" title="The start of something circular."/></a><figcaption class="image-title">The start of something circular.</figcaption></figure></p>
+<p>There is another gradient to whip up that I&#x27;ll need for the later steps: One which goes around the circle - sometimes known as a conic gradient. If that doesn&#x27;t quite make sense, perhaps this awful diagram will explain a bit what I mean:</p>
+<p><figure class="image-wrapper"><a href="/posts/fragment-shaders-conic-diagram.png" target="_blank"><img src="/posts/fragment-shaders-conic-diagram.png" alt="Conic gradient diagram" title="At each pixel, calculate the green angle."/></a><figcaption class="image-title">At each pixel, calculate the green angle.</figcaption></figure></p>
+<p>The trigonometry built-in we need for this calculation is <code>atan</code>, and again we do our little dance to get the values in the nice range from 0 to 1.</p>
+<pre><code class="hljs language-glsl"><span class="hljs-type">vec2</span> center = u_resolution / <span class="hljs-number">2.0</span>;
+<span class="hljs-type">vec2</span> vectorFromCenter = center - <span class="hljs-built_in">gl_FragCoord</span>.xy;
+<span class="hljs-type">float</span> angleFromCenter = <span class="hljs-built_in">atan</span>(vectorFromCenter.y, vectorFromCenter.x);
+<span class="hljs-type">float</span> conic = (angleFromCenter + pi) / tau;
+<span class="hljs-built_in">gl_FragColor</span> = <span class="hljs-type">vec4</span>(conic, conic, conic, <span class="hljs-number">1.0</span>);
+</code></pre>
+<p><figure class="image-wrapper"><a href="/posts/fragment-shaders-conic.png" target="_blank"><img src="/posts/fragment-shaders-conic.png" alt="Conic gradient" title="This gradient has something paper-clippy about it."/></a><figcaption class="image-title">This gradient has something paper-clippy about it.</figcaption></figure></p>
+<h2>Sunbeams</h2>
+<p>Now that we have those circular foundations we can use them for something practical.</p>
+<p>The first thing we did at the start of this post was to make some little boxes, and we did that by taking the full screen gradients and breaking them up into smaller chunks. Let&#x27;s try something similar around the circle.</p>
+<pre><code class="hljs language-glsl"><span class="hljs-type">float</span> beams = <span class="hljs-built_in">step</span>(<span class="hljs-number">0.05</span>, <span class="hljs-built_in">mod</span>(conic, <span class="hljs-number">0.1</span>));
+<span class="hljs-built_in">gl_FragColor</span> = <span class="hljs-type">vec4</span>(beams, beams, beams, <span class="hljs-number">1.0</span>);
+</code></pre>
+<p>Instead of the conic gradient rotating all the way around the circle from 0 to 1, we break it up into 10 sections from 0 to 0.1. In each of those sections, we map anything below 0.05 to 0, and everything else gets bumped up to 1. The end result is 10 black and white stripes bursting out from the center.</p>
+<p><figure class="image-wrapper"><a href="/posts/fragment-shaders-circus.png" target="_blank"><img src="/posts/fragment-shaders-circus.png" alt="circus tent effect" title="A circus-tent shader"/></a><figcaption class="image-title">A circus-tent shader</figcaption></figure></p>
+<p>We can mix in the radial graidient too, by multiplying them together.</p>
+<p><figure class="image-wrapper"><a href="/posts/fragment-shaders-beachball.png" target="_blank"><img src="/posts/fragment-shaders-beachball.png" alt="Beach-ball effect" title="A beach-ball shader"/></a><figcaption class="image-title">A beach-ball shader</figcaption></figure></p>
+<p>To make the whole thing spin, we can re-use the <code>u_minute</code> uniform to offset the <code>conic</code> angles and slide around the circle.</p>
+<pre><code class="hljs language-glsl"><span class="hljs-type">float</span> beams = <span class="hljs-built_in">step</span>(<span class="hljs-number">0.05</span>, <span class="hljs-built_in">mod</span>(conic + (u_minute * <span class="hljs-number">2.0</span>), <span class="hljs-number">0.1</span>));
+<span class="hljs-type">float</span> burst = beams * (<span class="hljs-number">1.0</span> - radius);
+<span class="hljs-built_in">gl_FragColor</span> = <span class="hljs-type">vec4</span>(burst, burst, burst, <span class="hljs-number">1.0</span>);
+</code></pre>
+<video muted="" controls="" style="max-height:640px" src="/posts/fragment-shaders-burst-spinning.webm"></video>
+<p>When we were working with our sine waves, we added variety by combining multiple waves running with different sizes and speeds. We can do the same thing here - multiplying 2 copies together to make the effect evolve over time.</p>
+<pre><code class="hljs language-glsl"><span class="hljs-type">float</span> beamsA = <span class="hljs-built_in">step</span>(<span class="hljs-number">0.05</span>, <span class="hljs-built_in">mod</span>(conic + (u_minute * <span class="hljs-number">2.0</span>), <span class="hljs-number">0.1</span>));
+<span class="hljs-type">float</span> burstA = beamsA * (<span class="hljs-number">1.0</span> - radius);
+
+<span class="hljs-type">float</span> beamsB = <span class="hljs-built_in">step</span>(<span class="hljs-number">0.05</span>, <span class="hljs-built_in">mod</span>(conic + (u_minute * <span class="hljs-number">3.0</span>), <span class="hljs-number">0.15</span>));
+<span class="hljs-type">float</span> burstB = beamsB * (<span class="hljs-number">1.0</span> - radius);
+
+<span class="hljs-type">float</span> bursts = burstA * burstB;
+<span class="hljs-built_in">gl_FragColor</span> = <span class="hljs-type">vec4</span>(bursts, bursts, bursts, <span class="hljs-number">1.0</span>);
+</code></pre>
+<video muted="" controls="" style="max-height:640px" src="/posts/fragment-shaders-burst-evolving.webm"></video>
+<p>I ended up adding two of these to the shader, each with some different settings and tints.</p>
+<h2>Finishing touches</h2>
+<p>The last elements use techniques we have already seen, so we can breeze through them quickly.</p>
+<p>I added a subtle gradient from the subject out towards the edge of the screen. This fades in and out over time to give a glowing effect. It doesn&#x27;t look particularly impressive on its own, but it does tie in nicely to the rest of the elements.</p>
+<pre><code class="hljs language-glsl"><span class="hljs-type">float</span> shadowInner = <span class="hljs-number">0.25</span>;
+<span class="hljs-type">float</span> shadowOuter = <span class="hljs-number">0.5</span>;
+<span class="hljs-type">float</span> shadowAmount = radius - shadowInner;
+<span class="hljs-type">float</span> shadow = <span class="hljs-number">1.0</span> - <span class="hljs-built_in">clamp</span>(shadowAmount / shadowOuter, <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>);
+<span class="hljs-type">float</span> shadowComponent = (<span class="hljs-built_in">sin</span>(u_minute * <span class="hljs-number">100.0</span>) + <span class="hljs-number">1.0</span>) * <span class="hljs-number">0.1</span>;
+<span class="hljs-type">vec3</span> shadowColor = shadow * <span class="hljs-type">vec3</span>(shadowComponent, shadowComponent, shadowComponent);
+</code></pre>
+<video muted="" controls="" style="max-height:640px" src="/posts/fragment-shaders-glow.webm"></video>
+<p>I also added in this we have a pulsing ring. This uses a couple of <code>step</code> function calls to mark areas inside and outside a circle. By multiplying those together, we are left with just the places where they overlap, which is a ring.</p>
+<p>The radius and opacity of this ring can be animated over time, but time is passed through <code>smoothstep()</code> so that it looks like the ring is fading away as it gets stretched out.</p>
+<pre><code class="hljs language-glsl"><span class="hljs-type">float</span> ringExpansion = <span class="hljs-built_in">mod</span>(u_minute, <span class="hljs-number">0.04</span>) * <span class="hljs-number">25.0</span>;
+<span class="hljs-type">float</span> ringPhase = <span class="hljs-built_in">smoothstep</span>(<span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>, ringExpansion);
+<span class="hljs-type">float</span> ringRadius = ringPhase * <span class="hljs-number">0.8</span>;
+<span class="hljs-type">float</span> ringInside = <span class="hljs-built_in">step</span>(ringRadius, radius);
+<span class="hljs-type">float</span> ringThickness = <span class="hljs-number">0.01</span>;
+<span class="hljs-type">float</span> ringOutside = <span class="hljs-number">1.0</span> - <span class="hljs-built_in">step</span>(ringRadius + ringThickness, radius);
+<span class="hljs-type">float</span> ring = ringInside * ringOutside * (<span class="hljs-number">1.0</span> - ringPhase);
+</code></pre>
+<video muted="" controls="" style="max-height:640px" src="/posts/fragment-shaders-ring.webm"></video>
+<h2>The final result</h2>
+<p>Tying everything together, here&#x27;s what I&#x27;ve ended up with:</p>
+<video muted="" controls="" style="max-height:640px" src="/posts/fragment-shaders-result.webm"></video>
+<p>If you want to load it up and try it out, you can find it online <a href="https://bencoveney.com/prototypes/backgrounds.html" target="_blank">here</a>.</p>
+<p>I&#x27;ve added 2 chunks of text to the page to help assess it against the initial goals:</p>
+<ul>
+<li>First, an FPS counter showing how quickly we&#x27;re managing to render each frame.</li>
+<li>Second, some other miscellaneous bits of text. The content isn&#x27;t really important, what matters is that we can validate our shader performs well when being composited with other UI elements, rather than only testing it is isolation.</li>
+</ul>
+<p>At this point, the main thing left to do is to test against a variety of devices including some old crusty iOS and Android phones, to validate that it performs as well as I hoped it would.</p>
+<p>Even though our rendering pipeline is minimal, there is still some space for optimisation inside the shader:</p>
+<ul>
+<li>The number of divisions and calls to built-in functions could be reduced, as they could add up to be quite expensive.</li>
+<li>Many calculations do not <em>need</em> to be done per-pixel, and could be offloaded to run in the vertex shader or CPU.</li>
+</ul>
+<p>Finally, we could always just add more <em>stuff</em>. It would be interesting to try adding some particles to the scene, staying within the performance goals originally set. The background becomes less subtle with every addition, but the results are looking good so why stop now.</p>
+<p>For anyone following along, here&#x27;s my complete fragment shader code incorporating everything from the post:</p>
+<pre><code class="hljs language-glsl"><span class="hljs-keyword">precision</span> <span class="hljs-keyword">mediump</span> <span class="hljs-type">float</span>;
+
+<span class="hljs-keyword">uniform</span> <span class="hljs-type">float</span> u_minute;
+<span class="hljs-keyword">uniform</span> <span class="hljs-type">vec2</span> u_resolution;
+ 
+<span class="hljs-type">void</span> main() {
+  <span class="hljs-comment">// Utilities -----------------------</span>
+
+  <span class="hljs-type">float</span> pi = <span class="hljs-number">3.1415926535897932384626433832795</span>;
+  <span class="hljs-type">float</span> tau = pi * <span class="hljs-number">2.0</span>;
+
+  <span class="hljs-type">vec2</span> screenPercentage = <span class="hljs-built_in">gl_FragCoord</span>.xy / u_resolution.xy;
+
+  <span class="hljs-comment">// 1 at top of screen, 0 at bottom.</span>
+  <span class="hljs-type">float</span> topToBottom = screenPercentage.y;
+  <span class="hljs-comment">// 0 at top of screen, 1 at bottom.</span>
+  <span class="hljs-type">float</span> bottomToTop = <span class="hljs-number">1.0</span> - topToBottom;
+  <span class="hljs-comment">// 0 at left of screen, 1 at right.</span>
+  <span class="hljs-type">float</span> leftToRight = screenPercentage.x;
+
+  <span class="hljs-type">float</span> bottomSection = <span class="hljs-built_in">smoothstep</span>(<span class="hljs-number">0.2</span>, <span class="hljs-number">1.0</span>, bottomToTop);
+
+  <span class="hljs-type">vec2</span> center = u_resolution / <span class="hljs-number">2.0</span>;
+  <span class="hljs-type">float</span> maxSize = <span class="hljs-built_in">max</span>(center.x, center.y);
+  <span class="hljs-type">float</span> radiusRaw = <span class="hljs-built_in">distance</span>(center, <span class="hljs-built_in">gl_FragCoord</span>.xy);
+  <span class="hljs-type">float</span> radius = <span class="hljs-built_in">clamp</span>(radiusRaw / maxSize, <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>);
+
+  <span class="hljs-type">vec2</span> vectorFromCenter = center - <span class="hljs-built_in">gl_FragCoord</span>.xy;
+  <span class="hljs-type">float</span> angleFromCenter = <span class="hljs-built_in">atan</span>(vectorFromCenter.y, vectorFromCenter.x);
+  <span class="hljs-type">float</span> conic = (angleFromCenter + pi) / tau;
+
+  <span class="hljs-comment">// Background gradient -----------------------</span>
+
+  <span class="hljs-type">vec3</span> darkRed = <span class="hljs-type">vec3</span>(<span class="hljs-number">0.41</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>);
+  <span class="hljs-type">vec3</span> red = <span class="hljs-type">vec3</span>(<span class="hljs-number">0.9</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>);
+  <span class="hljs-type">vec3</span> purple = <span class="hljs-type">vec3</span>(<span class="hljs-number">0.50</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.20</span>);
+
+  <span class="hljs-type">float</span> stop1 = <span class="hljs-number">0.0</span>;
+  <span class="hljs-type">float</span> stop2 = <span class="hljs-number">0.5</span>;
+  <span class="hljs-type">float</span> stop3 = <span class="hljs-number">1.0</span>;
+
+  <span class="hljs-type">vec3</span> gradientPartial = <span class="hljs-built_in">mix</span>(darkRed, red, <span class="hljs-built_in">smoothstep</span>(stop1, stop2, bottomToTop));
+  <span class="hljs-type">vec3</span> gradient = <span class="hljs-built_in">mix</span>(gradientPartial, purple, <span class="hljs-built_in">smoothstep</span>(stop2, stop3, bottomToTop));
+
+  <span class="hljs-comment">// Squares -----------------------</span>
+
+  <span class="hljs-type">float</span> squareGap = <span class="hljs-number">10.0</span>;
+  <span class="hljs-type">float</span> squareSize = <span class="hljs-number">5.0</span>;
+
+  <span class="hljs-type">float</span> scaleX = <span class="hljs-built_in">step</span>(squareGap, <span class="hljs-built_in">mod</span>(<span class="hljs-built_in">gl_FragCoord</span>.x, squareSize + squareGap));
+  <span class="hljs-type">float</span> scaleY = <span class="hljs-built_in">step</span>(squareGap, <span class="hljs-built_in">mod</span>(<span class="hljs-built_in">gl_FragCoord</span>.y, squareSize + squareGap));
+  <span class="hljs-type">float</span> isSquare = scaleX * scaleY;
+  <span class="hljs-type">float</span> bottomSquares = <span class="hljs-built_in">mix</span>(<span class="hljs-number">0.0</span>, isSquare, bottomSection);
+
+  <span class="hljs-comment">// Pulsating -----------------------</span>
+
+  <span class="hljs-type">float</span> pulseSineA = <span class="hljs-built_in">sin</span>((leftToRight - (u_minute * <span class="hljs-number">10.0</span>)) * <span class="hljs-number">5.0</span>);
+  <span class="hljs-type">float</span> pulseSineB = <span class="hljs-built_in">sin</span>((leftToRight - (u_minute * <span class="hljs-number">-3.0</span>)) * <span class="hljs-number">20.0</span>);
+  <span class="hljs-type">float</span> verticalPulseRaw = pulseSineA * pulseSineB;
+  <span class="hljs-type">float</span> verticalPulseScaled = (verticalPulseRaw + <span class="hljs-number">1.0</span>) * <span class="hljs-number">0.5</span>;
+
+  <span class="hljs-comment">// Combining background -----------------------</span>
+
+  <span class="hljs-type">float</span> bottomVerticalPulse = <span class="hljs-built_in">mix</span>(<span class="hljs-number">0.0</span>, verticalPulseScaled, bottomSection);
+  <span class="hljs-type">float</span> pulseBottomSquares = bottomSquares * verticalPulseScaled;
+  <span class="hljs-type">vec3</span> combined = gradient + (bottomVerticalPulse * <span class="hljs-number">0.2</span> * <span class="hljs-type">vec3</span>(<span class="hljs-number">1.0</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.0</span>)) + (pulseBottomSquares * <span class="hljs-number">0.3</span>);
+
+  <span class="hljs-comment">// Sunbursts -----------------------</span>
+
+  <span class="hljs-type">float</span> burstSpinSpeedA = <span class="hljs-number">2.0</span>;
+  <span class="hljs-type">float</span> burstSpinStrengthA = <span class="hljs-number">1.0</span>;
+  <span class="hljs-type">float</span> burstSpinRadiusA = <span class="hljs-number">0.8</span>;
+  <span class="hljs-type">float</span> beamsA = <span class="hljs-built_in">step</span>(<span class="hljs-number">1.0</span>, <span class="hljs-built_in">mod</span>((conic + (u_minute * burstSpinSpeedA)) * <span class="hljs-number">20.0</span>, <span class="hljs-number">2.0</span>));
+  <span class="hljs-type">float</span> burstA = <span class="hljs-built_in">clamp</span>(beamsA * (burstSpinRadiusA - radius), <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>);
+  <span class="hljs-type">float</span> burstStrengthA = burstA * burstSpinStrengthA;
+
+  <span class="hljs-type">float</span> burstSpinSpeedB = <span class="hljs-number">3.0</span>;
+  <span class="hljs-type">float</span> burstSpinStrengthB = <span class="hljs-number">1.0</span>;
+  <span class="hljs-type">float</span> burstSpinRadiusB = <span class="hljs-number">0.8</span>;
+  <span class="hljs-type">float</span> beamsB = <span class="hljs-built_in">step</span>(<span class="hljs-number">1.0</span>, <span class="hljs-built_in">mod</span>((conic + (u_minute * burstSpinSpeedB)) * <span class="hljs-number">20.0</span>, <span class="hljs-number">3.0</span>));
+  <span class="hljs-type">float</span> burstB = <span class="hljs-built_in">clamp</span>(beamsB * (burstSpinRadiusB - radius), <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>);
+  <span class="hljs-type">float</span> burstStrengthB = burstB * burstSpinStrengthB;
+
+  <span class="hljs-type">float</span> burstSpinSpeedC = <span class="hljs-number">-4.0</span>;
+  <span class="hljs-type">float</span> burstSpinStrengthC = <span class="hljs-number">1.0</span>;
+  <span class="hljs-type">float</span> burstSpinRadiusC = <span class="hljs-number">0.7</span>;
+  <span class="hljs-type">float</span> beamsC = <span class="hljs-built_in">step</span>(<span class="hljs-number">1.0</span>, <span class="hljs-built_in">mod</span>((conic + (u_minute * burstSpinSpeedC)) * <span class="hljs-number">20.0</span>, <span class="hljs-number">3.0</span>));
+  <span class="hljs-type">float</span> burstC = <span class="hljs-built_in">clamp</span>(beamsC * (burstSpinRadiusC - radius), <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>);
+  <span class="hljs-type">float</span> burstStrengthC = burstC * burstSpinStrengthC;
+
+  <span class="hljs-type">float</span> burstSpinSpeedD = <span class="hljs-number">-3.0</span>;
+  <span class="hljs-type">float</span> burstSpinStrengthD = <span class="hljs-number">1.0</span>;
+  <span class="hljs-type">float</span> burstSpinRadiusD = <span class="hljs-number">0.7</span>;
+  <span class="hljs-type">float</span> beamsD = <span class="hljs-built_in">step</span>(<span class="hljs-number">1.0</span>, <span class="hljs-built_in">mod</span>((conic + (u_minute * burstSpinSpeedD)) * <span class="hljs-number">20.0</span>, <span class="hljs-number">5.0</span>));
+  <span class="hljs-type">float</span> burstD = <span class="hljs-built_in">clamp</span>(beamsD * (burstSpinRadiusD - radius), <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>);
+  <span class="hljs-type">float</span> burstStrengthD = burstD * burstSpinStrengthD;
+
+  <span class="hljs-type">float</span> combinedBurstAB = burstStrengthA * burstStrengthB;
+  <span class="hljs-type">float</span> combinedBurstCD = burstStrengthC * burstStrengthD;
+
+  <span class="hljs-type">vec3</span> combinedBurstColor = <span class="hljs-type">vec3</span>(combinedBurstAB, combinedBurstAB * <span class="hljs-number">0.8</span>, combinedBurstAB) + <span class="hljs-type">vec3</span>(combinedBurstCD, combinedBurstCD, combinedBurstCD * <span class="hljs-number">0.8</span>);
+
+  <span class="hljs-comment">// Glow -----------------------</span>
+
+  <span class="hljs-type">float</span> shadowInner = <span class="hljs-number">0.25</span>;
+  <span class="hljs-type">float</span> shadowOuter = <span class="hljs-number">0.5</span>;
+  <span class="hljs-type">float</span> shadowAmount = radius - shadowInner;
+  <span class="hljs-type">float</span> shadow = <span class="hljs-number">1.0</span> - <span class="hljs-built_in">clamp</span>(shadowAmount / shadowOuter, <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>);
+  <span class="hljs-type">float</span> shadowComponent = (<span class="hljs-built_in">sin</span>(u_minute * <span class="hljs-number">100.0</span>) + <span class="hljs-number">1.0</span>) * <span class="hljs-number">0.1</span>;
+  <span class="hljs-type">vec3</span> shadowColor = shadow * <span class="hljs-type">vec3</span>(shadowComponent, shadowComponent, shadowComponent);
+
+  <span class="hljs-comment">// Rim -----------------------</span>
+
+  <span class="hljs-type">float</span> ringExpansion = <span class="hljs-built_in">mod</span>(u_minute, <span class="hljs-number">0.04</span>) * <span class="hljs-number">25.0</span>;
+  <span class="hljs-type">float</span> ringPhase = <span class="hljs-built_in">smoothstep</span>(<span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>, ringExpansion);
+  <span class="hljs-type">float</span> ringRadius = ringPhase * <span class="hljs-number">0.8</span>;
+  <span class="hljs-type">float</span> ringInside = <span class="hljs-built_in">step</span>(ringRadius, radius);
+  <span class="hljs-type">float</span> ringThickness = <span class="hljs-number">0.01</span>;
+  <span class="hljs-type">float</span> ringOutside = <span class="hljs-number">1.0</span> - <span class="hljs-built_in">step</span>(ringRadius + ringThickness, radius);
+  <span class="hljs-type">float</span> ring = ringInside * ringOutside * (<span class="hljs-number">1.0</span> - ringPhase);
+  
+  <span class="hljs-comment">// End -----------------------</span>
+
+  <span class="hljs-type">vec3</span> fullBackground = combined + combinedBurstColor + shadowColor + ring;
+  <span class="hljs-built_in">gl_FragColor</span> = <span class="hljs-type">vec4</span>(fullBackground, <span class="hljs-number">1.0</span>);
+}
+</code></pre></div><div class="linkSet-0-0-35"></div><ul class="technologies-0-0-11"><li class="technology-0-0-13 tagGreen-0-0-15"><i class="icon-0-0-16 mdi mdi-cube mdi-18px"></i><span class="tag-0-0-17">Project</span></li><li class="technology-0-0-13 tagRed-0-0-14"><i class="icon-0-0-16 mdi mdi-language-typescript mdi-18px"></i><span class="tag-0-0-17">TypeScript</span></li><li class="technology-0-0-13 tagRed-0-0-14"><i class="icon-0-0-16 mdi mdi-image mdi-18px"></i><span class="tag-0-0-17">Image Processing</span></li><li class="technology-0-0-13 tagRed-0-0-14"><i class="icon-0-0-16 mdi mdi-brush mdi-18px"></i><span class="tag-0-0-17">HTML5 Canvas</span></li></ul></div></div></body></html>
